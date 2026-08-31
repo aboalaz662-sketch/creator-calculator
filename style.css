@@ -1,11 +1,13 @@
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    padding: 20px 0;
     direction: rtl;
 }
 
@@ -16,24 +18,25 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     width: 90%;
     max-width: 450px;
+    box-sizing: border-box;
 }
 
 h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: #333;
     margin-bottom: 5px;
     text-align: center;
 }
 
 .description {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #666;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 label {
@@ -41,20 +44,22 @@ label {
     margin-bottom: 8px;
     font-weight: bold;
     color: #444;
+    font-size: 0.9rem;
 }
 
-input[type="range"] {
-    width: 100%;
-    cursor: pointer;
-}
-
-input[type="number"] {
+select, input[type="number"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-sizing: border-box;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    background-color: #fff;
+}
+
+input[type="range"] {
+    width: 100%;
+    cursor: pointer;
 }
 
 .badge {
@@ -73,34 +78,29 @@ input[type="number"] {
     border: 1px solid #e2e8f0;
     padding: 15px;
     border-radius: 10px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 .results-card h3 {
     margin-top: 0;
     color: #1e293b;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    margin-bottom: 10px;
 }
 
 .result-item {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
 }
 
 .result-item strong {
     color: #16a34a;
-}select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 1rem;
-    background-color: #fff;
-    cursor: pointer;
-}.affiliate-card {
+}
+
+/* قسم الأفلييت */
+.affiliate-card {
     margin-top: 20px;
     background: #fff7ed;
     border: 1px solid #fed7aa;
@@ -111,7 +111,7 @@ input[type="number"] {
 .affiliate-card h3 {
     margin-top: 0;
     color: #9a3412;
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin-bottom: 12px;
 }
 
@@ -147,4 +147,49 @@ input[type="number"] {
     background: #ffedd5;
     padding: 2px 8px;
     border-radius: 4px;
+}
+
+/* فوتر المطور والتواصل */
+.developer-footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.developer-footer hr {
+    border: 0;
+    height: 1px;
+    background: #e2e8f0;
+    margin-bottom: 12px;
+}
+
+.dev-title {
+    font-size: 0.85rem;
+    color: #475569;
+    margin-bottom: 10px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    color: #4f46e5;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background-color: #4f46e5;
+    color: #ffffff;
+    transform: translateY(-2px);
 }
