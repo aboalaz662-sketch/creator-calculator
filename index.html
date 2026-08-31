@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة استثمار وصافي أرباح صناعة المحتوى</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>حاسبة استثمار صناعة المحتوى 🚀</h1>
+        <p class="description">احسب أرباحك التقديرية ونقطة استرداد استثمارك بحسب المنصة والتخصص</p>
+
+        <div class="form-group">
+            <label for="platform">اختر المنصة:</label>
+            <select id="platform">
+                <option value="youtube">يوتيوب (YouTube)</option>
+                <option value="tiktok">تيك توك (TikTok)</option>
+                <option value="instagram">إنستغرام (Reels)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="niche">مجال المحتوى (Niche):</label>
+            <select id="niche">
+                <option value="tech">تقنية وأعمال (أعلى دخل)</option>
+                <option value="gaming">ألعاب وفنون (Gaming)</option>
+                <option value="vlogs">فلوقات ويوميات</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="views">عدد المشاهدات الشهرية المتوقعة:</label>
+            <input type="range" id="views" min="5000" max="2000000" step="5000" value="100000">
+            <span id="views-value" class="badge">100,000 مشاهدة</span>
+        </div>
+
+        <div class="form-group">
+            <label for="investment">تكلفة المعدات والأدوات ($):</label>
+            <input type="number" id="investment" value="500" placeholder="مثال: 500">
+        </div>
+
+        <div class="results-card">
+            <h3>النتائج التقديرية:</h3>
+            <div class="result-item">
+                <span>الدخل الشهري المتوقع:</span>
+                <strong id="monthly-income">$0</strong>
+            </div>
+            <div class="result-item">
+                <span>مدة استرداد الاستثمار (Break-even):</span>
+                <strong id="payback-period">0 أشهر</strong>
+            </div>
+        </div>
+    </div>
+<div class="affiliate-card">
+            <h3>🎥 معدات موصى بها للبدء:</h3>
+            <div class="equipment-list">
+                <a href="https://amazon.com" target="_blank" class="equipment-item">
+                    <span>🎙️ أفضل مايك للبدء (FIFINE K669B)</span>
+                    <span class="price">$30</span>
+                </a>
+                <a href="https://amazon.com" target="_blank" class="equipment-item">
+                    <span>💡 إضاءة دائرية احترافية (Ring Light)</span>
+                    <span class="price">$25</span>
+                </a>
+                <a href="https://amazon.com" target="_blank" class="equipment-item">
+                    <span>📷 كاميرا ويب عالية الدقة (Logitech C920)</span>
+                    <span class="price">$70</span>
+                </a>
+            </div>
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>
