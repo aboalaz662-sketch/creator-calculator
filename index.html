@@ -1,93 +1,145 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>حاسبة استثمار وصافي أرباح صناعة المحتوى</title>
-    <meta name="description" content="حاسبة استثمار صناعة المحتوى - احسب أرباحك التقديرية من يوتيوب، تيك توك، وإنستغرام ومعرفة مدة استرداد تكلفة المعدات للبدء.">
-<meta name="keywords" content="حاسبة ارباح اليوتيوب, ارباح التيك توك, حساب ارباح صناعة المحتوى, استثمار المعدات, احمد ابو العسل">
-<meta name="author" content="أحمد أبو العسل">
-<link rel="stylesheet" href="style.css">
-    <!-- مكتبة الأيقونات لمواقع التواصل -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<meta name="google-site-verification" content="49961DGsJsy5v46i9XgCwvdRjTobJrqZePXGqQG7ohs" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Google Search Meta Tags -->
+  <title>أكاديمية إيلاف التعليمية | نعينك على حفظ كتاب الله وإتقانه</title>
+  <meta name="description" content="منصة إيلاف التعليمية متخصصة في تحفيظ القرآن الكريم وتعليمه، تثبيت القرآن، القاعدة النورانية، والإجازات بالسند المتصل.">
+  <meta name="keywords" content="أكاديمية إيلاف, تحفيظ قرآن, قاعدة نورانية, تصحيح تلاوة, سند غيبي, حفص, ورش, تأسيس لغة عربية">
+  <meta name="google-site-verification" content="49961DGsJSySv4619XgCuvdRjTobJrqZePX6qQG7ohs" />
+
+  <!-- Tailwind CSS & FontAwesome Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #0B4A42;
+      --gold-color: #C59B27;
+    }
+    .bg-primary { background-color: var(--primary-color); }
+    .text-primary { color: var(--primary-color); }
+    .bg-gold { background-color: var(--gold-color); }
+    .text-gold { color: var(--gold-color); }
+    .border-gold { border-color: var(--gold-color); }
+  </style>
 </head>
-<body>
-    <div class="calculator-container">
-        <h1>حاسبة استثمار صناعة المحتوى 🚀</h1>
-        <p class="description">احسب أرباحك التقديرية ونقطة استرداد استثمارك بحسب المنصة والتخصص</p>
+<body class="bg-gray-50 text-gray-800 font-sans">
 
-        <div class="form-group">
-            <label for="platform">اختر المنصة:</label>
-            <select id="platform">
-                <option value="youtube">يوتيوب (YouTube)</option>
-                <option value="tiktok">تيك توك (TikTok)</option>
-                <option value="instagram">إنستغرام (Reels)</option>
-            </select>
+  <!-- Header Section -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-3 space-x-reverse">
+        <img src="https://linktr.ee/og/image/elafacademic" alt="شعار أكاديمية إيلاف" class="h-14 w-auto rounded">
+        <div>
+          <h1 class="text-xl font-bold text-primary">منصة إيلاف التعليمية</h1>
+          <p class="text-xs text-gray-500">نعينك على حفظ كتاب الله وإتقانه</p>
         </div>
+      </div>
+      <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%8BD9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A5%D9%8A%D9%84%D8%A7%D9%81%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9" 
+         target="_blank" 
+         class="bg-gold text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-yellow-600 transition flex items-center gap-2">
+         <i class="fab font-bold fa-whatsapp text-lg"></i>
+         <span class="hidden md:inline">احجز حصة تجريبية</span>
+      </a>
+    </div>
+  </header>
 
-        <div class="form-group">
-            <label for="niche">مجال المحتوى (Niche):</label>
-            <select id="niche">
-                <option value="tech">تقنية وأعمال (أعلى دخل)</option>
-                <option value="gaming">ألعاب وفنون (Gaming)</option>
-                <option value="vlogs">فلوقات ويوميات</option>
-            </select>
-        </div>
+  <!-- Hero Section -->
+  <section class="bg-primary text-white py-16 text-center px-4 relative overflow-hidden">
+    <div class="container mx-auto max-w-3xl relative z-10">
+      <h2 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">منصة إيلاف متخصصة في تحفيظ القرآن الكريم وتعليمه</h2>
+      <p class="text-lg md:text-xl text-gray-200 mb-8">نعينك على حفظ كتاب الله وإتقانه عبر مسارات علمية برامج مخصصة لجميع المستويات والأعمار.</p>
+      
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A5%D9%8A%D9%84%D8%A7%D9%81%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9" 
+           target="_blank" 
+           class="bg-gold text-white text-lg font-bold px-8 py-3 rounded-xl shadow-lg hover:bg-yellow-600 transition">
+           احجز حصة تجريبية مجانية
+        </a>
+        <a href="https://wa.me/962780285762" target="_blank" class="bg-white text-primary text-lg font-bold px-8 py-3 rounded-xl hover:bg-gray-100 transition">
+           ابدأ رحلتك مع القرآن
+        </a>
+      </div>
+    </div>
+  </section>
 
-        <div class="form-group">
-            <label for="views">عدد المشاهدات الشهرية المتوقعة:</label>
-            <input type="range" id="views" min="5000" max="2000000" step="5000" value="100000">
-            <span id="views-value" class="badge">100,000 مشاهدة</span>
-        </div>
-
-        <div class="form-group">
-            <label for="investment">تكلفة المعدات والأدوات ($):</label>
-            <input type="number" id="investment" value="500" placeholder="مثال: 500">
-        </div>
-
-        <div class="results-card">
-            <h3>النتائج التقديرية:</h3>
-            <div class="result-item">
-                <span>الدخل الشهري المتوقع:</span>
-                <strong id="monthly-income">$0</strong>
-            </div>
-            <div class="result-item">
-                <span>مدة استرداد الاستثمار (Break-even):</span>
-                <strong id="payback-period">0 أشهر</strong>
-            </div>
-        </div>
-
-        <div class="affiliate-card">
-            <h3>🎥 معدات موصى بها للبدء:</h3>
-            <div class="equipment-list">
-                <a href="https://amazon.com" target="_blank" class="equipment-item">
-                    <span>🎙️ أفضل مايك للبدء (FIFINE K669B)</span>
-                    <span class="price">$30</span>
-                </a>
-                <a href="https://amazon.com" target="_blank" class="equipment-item">
-                    <span>💡 إضاءة دائرية احترافية (Ring Light)</span>
-                    <span class="price">$25</span>
-                </a>
-                <a href="https://amazon.com" target="_blank" class="equipment-item">
-                    <span>📷 كاميرا ويب عالية الدقة (Logitech C920)</span>
-                    <span class="price">$70</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- قسم التواصل والتطوير -->
-        <div class="developer-footer">
-            <hr>
-            <p class="dev-title">تطوير بواسطة: <strong>أحمد أبو العسل</strong></p>
-            <div class="social-links">
-                <a href="https://wa.me/962796094582" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://facebook.com" target="_blank" title="فيسبوك (أحمد معتز)"><i class="fab fa-facebook-f"></i></a>
-                <a href="mailto:abo.alaz662@gmail.com" title="البريد الإلكتروني"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
+  <!-- Courses & Tracks Section -->
+  <section class="py-16 container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h3 class="text-3xl font-bold text-primary mb-2">الأقسام والمسارات العلمية</h3>
+      <div class="w-20 h-1 bg-gold mx-auto rounded"></div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-quran text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">تحفيظ القرآن الكريم</h4>
+        <p class="text-gray-600 text-sm">متابعة فردية ومنهجية مستمرة لحفظ كتاب الله بدقة وتنسيق.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-book-bookmark text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">تثبيت القرآن الكريم</h4>
+        <p class="text-gray-600 text-sm">خطط مخصصة للمراجعة والمراجعة المتراكمة لضمان عدم النسيان.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-language text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">تأسيس لغة عربية</h4>
+        <p class="text-gray-600 text-sm">تعليم مبادئ وقواعد القراءة والكتابة واللغة العربية الصحيحة.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-graduation-cap text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">القاعدة النورانية</h4>
+        <p class="text-gray-600 text-sm">تأسيس الصغار والمبتدئين على النطق العربي والقرآني السليم.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-microphone-lines text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">تصحيح تلاوة</h4>
+        <p class="text-gray-600 text-sm">ضبط مخرج الحروف وتطبيق الأحكام أثناء القراءة المباشرة.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-award text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">إتقان (المستوى الأول)</h4>
+        <p class="text-gray-600 text-sm">برنامج متقدم للوصول لمرحلة المهارة والإتقان العالي في التلاوة.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-scroll text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">سند غيبي برواية حفص عن عاصم</h4>
+        <p class="text-gray-600 text-sm">الإجازة بالسند المتصل إلى النبي صلى الله عليه وسلم برواية حفص.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
+        <i class="fas fa-certificate text-3xl text-gold mb-3"></i>
+        <h4 class="text-xl font-bold text-primary mb-2">سند غيبي برواية ورش عن نافع</h4>
+        <p class="text-gray-600 text-sm">ختم القرآن كاملاً غيباً للحصول على السند المتصل برواية ورش.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-white py-8 border-t border-yellow-600">
+    <div class="container mx-auto px-4 text-center space-y-4">
+      <p class="font-bold text-lg">منصة إيلاف التعليمية</p>
+      <div class="flex justify-center gap-6 text-sm">
+        <a href="mailto:elafacademic@gmail.com" class="hover:text-gold transition"><i class="fas fa-envelope ml-1"></i> elafacademic@gmail.com</a>
+        <a href="https://wa.me/962780285762" class="hover:text-gold transition"><i class="fab fa-whatsapp ml-1"></i> 00962780285762</a>
+      </div>
+      <div>
+        <a href="https://linktr.ee/elafacademic" target="_blank" class="inline-block bg-gold text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-yellow-600 transition">
+          روابط صفحة التواصل (Linktree)
+        </a>
+      </div>
+      <p class="text-xs text-gray-400">جميع الحقوق محفوظة © أكاديمية إيلاف التعليمية</p>
+    </div>
+  </footer>
+
 </body>
 </html>
