@@ -4,142 +4,599 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO & Google Search Meta Tags -->
-  <title>أكاديمية إيلاف التعليمية | نعينك على حفظ كتاب الله وإتقانه</title>
-  <meta name="description" content="منصة إيلاف التعليمية متخصصة في تحفيظ القرآن الكريم وتعليمه، تثبيت القرآن، القاعدة النورانية، والإجازات بالسند المتصل.">
-  <meta name="keywords" content="أكاديمية إيلاف, تحفيظ قرآن, قاعدة نورانية, تصحيح تلاوة, سند غيبي, حفص, ورش, تأسيس لغة عربية">
-  <meta name="google-site-verification" content="49961DGsJSySv4619XgCuvdRjTobJrqZePX6qQG7ohs" />
+  <title>أكاديمية إيلاف التعليمية | المنصة المتكاملة لتحفيظ القرآن الكريم</title>
+  <meta name="description" content="منصة إيلاف التعليمية - نظام متكامل لتحفيظ القرآن الكريم، القاعدة النورانية، والإجازات بالسند المتصل.">
 
-  <!-- Tailwind CSS & FontAwesome Icons -->
+  <!-- Tailwind CSS & FontAwesome -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   
   <style>
+    * { font-family: 'Tajawal', sans-serif; scroll-behavior: smooth; }
     :root {
-      --primary-color: #0B4A42;
-      --gold-color: #C59B27;
+      --primary: #0B4A42;
+      --gold: #C59B27;
+      --gold-hover: #a37f1e;
     }
-    .bg-primary { background-color: var(--primary-color); }
-    .text-primary { color: var(--primary-color); }
-    .bg-gold { background-color: var(--gold-color); }
-    .text-gold { color: var(--gold-color); }
-    .border-gold { border-color: var(--gold-color); }
+    .bg-primary { background-color: var(--primary); }
+    .text-primary { color: var(--primary); }
+    .bg-gold { background-color: var(--gold); }
+    .text-gold { color: var(--gold); }
+    .border-gold { border-color: var(--gold); }
+    .hover-bg-gold:hover { background-color: var(--gold-hover); }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 25px -5px rgba(11, 74, 66, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .quote-icon {
+      background: linear-gradient(135deg, rgba(197, 155, 39, 0.2), rgba(11, 74, 66, 0.05));
+    }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-50 text-gray-800">
 
-  <!-- Header Section -->
-  <header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center space-x-3 space-x-reverse">
-        <img src="https://linktr.ee/og/image/elafacademic" alt="شعار أكاديمية إيلاف" class="h-14 w-auto rounded">
-        <div>
-          <h1 class="text-xl font-bold text-primary">منصة إيلاف التعليمية</h1>
-          <p class="text-xs text-gray-500">نعينك على حفظ كتاب الله وإتقانه</p>
-        </div>
+  <!-- Top Bar -->
+  <div class="bg-primary text-white text-xs py-2 px-4 border-b border-yellow-600/30">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <span><i class="fas fa-envelope text-gold ml-1"></i> elafacademic@gmail.com</span>
+        <span><i class="fab fa-whatsapp text-gold ml-1"></i> 00962780285762</span>
       </div>
-      <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%8BD9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A5%D9%8A%D9%84%D8%A7%D9%81%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9" 
-         target="_blank" 
-         class="bg-gold text-white px-4 py-2 rounded-lg font-bold shadow hover:bg-yellow-600 transition flex items-center gap-2">
-         <i class="fab font-bold fa-whatsapp text-lg"></i>
-         <span class="hidden md:inline">احجز حصة تجريبية</span>
+      <div class="flex items-center gap-3">
+        <a href="https://linktr.ee/elafacademic" target="_blank" class="hover:text-gold transition">تابعنا على منصات التواصل</a>
+        <!-- Admin Entry Trigger Button -->
+        <button onclick="openAdminModal()" class="text-gold/80 hover:text-white transition flex items-center gap-1 text-[11px] bg-white/10 px-2 py-0.5 rounded border border-gold/30">
+          <i class="fas fa-lock text-[10px]"></i> لوحة الإدارة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#" class="flex items-center space-x-3 space-x-reverse group">
+        <svg class="h-12 w-auto transition-transform duration-300 group-hover:scale-105" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 160 C 90 160, 110 140, 120 120 C 130 100, 130 50, 130 30 C 130 30, 142 20, 150 20 C 158 20, 160 30, 160 30 L 160 160 Z" fill="#0B4A42" />
+          <rect x="110" y="30" width="18" height="80" fill="#C59B27" />
+          <path d="M119 15 L 119 25 M 112 20 C 112 15, 126 15, 126 20" stroke="#C59B27" stroke-width="2" />
+          <circle cx="119" cy="12" r="3" fill="#C59B27" />
+          <path d="M85 85 C 95 85, 100 75, 100 70 C 100 65, 95 60, 90 60 C 85 60, 80 65, 80 70 C 80 80, 90 85, 100 85" stroke="#C59B27" stroke-width="3" fill="none" />
+          <rect x="110" y="125" width="12" height="12" fill="#C59B27" />
+          <rect x="128" y="125" width="12" height="12" fill="#C59B27" />
+        </svg>
+        <div>
+          <h1 class="text-xl font-extrabold text-primary leading-none">أكاديمية إيلاف</h1>
+          <span class="text-xs text-gray-500 font-medium">منصة التعليم والتلاوة المتكاملة</span>
+        </div>
       </a>
+
+      <!-- Nav Links -->
+      <nav class="hidden lg:flex items-center gap-8 font-bold text-sm text-gray-700">
+        <a href="#about" class="hover:text-primary transition">عن المنصة</a>
+        <a href="#tracks" class="hover:text-primary transition text-primary font-extrabold">المسارات التعليمية</a>
+        <a href="#features" class="hover:text-primary transition">مميزاتنا</a>
+        <a href="#testimonials" class="hover:text-primary transition text-gold font-extrabold">آراء أولياء الأمور</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A5%D9%8A%D9%84%D8%A7%D9%81%20%D8%A7%D9%8BB%D8%B9%D9%BB%D9%8A%D9%85%D9%8A%D8%A9" 
+           target="_blank" 
+           class="bg-gold hover-bg-gold text-white font-bold px-4 py-2 rounded-lg text-sm transition shadow flex items-center gap-2">
+          <i class="fab fa-whatsapp"></i>
+          <span>حصة تجريبية مجاناً</span>
+        </a>
+      </div>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="bg-primary text-white py-16 text-center px-4 relative overflow-hidden">
-    <div class="container mx-auto max-w-3xl relative z-10">
-      <h2 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">منصة إيلاف متخصصة في تحفيظ القرآن الكريم وتعليمه</h2>
-      <p class="text-lg md:text-xl text-gray-200 mb-8">نعينك على حفظ كتاب الله وإتقانه عبر مسارات علمية برامج مخصصة لجميع المستويات والأعمار.</p>
-      
+  <section id="about" class="bg-primary text-white py-20 px-4 relative overflow-hidden">
+    <div class="container mx-auto max-w-5xl text-center relative z-10">
+      <span class="bg-white/10 text-gold px-4 py-1.5 rounded-full text-xs font-bold border border-gold/30 inline-block mb-4">
+        ✨ المنصة الأسهل والأشمل لتحفيظ القرآن أونلاين
+      </span>
+      <h1 class="text-3xl md:text-6xl font-black mb-6 leading-tight">
+        نعينك على حفظ كتاب الله وإتقانه <br><span class="text-gold">من أي مكان في العالم</span>
+      </h1>
+      <p class="text-base md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
+        منصة إيلاف تجمع بين التعليم التفاعلي المباشر، الإشراف التربوي، والمتابعة الدورية للطلاب والأطفال بأحدث الوسائل التعليمية والمعلمين المجازين.
+      </p>
+
       <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A5%D9%8A%D9%84%D8%A7%D9%81%20%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9" 
-           target="_blank" 
-           class="bg-gold text-white text-lg font-bold px-8 py-3 rounded-xl shadow-lg hover:bg-yellow-600 transition">
-           احجز حصة تجريبية مجانية
+        <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9" 
+           target="_blank" class="bg-gold hover-bg-gold text-white font-extrabold px-8 py-3.5 rounded-xl text-lg shadow-lg transition">
+          احجز حصتك التجريبية مجاناً
         </a>
-        <a href="https://wa.me/962780285762" target="_blank" class="bg-white text-primary text-lg font-bold px-8 py-3 rounded-xl hover:bg-gray-100 transition">
-           ابدأ رحلتك مع القرآن
+        <a href="#tracks" class="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 rounded-xl text-lg border border-white/20 transition">
+          استكشف المسارات التعليمية
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Courses & Tracks Section -->
-  <section class="py-16 container mx-auto px-4">
+  <!-- Live Stats Bar -->
+  <section class="bg-white py-8 border-b shadow-sm">
+    <div class="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div>
+        <p class="text-3xl font-extrabold text-primary">100%</p>
+        <p class="text-xs text-gray-500 font-bold mt-1">حلقات فردية مباشرة</p>
+      </div>
+      <div>
+        <p class="text-3xl font-extrabold text-gold">9 مسارات</p>
+        <p class="text-xs text-gray-500 font-bold mt-1">تعليمية وتخصصية</p>
+      </div>
+      <div>
+        <p class="text-3xl font-extrabold text-primary">معلمون مجازون</p>
+        <p class="text-xs text-gray-500 font-bold mt-1">بالسند المتصل</p>
+      </div>
+      <div>
+        <p class="text-3xl font-extrabold text-gold">متابعة شاملة</p>
+        <p class="text-xs text-gray-500 font-bold mt-1">لأولياء الأمور والطلاب</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITION 1: Tracks Section -->
+  <section id="tracks" class="py-16 container mx-auto px-4">
     <div class="text-center mb-12">
-      <h3 class="text-3xl font-bold text-primary mb-2">الأقسام والمسارات العلمية</h3>
-      <div class="w-20 h-1 bg-gold mx-auto rounded"></div>
+      <h2 class="text-3xl font-extrabold text-primary">الأقسام والمسارات العلمية</h2>
+      <p class="text-gray-600 text-sm mt-2">اختر المسار المناسب لك أو لأطفالك لنبدأ الرحلة سوياً</p>
+      <div class="w-16 h-1 bg-gold mx-auto mt-3 rounded-full"></div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-quran text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">تحفيظ القرآن الكريم</h4>
-        <p class="text-gray-600 text-sm">متابعة فردية ومنهجية مستمرة لحفظ كتاب الله بدقة وتنسيق.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">📖</div>
+        <h3 class="text-xl font-bold text-primary mb-2">تحفيظ القرآن الكريم</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">برنامج تحفيظ منظم يعتمد على جدول فردي يناسب وقت الطالب ومستواه.</p>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-book-bookmark text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">تثبيت القرآن الكريم</h4>
-        <p class="text-gray-600 text-sm">خطط مخصصة للمراجعة والمراجعة المتراكمة لضمان عدم النسيان.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">📌</div>
+        <h3 class="text-xl font-bold text-primary mb-2">تثبيت القرآن الكريم</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">خطط مخصصة للمراجعة الصغرى والكبرى لضمان عدم نسيان الآيات.</p>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-language text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">تأسيس لغة عربية</h4>
-        <p class="text-gray-600 text-sm">تعليم مبادئ وقواعد القراءة والكتابة واللغة العربية الصحيحة.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">🔤</div>
+        <h3 class="text-xl font-bold text-primary mb-2">تأسيس لغة عربية</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">تعليم القراءة والكتابة والنطق الصحيح للغة العربية بأساليب مبسطة.</p>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-graduation-cap text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">القاعدة النورانية</h4>
-        <p class="text-gray-600 text-sm">تأسيس الصغار والمبتدئين على النطق العربي والقرآني السليم.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">ج</div>
+        <h3 class="text-xl font-bold text-primary mb-2">القاعدة النورانية</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">تأسيس الأطفال والمبتدئين على مخارج الحروف والتهجي القرآني السليم.</p>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-microphone-lines text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">تصحيح تلاوة</h4>
-        <p class="text-gray-600 text-sm">ضبط مخرج الحروف وتطبيق الأحكام أثناء القراءة المباشرة.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">🎙️</div>
+        <h3 class="text-xl font-bold text-primary mb-2">تصحيح تلاوة</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">مراجعة أحكام التجويد وتطبيقها عملياً أثناء القراءة المباشرة على المعلم.</p>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-award text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">إتقان (المستوى الأول)</h4>
-        <p class="text-gray-600 text-sm">برنامج متقدم للوصول لمرحلة المهارة والإتقان العالي في التلاوة.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">⭐</div>
+        <h3 class="text-xl font-bold text-primary mb-2">إتقان (المستوى الأول)</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">تأهيل الحفاظ للوصول لمرحلة المهارة والإتقان العالي والتلاوة المتقنة.</p>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-scroll text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">سند غيبي برواية حفص عن عاصم</h4>
-        <p class="text-gray-600 text-sm">الإجازة بالسند المتصل إلى النبي صلى الله عليه وسلم برواية حفص.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">📜</div>
+        <h3 class="text-xl font-bold text-primary mb-2">سند غيبي برواية حفص</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">إقراء القرآن كاملاً عن ظهر قلب للحصول على السند المتصل للنبي ﷺ.</p>
       </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow-md border-r-4 border-gold hover:shadow-lg transition">
-        <i class="fas fa-certificate text-3xl text-gold mb-3"></i>
-        <h4 class="text-xl font-bold text-primary mb-2">سند غيبي برواية ورش عن نافع</h4>
-        <p class="text-gray-600 text-sm">ختم القرآن كاملاً غيباً للحصول على السند المتصل برواية ورش.</p>
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition border-t-4 border-t-gold card-hover">
+        <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xl mb-4 font-bold">📜</div>
+        <h3 class="text-xl font-bold text-primary mb-2">سند غيبي برواية ورش</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">ختم القرآن كاملاً غيباً برواية ورش عن نافع والحصول على الإجازة.</p>
       </div>
+
+      <div class="bg-primary/5 p-6 rounded-2xl border border-primary/20 flex flex-col justify-center text-center">
+        <h3 class="text-lg font-bold text-primary mb-2">هل تحتاج استشارة لاختيار المسار؟</h3>
+        <p class="text-xs text-gray-600 mb-4">تواصل مع المشرف الأكاديمي لتحديد المستوى والمسار المناسب.</p>
+        <a href="https://wa.me/962780285762" target="_blank" class="bg-primary text-white text-xs font-bold py-2 px-4 rounded-lg hover:bg-teal-900 transition">تواصل معنا الآن</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features (Why Elaf?) -->
+  <section id="features" class="bg-white py-16 border-t border-b">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold text-primary">لماذا تختار منصة إيلاف؟</h2>
+        <div class="w-16 h-1 bg-gold mx-auto mt-3 rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-gold/10 text-gold rounded-full flex items-center justify-center mx-auto text-2xl font-bold mb-4">
+            <i class="fas fa-video"></i>
+          </div>
+          <h3 class="font-bold text-lg text-primary mb-2">جلسات مباشرة تفاعلية</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">حلقات خاصة مع معلمك عبر روابط سريعة وبدقة عالية دون تشتت.</p>
+        </div>
+
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-gold/10 text-gold rounded-full flex items-center justify-center mx-auto text-2xl font-bold mb-4">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3 class="font-bold text-lg text-primary mb-2">مرونة كاملة في المواعيد</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">نحدد جدول الحصص الأسبوعي بناءً على أوقات فراغك والمنطقة الزمنية لك.</p>
+        </div>
+
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-gold/10 text-gold rounded-full flex items-center justify-center mx-auto text-2xl font-bold mb-4">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="font-bold text-lg text-primary mb-2">متابعة إشرافية وتقارير</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">تقارير دورية لأولياء الأمور لتتبع أداء وحفظ أطفالهم أولاً بأول.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITION 2: Testimonials Section -->
+  <section id="testimonials" class="py-16 bg-gray-100/70 relative border-t">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-gold font-bold text-xs uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full">ثقة وتأثير</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-primary mt-3">ماذا يقول أولياء الأمور عن إيلاف؟</h2>
+        <p class="text-gray-600 text-sm mt-2">نفخر برضا زوارنا وتطور أبنائهم المستمر في حفظ وتلاوة كتاب الله</p>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <!-- Testimonials Grid -->
+      <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Static Default Reviews with Delete Control Buttons -->
+        <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gray-100 card-hover flex flex-col justify-between relative" data-id="static-1">
+          <button onclick="deleteCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف هذا الرأي">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="quote-icon w-10 h-10 rounded-full flex items-center justify-center text-gold mb-4">
+            <i class="fas fa-quote-right text-lg"></i>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 font-medium">
+            "الأستاذ محمد حَفّظ الأولاد القرآن لأكثر من سنة ما شاء الله، وكان فعلاً قدوة طيبة لهم. أسلوبه جميل ومحبب والأولاد تعلقوا بحصصه. شفنا تطور واضح في حفظهم وتلاوتهم، وحتى في أدبهم وأخلاقهم."
+          </p>
+          <div class="border-t pt-4 flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-primary text-sm">ولي أمر الطالبين</h4>
+              <span class="text-xs text-gray-400">متابعة حفظ وتلاوة</span>
+            </div>
+            <div class="text-gold text-xs flex gap-1">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gray-100 card-hover flex flex-col justify-between relative" data-id="static-2">
+          <button onclick="deleteCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف هذا الرأي">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="quote-icon w-10 h-10 rounded-full flex items-center justify-center text-gold mb-4">
+            <i class="fas fa-quote-right text-lg"></i>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 font-medium">
+            "أكاديمية إيلاف كانت خيار موفق لنا لمساعدة ابني في حفظ القرآن الكريم. يوجد فيها كادر متمكن من أصحاب الخبرات بعلوم الدين والشريعة ومن حفظة كتاب الله. أستاذ محمد جاموس أستاذ رائع وصبور يحبب الأطفال بالحفظ."
+          </p>
+          <div class="border-t pt-4 flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-primary text-sm">والدة أحد الطلاب</h4>
+              <span class="text-xs text-gray-400">مسار التحفيظ</span>
+            </div>
+            <div class="text-gold text-xs flex gap-1">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gray-100 card-hover flex flex-col justify-between relative" data-id="static-3">
+          <button onclick="deleteCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف هذا الرأي">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="quote-icon w-10 h-10 rounded-full flex items-center justify-center text-gold mb-4">
+            <i class="fas fa-quote-right text-lg"></i>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 font-medium">
+            "وعليكم السلام، يعطيكم ألف عافية المنصة بتجنن والحصص رائعة جزاكم الله خيراً.. ومس صفاء بتجنن!"
+          </p>
+          <div class="border-t pt-4 flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-primary text-sm">أم طفل في الأكاديمية</h4>
+              <span class="text-xs text-gray-400">حلقة مع مس صفاء</span>
+            </div>
+            <div class="text-gold text-xs flex gap-1">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="bg-primary py-12 text-white text-center px-4">
+    <div class="container mx-auto max-w-3xl">
+      <h2 class="text-2xl md:text-4xl font-bold mb-4">جاهز للبدء في رحلتك القرأنية؟</h2>
+      <p class="text-sm md:text-base text-gray-200 mb-6">احجز الآن حصتك التجريبية المجانية لتحديد المستوى والتعرف على كادرنا التعليمي.</p>
+      <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9" 
+         target="_blank" class="bg-gold hover-bg-gold text-white font-bold px-8 py-3 rounded-xl shadow-lg inline-block transition">
+        اضغط هنا للحجز عبر الواتساب
+      </a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-primary text-white py-8 border-t border-yellow-600">
-    <div class="container mx-auto px-4 text-center space-y-4">
-      <p class="font-bold text-lg">منصة إيلاف التعليمية</p>
-      <div class="flex justify-center gap-6 text-sm">
-        <a href="mailto:elafacademic@gmail.com" class="hover:text-gold transition"><i class="fas fa-envelope ml-1"></i> elafacademic@gmail.com</a>
-        <a href="https://wa.me/962780285762" class="hover:text-gold transition"><i class="fab fa-whatsapp ml-1"></i> 00962780285762</a>
+  <footer class="bg-gray-900 text-gray-300 py-12 text-sm border-t border-gray-800">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <h4 class="text-white font-bold text-lg mb-3">منصة إيلاف التعليمية</h4>
+        <p class="text-xs text-gray-400 leading-relaxed">منصة تعليمية متخصصة في تحفيظ القرآن الكريم والعلوم الشرعية عبر الإنترنت بأساليب حديثة وكوادر تعليمية مؤهلة.</p>
       </div>
       <div>
-        <a href="https://linktr.ee/elafacademic" target="_blank" class="inline-block bg-gold text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-yellow-600 transition">
-          روابط صفحة التواصل (Linktree)
-        </a>
+        <h4 class="text-white font-bold text-lg mb-3">تواصل معنا</h4>
+        <ul class="space-y-2 text-xs">
+          <li><i class="fab fa-whatsapp text-gold ml-2"></i> 00962780285762</li>
+          <li><i class="fas fa-envelope text-gold ml-2"></i> elafacademic@gmail.com</li>
+        </ul>
       </div>
-      <p class="text-xs text-gray-400">جميع الحقوق محفوظة © أكاديمية إيلاف التعليمية</p>
+      <div>
+        <h4 class="text-white font-bold text-lg mb-3">روابط سريعة</h4>
+        <a href="https://linktr.ee/elafacademic" target="_blank" class="bg-gold text-white px-4 py-2 rounded-lg text-xs font-bold inline-block hover-bg-gold transition mb-3">
+          جميع صفحاتنا على وسائل التواصل
+        </a>
+        <div>
+          <button onclick="openAdminModal()" class="text-xs text-gray-500 hover:text-gold transition flex items-center gap-1">
+            <i class="fas fa-user-shield"></i> لوحة تحكم صاحب الموقع
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-xs text-gray-500 pt-6 border-t border-gray-800">
+      جميع الحقوق محفوظة © منصة إيلاف التعليمية
     </div>
   </footer>
+
+  <!-- ==================== ADMIN PANEL MODAL ==================== -->
+  <div id="adminModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-gold/30">
+      
+      <!-- Login View -->
+      <div id="adminLoginView" class="p-6">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto text-xl mb-2">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3 class="font-extrabold text-xl text-primary">لوحة إعدادات المالك</h3>
+          <p class="text-xs text-gray-500 mt-1">أدخل كلمة المرور للتعديل وإضافة أو حذف الصور والآراء</p>
+        </div>
+        
+        <div class="space-y-4">
+          <input type="password" id="adminPassword" placeholder="رمز الدخول السري" class="w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold">
+          <p id="passwordError" class="text-red-500 text-xs hidden">كلمة المرور غير صحيحة، حاول مجدداً.</p>
+          <div class="flex gap-2">
+            <button onclick="verifyPassword()" class="w-full bg-primary text-white font-bold py-2.5 rounded-xl hover:bg-teal-900 transition">دخول</button>
+            <button onclick="closeAdminModal()" class="w-1/3 bg-gray-200 text-gray-700 font-bold py-2.5 rounded-xl hover:bg-gray-300 transition">إلغاء</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Control Panel View -->
+      <div id="adminContentView" class="p-6 hidden max-h-[85vh] overflow-y-auto">
+        <div class="flex justify-between items-center border-b pb-3 mb-4">
+          <h3 class="font-bold text-lg text-primary flex items-center gap-2">
+            <i class="fas fa-sliders-h text-gold"></i> إعدادات التعديل والإضافة
+          </h3>
+          <button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-lg"><i class="fas fa-times"></i></button>
+        </div>
+
+        <!-- Mode Indicator -->
+        <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl mb-4 text-xs text-amber-800 flex justify-between items-center">
+          <span><i class="fas fa-info-circle ml-1"></i> أزرار الحذف الخضراء/الحمراء ظاهرة الآن على الكروت.</span>
+          <button onclick="toggleDeleteMode()" class="bg-amber-600 text-white px-2 py-1 rounded text-[10px] font-bold">إخفاء/إظهار الحذف</button>
+        </div>
+
+        <!-- Tab Controls -->
+        <div class="flex border-b mb-4">
+          <button id="tabTextBtn" onclick="switchAdminTab('text')" class="flex-1 py-2 font-bold text-xs border-b-2 border-gold text-primary">إضافة رأي نصي</button>
+          <button id="tabImgBtn" onclick="switchAdminTab('img')" class="flex-1 py-2 font-bold text-xs text-gray-400 border-b-2 border-transparent">إضافة صورة (رأي/محادثة)</button>
+        </div>
+
+        <!-- Add Text Review Form -->
+        <form id="addTextForm" onsubmit="handleAddTextReview(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">اسم ولي الأمر / الصفة</label>
+            <input type="text" id="reviewAuthor" placeholder="مثال: أم عبد الله - مسار القاعدة النورانية" required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">نص الرأي أو التقييم</label>
+            <textarea id="reviewText" rows="3" placeholder="اكتب رأي ولي الأمر هنا..." required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-gold text-white font-bold py-2 rounded-xl hover-bg-gold transition text-xs shadow">نشر الرأي فوراً</button>
+        </form>
+
+        <!-- Add Image Review Form -->
+        <form id="addImgForm" onsubmit="handleAddImgReview(event)" class="space-y-3 hidden">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">عنوان / وصف الصورة</label>
+            <input type="text" id="imgAuthor" placeholder="مثال: تقييم محادثة واتساب - أم محمد" required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">رفع الصورة من جهازك</label>
+            <input type="file" id="imgFileInput" accept="image/*" class="w-full border rounded-lg px-3 py-1.5 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">أو ضع رابط الصورة المباشر</label>
+            <input type="url" id="imgUrlInput" placeholder="https://..." class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <button type="submit" class="w-full bg-primary text-white font-bold py-2 rounded-xl hover:bg-teal-900 transition text-xs shadow">إضافة الصورة للموقع</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Admin Logic -->
+  <script>
+    // 🔑 تم تحديث كلمة السير هنا
+    const SECRET_PIN = "Elaf0123"; 
+
+    function openAdminModal() {
+      document.getElementById('adminModal').classList.remove('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+      document.getElementById('adminPassword').value = '';
+      document.getElementById('passwordError').classList.add('hidden');
+    }
+
+    function verifyPassword() {
+      const pin = document.getElementById('adminPassword').value;
+      if (pin === SECRET_PIN) {
+        document.getElementById('adminLoginView').classList.add('hidden');
+        document.getElementById('adminContentView').classList.remove('hidden');
+        enableAdminDeleteButtons();
+      } else {
+        document.getElementById('passwordError').classList.remove('hidden');
+      }
+    }
+
+    function enableAdminDeleteButtons() {
+      document.querySelectorAll('.admin-delete-btn').forEach(btn => {
+        btn.classList.remove('hidden');
+      });
+    }
+
+    function toggleDeleteMode() {
+      document.querySelectorAll('.admin-delete-btn').forEach(btn => {
+        btn.classList.toggle('hidden');
+      });
+    }
+
+    function deleteCard(btnElement) {
+      if(confirm('هل أنت تأكد من رغبتك في حذف هذا العنصر؟')) {
+        const card = btnElement.closest('.testimonial-card');
+        const cardId = card.getAttribute('data-id');
+
+        // Delete from LocalStorage if dynamic
+        let saved = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
+        saved = saved.filter(item => !item.includes(`data-id="${cardId}"`));
+        localStorage.setItem('elaf_dynamic_reviews', JSON.stringify(saved));
+
+        card.remove();
+      }
+    }
+
+    function switchAdminTab(type) {
+      if(type === 'text') {
+        document.getElementById('addTextForm').classList.remove('hidden');
+        document.getElementById('addImgForm').classList.add('hidden');
+        document.getElementById('tabTextBtn').className = "flex-1 py-2 font-bold text-xs border-b-2 border-gold text-primary";
+        document.getElementById('tabImgBtn').className = "flex-1 py-2 font-bold text-xs text-gray-400 border-b-2 border-transparent";
+      } else {
+        document.getElementById('addTextForm').classList.add('hidden');
+        document.getElementById('addImgForm').classList.remove('hidden');
+        document.getElementById('tabImgBtn').className = "flex-1 py-2 font-bold text-xs border-b-2 border-gold text-primary";
+        document.getElementById('tabTextBtn').className = "flex-1 py-2 font-bold text-xs text-gray-400 border-b-2 border-transparent";
+      }
+    }
+
+    function handleAddTextReview(e) {
+      e.preventDefault();
+      const author = document.getElementById('reviewAuthor').value;
+      const text = document.getElementById('reviewText').value;
+      const uniqueId = 'dyn-' + Date.now();
+
+      const card = `
+        <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gold/40 card-hover flex flex-col justify-between relative" data-id="${uniqueId}">
+          <button onclick="deleteCard(this)" class="admin-delete-btn bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center absolute top-3 left-3 z-10" title="حذف هذا الرأي">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="quote-icon w-10 h-10 rounded-full flex items-center justify-center text-gold mb-4">
+            <i class="fas fa-quote-right text-lg"></i>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 font-medium">"${text}"</p>
+          <div class="border-t pt-4 flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-primary text-sm">${author}</h4>
+              <span class="text-xs text-gold font-bold">تقييم موثق</span>
+            </div>
+            <div class="text-gold text-xs flex gap-1">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('testimonials-grid').insertAdjacentHTML('afterbegin', card);
+      saveTestimonialToStorage(card);
+      closeAdminModal();
+      document.getElementById('addTextForm').reset();
+    }
+
+    function handleAddImgReview(e) {
+      e.preventDefault();
+      const author = document.getElementById('imgAuthor').value;
+      const fileInput = document.getElementById('imgFileInput');
+      const urlInput = document.getElementById('imgUrlInput').value;
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          renderImgCard(author, evt.target.result);
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if(urlInput) {
+        renderImgCard(author, urlInput);
+      } else {
+        alert("يرجى اختيار صورة أو إدخال رابطها.");
+      }
+    }
+
+    function renderImgCard(author, src) {
+      const uniqueId = 'dyn-' + Date.now();
+      const card = `
+        <div class="testimonial-card bg-white p-4 rounded-2xl shadow-sm border border-gold/40 card-hover flex flex-col justify-between relative" data-id="${uniqueId}">
+          <button onclick="deleteCard(this)" class="admin-delete-btn bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center absolute top-3 left-3 z-10" title="حذف هذه الصورة">
+            <i class="fas fa-trash"></i>
+          </button>
+          <img src="${src}" alt="رأي ولي أمر" class="w-full h-auto rounded-xl border object-cover mb-3 max-h-80">
+          <div class="pt-2 flex justify-between items-center border-t">
+            <h4 class="font-bold text-primary text-xs">${author}</h4>
+            <span class="text-xs text-gold font-bold"><i class="fas fa-check-circle"></i> صورة معتمدة</span>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('testimonials-grid').insertAdjacentHTML('afterbegin', card);
+      saveTestimonialToStorage(card);
+      closeAdminModal();
+      document.getElementById('addImgForm').reset();
+    }
+
+    function saveTestimonialToStorage(htmlContent) {
+      let saved = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
+      saved.unshift(htmlContent);
+      localStorage.setItem('elaf_dynamic_reviews', JSON.stringify(saved));
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      let saved = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
+      saved.forEach(cardHtml => {
+        document.getElementById('testimonials-grid').insertAdjacentHTML('afterbegin', cardHtml);
+      });
+    });
+  </script>
 
 </body>
 </html>
