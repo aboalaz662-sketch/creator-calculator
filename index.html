@@ -49,7 +49,6 @@
       </div>
       <div class="flex items-center gap-3">
         <a href="https://linktr.ee/elafacademic" target="_blank" class="hover:text-gold transition">تابعنا على منصات التواصل</a>
-        <!-- Admin Entry Trigger Button -->
         <button onclick="openAdminModal()" class="text-gold/80 hover:text-white transition flex items-center gap-1 text-[11px] bg-white/10 px-2 py-0.5 rounded border border-gold/30">
           <i class="fas fa-lock text-[10px]"></i> لوحة الإدارة
         </button>
@@ -77,16 +76,18 @@
       </a>
 
       <!-- Nav Links -->
-      <nav class="hidden lg:flex items-center gap-8 font-bold text-sm text-gray-700">
+      <nav class="hidden lg:flex items-center gap-6 font-bold text-sm text-gray-700">
         <a href="#about" class="hover:text-primary transition">عن المنصة</a>
-        <a href="#tracks" class="hover:text-primary transition text-primary font-extrabold">المسارات التعليمية</a>
+        <a href="#intro-video" class="hover:text-primary transition text-gold font-extrabold">الفيديو التعريفي</a>
+        <a href="#teachers" class="hover:text-gold transition text-primary font-extrabold">كادرنا التعليمي</a>
+        <a href="#tracks" class="hover:text-primary transition">المسارات التعليمية</a>
         <a href="#features" class="hover:text-primary transition">مميزاتنا</a>
         <a href="#testimonials" class="hover:text-primary transition text-gold font-extrabold">آراء أولياء الأمور</a>
       </nav>
 
       <!-- Action Buttons -->
       <div class="flex items-center gap-3">
-        <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A5%D9%8A%D9%84%D8%A7%D9%81%20%D8%A7%D9%8BB%D8%B9%D9%BB%D9%8A%D9%85%D9%8A%D8%A9" 
+        <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A5%D9%8A%D9%84%D8%A7%D9%81%20%D8%A7%D9%BB%D8%B9%D9%BB%D9%8A%D9%85%D9%8A%D8%A9" 
            target="_blank" 
            class="bg-gold hover-bg-gold text-white font-bold px-4 py-2 rounded-lg text-sm transition shadow flex items-center gap-2">
           <i class="fab fa-whatsapp"></i>
@@ -96,27 +97,75 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section id="about" class="bg-primary text-white py-20 px-4 relative overflow-hidden">
-    <div class="container mx-auto max-w-5xl text-center relative z-10">
-      <span class="bg-white/10 text-gold px-4 py-1.5 rounded-full text-xs font-bold border border-gold/30 inline-block mb-4">
-        ✨ المنصة الأسهل والأشمل لتحفيظ القرآن أونلاين
-      </span>
-      <h1 class="text-3xl md:text-6xl font-black mb-6 leading-tight">
-        نعينك على حفظ كتاب الله وإتقانه <br><span class="text-gold">من أي مكان في العالم</span>
-      </h1>
-      <p class="text-base md:text-xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
-        منصة إيلاف تجمع بين التعليم التفاعلي المباشر، الإشراف التربوي، والمتابعة الدورية للطلاب والأطفال بأحدث الوسائل التعليمية والمعلمين المجازين.
-      </p>
+  <!-- Hero Section with Founder/Teacher Profile Card -->
+  <section id="about" class="bg-primary text-white py-16 px-4 relative overflow-hidden">
+    <div class="container mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+      
+      <!-- Right Side Text Content -->
+      <div class="flex-1 text-center md:text-right">
+        <span class="bg-white/10 text-gold px-4 py-1.5 rounded-full text-xs font-bold border border-gold/30 inline-block mb-4">
+          ✨ المنصة الأسهل والأشمل لتحفيظ القرآن أونلاين
+        </span>
+        <h1 class="text-3xl md:text-5xl font-black mb-6 leading-tight">
+          نعينك على حفظ كتاب الله وإتقانه <br><span class="text-gold">من أي مكان في العالم</span>
+        </h1>
+        <p class="text-base md:text-lg text-gray-200 mb-8 max-w-2xl leading-relaxed">
+          منصة إيلاف تجمع بين التعليم التفاعلي المباشر، الإشراف التربوي، والمتابعة الدورية للطلاب والأطفال بأحدث الوسائل التعليمية والمعلمين المجازين.
+        </p>
 
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9" 
-           target="_blank" class="bg-gold hover-bg-gold text-white font-extrabold px-8 py-3.5 rounded-xl text-lg shadow-lg transition">
-          احجز حصتك التجريبية مجاناً
-        </a>
-        <a href="#tracks" class="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 rounded-xl text-lg border border-white/20 transition">
-          استكشف المسارات التعليمية
-        </a>
+        <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+          <a href="https://wa.me/962780285762" target="_blank" class="bg-gold hover-bg-gold text-white font-extrabold px-8 py-3.5 rounded-xl text-lg shadow-lg transition text-center">
+            احجز حصتك التجريبية مجاناً
+          </a>
+          <a href="#intro-video" class="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 rounded-xl text-lg border border-white/20 transition flex items-center justify-center gap-2">
+            <i class="fas fa-play-circle text-gold"></i> شاهد فيديو الأكاديمية
+          </a>
+        </div>
+      </div>
+
+      <!-- Left Side Founder / Teacher Circular Card -->
+      <div class="flex-shrink-0 flex flex-col items-center">
+        <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-2 bg-gradient-to-tr from-gold via-amber-200 to-gold shadow-2xl flex items-center justify-center">
+          <div class="w-full h-full rounded-full overflow-hidden border-4 border-primary bg-gray-800">
+            <img id="founderImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" alt="صورة المؤسس" class="w-full h-full object-cover">
+          </div>
+        </div>
+        
+        <!-- Title Badge Under Image -->
+        <div class="bg-white text-gray-800 rounded-2xl shadow-xl px-6 py-3 -mt-8 relative z-20 text-center border-2 border-gold/40 min-w-[220px]">
+          <h3 id="founderName" class="font-extrabold text-lg text-primary leading-snug">الأستاذ محمد أبو جاموس</h3>
+          <p id="founderRole" class="text-xs font-bold text-gold mt-0.5">مؤسس أكاديمية إيلاف التعليمية</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Intro Video Section -->
+  <section id="intro-video" class="py-12 bg-gray-900 text-white border-b-4 border-gold">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <div class="mb-6">
+        <span class="text-gold font-bold text-xs uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/20">تعرف علينا عن قرب</span>
+        <h2 class="text-2xl md:text-4xl font-black mt-2 text-white">شاهد كيف نعمل في أكاديمية إيلاف</h2>
+        <p class="text-gray-400 text-xs md:text-sm mt-1">فيديو تعريفي قصير يوضح أسلوب التحفيظ والتفاعل المباشر مع الطلاب</p>
+      </div>
+
+      <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border-2 border-gold/30 bg-black aspect-video mx-auto flex items-center justify-center">
+        <video 
+          id="mainLocalVideo" 
+          controls 
+          class="w-full h-full object-cover hidden">
+          <source id="mainVideoSource" src="" type="video/mp4">
+          متصفحك لا يدعم تشغيل الفيديو.
+        </video>
+
+        <div id="videoPlaceholder" class="text-center p-6">
+          <div class="w-16 h-16 bg-gold/20 text-gold rounded-full flex items-center justify-center mx-auto text-2xl mb-3">
+            <i class="fas fa-video"></i>
+          </div>
+          <p class="text-gray-300 font-bold text-sm">لم يتم رفع فيديو تعريفي بعد</p>
+          <p class="text-xs text-gray-500 mt-1">قم بالدخول إلى لوحة الإدارة لرفع فيديو من جهازك</p>
+        </div>
       </div>
     </div>
   </section>
@@ -143,7 +192,7 @@
     </div>
   </section>
 
-  <!-- POSITION 1: Tracks Section -->
+  <!-- Tracks Section -->
   <section id="tracks" class="py-16 container mx-auto px-4">
     <div class="text-center mb-12">
       <h2 class="text-3xl font-extrabold text-primary">الأقسام والمسارات العلمية</h2>
@@ -208,7 +257,7 @@
     </div>
   </section>
 
-  <!-- Features (Why Elaf?) -->
+  <!-- Features -->
   <section id="features" class="bg-white py-16 border-t border-b">
     <div class="container mx-auto px-4">
       <div class="text-center mb-12">
@@ -244,7 +293,48 @@
     </div>
   </section>
 
-  <!-- POSITION 2: Testimonials Section -->
+  <!-- ==================== TEACHERS SECTION (قسم المعلمين) ==================== -->
+  <section id="teachers" class="py-16 bg-white border-t">
+    <div class="container mx-auto px-4">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-gold font-bold text-xs uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/20">كوادرنا المتميزة</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-primary mt-3">نخبة من المعلمين والمعلمات المجازين</h2>
+        <p class="text-gray-600 text-sm mt-2">معلمون متخصصون ذوو خبرة واسعة في تدريس القرآن الكريم والعلوم الشرعية</p>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <!-- Teachers Grid Container -->
+      <div id="teachers-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        
+        <!-- Default Teacher Card 1 -->
+        <div class="teacher-card bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition text-center relative card-hover flex flex-col items-center" data-id="tech-1">
+          <button onclick="deleteTeacherCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف المعلم">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-gold to-teal-700 mb-4 shadow-md overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300" alt="صورة المعلم" class="w-full h-full object-cover rounded-full">
+          </div>
+          <h3 class="font-extrabold text-lg text-primary">الأستاذ محمد أبو جاموس</h3>
+          <p class="text-xs font-bold text-gold mt-1">مشرف ومعلم تحفيظ القرآن الكريم</p>
+        </div>
+
+        <!-- Default Teacher Card 2 -->
+        <div class="teacher-card bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition text-center relative card-hover flex flex-col items-center" data-id="tech-2">
+          <button onclick="deleteTeacherCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف المعلم">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-gold to-teal-700 mb-4 shadow-md overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" alt="صورة المعلمة" class="w-full h-full object-cover rounded-full">
+          </div>
+          <h3 class="font-extrabold text-lg text-primary">المعلمة صفاء</h3>
+          <p class="text-xs font-bold text-gold mt-1">معلمة القاعدة النورانية وتأسيس الأطفال</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
   <section id="testimonials" class="py-16 bg-gray-100/70 relative border-t">
     <div class="container mx-auto px-4">
       <div class="text-center max-w-2xl mx-auto mb-12">
@@ -254,9 +344,9 @@
         <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
       </div>
 
-      <!-- Testimonials Grid -->
+      <!-- Testimonials Grid Container -->
       <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Static Default Reviews with Delete Control Buttons -->
+        
         <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gray-100 card-hover flex flex-col justify-between relative" data-id="static-1">
           <button onclick="deleteCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف هذا الرأي">
             <i class="fas fa-trash"></i>
@@ -319,7 +409,80 @@
             </div>
           </div>
         </div>
+
+        <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gray-100 card-hover flex flex-col justify-between relative" data-id="static-4">
+          <button onclick="deleteCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف هذا الرأي">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="quote-icon w-10 h-10 rounded-full flex items-center justify-center text-gold mb-4">
+            <i class="fas fa-quote-right text-lg"></i>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 font-medium">
+            "كل الشكر والاحتياط للأستاذ محمد أبو جاموس اللي كمل مع تيم ابني ٣ سنوات بدون كلل أو ملل.. دائماً بحكي معه بنفس الشغف ونفس الحماس."
+          </p>
+          <div class="border-t pt-4 flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-primary text-sm">والد طالب</h4>
+              <span class="text-xs text-gray-400">تقييم ممتاز</span>
+            </div>
+            <div class="text-gold text-xs flex gap-1">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gray-100 card-hover flex flex-col justify-between relative" data-id="static-5">
+          <button onclick="deleteCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف هذا الرأي">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="quote-icon w-10 h-10 rounded-full flex items-center justify-center text-gold mb-4">
+            <i class="fas fa-quote-right text-lg"></i>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 font-medium">
+            "الحمدلله مبسوطين إنه أطفالنا عم بكون في يومهم شي مخصص لرب العالمين مو لمدرسة أو شي ثاني."
+          </p>
+          <div class="border-t pt-4 flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-primary text-sm">أم محمد</h4>
+              <span class="text-xs text-gray-400">سيرة معتمدة</span>
+            </div>
+            <div class="text-gold text-xs flex gap-1">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card bg-white p-7 rounded-2xl shadow-sm border border-gray-100 card-hover flex flex-col justify-between relative" data-id="static-6">
+          <button onclick="deleteCard(this)" class="admin-delete-btn hidden absolute top-3 left-3 bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center z-10" title="حذف هذا الرأي">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="quote-icon w-10 h-10 rounded-full flex items-center justify-center text-gold mb-4">
+            <i class="fas fa-quote-right text-lg"></i>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed mb-6 font-medium">
+            "أنا الصراحة متفاجئ في تحسن كبير في ولادي، يمكن انت شايفه قليل مقارنة بباقت الطلاب.. بس هاد بالنسبة لإلي انجاز كبير."
+          </p>
+          <div class="border-t pt-4 flex justify-between items-center">
+            <div>
+              <h4 class="font-bold text-primary text-sm">والد طالبين</h4>
+              <span class="text-xs text-gray-400">صورة مستلمة</span>
+            </div>
+            <div class="text-gold text-xs flex gap-1">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      <!-- Show More Button Section -->
+      <div id="show-more-container" class="mt-10 text-center">
+        <button id="show-more-btn" onclick="showAllTestimonials()" class="bg-gold hover-bg-gold text-white font-extrabold px-8 py-3.5 rounded-xl shadow-md transition-all duration-300 inline-flex items-center gap-2 text-sm border border-gold/30">
+          <span>عرض المزيد من الآراء</span>
+          <i class="fas fa-chevron-down text-xs"></i>
+        </button>
+      </div>
+
     </div>
   </section>
 
@@ -328,8 +491,7 @@
     <div class="container mx-auto max-w-3xl">
       <h2 class="text-2xl md:text-4xl font-bold mb-4">جاهز للبدء في رحلتك القرأنية؟</h2>
       <p class="text-sm md:text-base text-gray-200 mb-6">احجز الآن حصتك التجريبية المجانية لتحديد المستوى والتعرف على كادرنا التعليمي.</p>
-      <a href="https://wa.me/962780285762?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D9%88%D8%B1%D8%AD%D9%85%D8%A9%20%D8%A7%D9%84%D9%84%D9%87%20%D9%88%D8%A0%D8%B1%D9%83%D8%A7%D8%AA%D9%87%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D8%A8%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9" 
-         target="_blank" class="bg-gold hover-bg-gold text-white font-bold px-8 py-3 rounded-xl shadow-lg inline-block transition">
+      <a href="https://wa.me/962780285762" target="_blank" class="bg-gold hover-bg-gold text-white font-bold px-8 py-3 rounded-xl shadow-lg inline-block transition">
         اضغط هنا للحجز عبر الواتساب
       </a>
     </div>
@@ -377,7 +539,7 @@
             <i class="fas fa-lock"></i>
           </div>
           <h3 class="font-extrabold text-xl text-primary">لوحة إعدادات المالك</h3>
-          <p class="text-xs text-gray-500 mt-1">أدخل كلمة المرور للتعديل وإضافة أو حذف الصور والآراء</p>
+          <p class="text-xs text-gray-500 mt-1">أدخل كلمة المرور للتعديل والإدارة</p>
         </div>
         
         <div class="space-y-4">
@@ -399,20 +561,77 @@
           <button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-lg"><i class="fas fa-times"></i></button>
         </div>
 
-        <!-- Mode Indicator -->
         <div class="bg-amber-50 border border-amber-200 p-2.5 rounded-xl mb-4 text-xs text-amber-800 flex justify-between items-center">
-          <span><i class="fas fa-info-circle ml-1"></i> أزرار الحذف الخضراء/الحمراء ظاهرة الآن على الكروت.</span>
+          <span><i class="fas fa-info-circle ml-1"></i> التحكم بالمحتوى الظاهر بالموقع</span>
           <button onclick="toggleDeleteMode()" class="bg-amber-600 text-white px-2 py-1 rounded text-[10px] font-bold">إخفاء/إظهار الحذف</button>
         </div>
 
         <!-- Tab Controls -->
-        <div class="flex border-b mb-4">
-          <button id="tabTextBtn" onclick="switchAdminTab('text')" class="flex-1 py-2 font-bold text-xs border-b-2 border-gold text-primary">إضافة رأي نصي</button>
-          <button id="tabImgBtn" onclick="switchAdminTab('img')" class="flex-1 py-2 font-bold text-xs text-gray-400 border-b-2 border-transparent">إضافة صورة (رأي/محادثة)</button>
+        <div class="flex border-b mb-4 text-[11px] font-bold">
+          <button id="tabFounderBtn" onclick="switchAdminTab('founder')" class="flex-1 py-2 border-b-2 border-gold text-primary">تغيير المؤسس</button>
+          <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="flex-1 py-2 text-gray-400 border-b-2 border-transparent">إضافة معلم</button>
+          <button id="tabVidBtn" onclick="switchAdminTab('vid')" class="flex-1 py-2 text-gray-400 border-b-2 border-transparent">رفع فيديو</button>
+          <button id="tabTextBtn" onclick="switchAdminTab('text')" class="flex-1 py-2 text-gray-400 border-b-2 border-transparent">رأي نصي</button>
+          <button id="tabImgBtn" onclick="switchAdminTab('img')" class="flex-1 py-2 text-gray-400 border-b-2 border-transparent">رأي صورة</button>
         </div>
 
-        <!-- Add Text Review Form -->
-        <form id="addTextForm" onsubmit="handleAddTextReview(event)" class="space-y-3">
+        <!-- Form 1: Edit Founder Info -->
+        <form id="addFounderForm" onsubmit="handleUpdateFounder(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">اسم المعلم / المؤسس</label>
+            <input type="text" id="founderNameInput" placeholder="مثال: الأستاذ الأيهم فائز أبو نجا" required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">المسمى الوظيفي / الوصف تحت الاسم</label>
+            <input type="text" id="founderRoleInput" placeholder="مثال: مؤسس منصة رتّل التعليمية" required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة جديدة من جهازك</label>
+            <input type="file" id="founderFileInput" accept="image/*" class="w-full border rounded-lg px-3 py-1.5 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">أو ضع رابط الصورة المباشر</label>
+            <input type="url" id="founderUrlInput" placeholder="https://..." class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <button type="submit" class="w-full bg-gold text-white font-bold py-2 rounded-xl hover-bg-gold transition text-xs shadow">حفظ التغييرات فوراً</button>
+        </form>
+
+        <!-- Form 2: Add New Teacher (إضافة معلم جديد) -->
+        <form id="addTeacherForm" onsubmit="handleAddTeacher(event)" class="space-y-3 hidden">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">اسم المعلم / المعلمة</label>
+            <input type="text" id="teacherNameInput" placeholder="مثال: الأستاذ أحمد علي" required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">التخصص / المسمى الوظيفي</label>
+            <input type="text" id="teacherRoleInput" placeholder="مثال: معلم التجويد والقراءات" required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة المعلم من جهازك</label>
+            <input type="file" id="teacherFileInput" accept="image/*" class="w-full border rounded-lg px-3 py-1.5 text-xs focus:border-gold outline-none bg-gray-50">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">أو ضع رابط الصورة المباشر</label>
+            <input type="url" id="teacherUrlInput" placeholder="https://..." class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <button type="submit" class="w-full bg-gold text-white font-bold py-2 rounded-xl hover-bg-gold transition text-xs shadow">إضافة المعلم للكادر</button>
+        </form>
+
+        <!-- Form 3: Change Video -->
+        <form id="addVidForm" onsubmit="handleChangeVideo(event)" class="space-y-3 hidden">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1"><i class="fas fa-upload text-gold ml-1"></i> اختر فيديو من جهازك (MP4, WebM, Mov)</label>
+            <input type="file" id="videoFileInput" accept="video/*" class="w-full border rounded-lg px-3 py-1.5 text-xs focus:border-gold outline-none bg-gray-50">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">أو ضع رابط الفيديو المباشر (Direct MP4 URL)</label>
+            <input type="url" id="videoUrlInput" placeholder="https://domain.com/video.mp4" class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
+          </div>
+          <button type="submit" class="w-full bg-gold text-white font-bold py-2 rounded-xl hover-bg-gold transition text-xs shadow">رفع وتحديث الفيديو التعريفي</button>
+        </form>
+
+        <!-- Form 4: Add Text Review -->
+        <form id="addTextForm" onsubmit="handleAddTextReview(event)" class="space-y-3 hidden">
           <div>
             <label class="block text-xs font-bold text-gray-700 mb-1">اسم ولي الأمر / الصفة</label>
             <input type="text" id="reviewAuthor" placeholder="مثال: أم عبد الله - مسار القاعدة النورانية" required class="w-full border rounded-lg px-3 py-2 text-xs focus:border-gold outline-none">
@@ -424,7 +643,7 @@
           <button type="submit" class="w-full bg-gold text-white font-bold py-2 rounded-xl hover-bg-gold transition text-xs shadow">نشر الرأي فوراً</button>
         </form>
 
-        <!-- Add Image Review Form -->
+        <!-- Form 5: Add Image Review -->
         <form id="addImgForm" onsubmit="handleAddImgReview(event)" class="space-y-3 hidden">
           <div>
             <label class="block text-xs font-bold text-gray-700 mb-1">عنوان / وصف الصورة</label>
@@ -445,13 +664,39 @@
     </div>
   </div>
 
-  <!-- JavaScript Admin Logic -->
+  <!-- JavaScript Logics -->
   <script>
-    // 🔑 تم تحديث كلمة السير هنا
     const SECRET_PIN = "Elaf0123"; 
+
+    function applyTestimonialsLimit() {
+      const cards = document.querySelectorAll('.testimonial-card');
+      const showMoreContainer = document.getElementById('show-more-container');
+
+      cards.forEach((card, index) => {
+        if (index < 6) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (cards.length > 6) {
+        showMoreContainer.classList.remove('hidden');
+      } else {
+        showMoreContainer.classList.add('hidden');
+      }
+    }
+
+    function showAllTestimonials() {
+      const cards = document.querySelectorAll('.testimonial-card');
+      cards.forEach(card => card.classList.remove('hidden'));
+      document.getElementById('show-more-container').classList.add('hidden');
+    }
 
     function openAdminModal() {
       document.getElementById('adminModal').classList.remove('hidden');
+      document.getElementById('founderNameInput').value = document.getElementById('founderName').innerText;
+      document.getElementById('founderRoleInput').value = document.getElementById('founderRole').innerText;
     }
 
     function closeAdminModal() {
@@ -488,27 +733,177 @@
         const card = btnElement.closest('.testimonial-card');
         const cardId = card.getAttribute('data-id');
 
-        // Delete from LocalStorage if dynamic
         let saved = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
         saved = saved.filter(item => !item.includes(`data-id="${cardId}"`));
         localStorage.setItem('elaf_dynamic_reviews', JSON.stringify(saved));
+
+        card.remove();
+        applyTestimonialsLimit();
+      }
+    }
+
+    function deleteTeacherCard(btnElement) {
+      if(confirm('هل أنت تأكد من رغبتك في حذف هذا المعلم؟')) {
+        const card = btnElement.closest('.teacher-card');
+        const cardId = card.getAttribute('data-id');
+
+        let saved = JSON.parse(localStorage.getItem('elaf_dynamic_teachers') || '[]');
+        saved = saved.filter(item => !item.includes(`data-id="${cardId}"`));
+        localStorage.setItem('elaf_dynamic_teachers', JSON.stringify(saved));
 
         card.remove();
       }
     }
 
     function switchAdminTab(type) {
-      if(type === 'text') {
+      document.getElementById('addFounderForm').classList.add('hidden');
+      document.getElementById('addTeacherForm').classList.add('hidden');
+      document.getElementById('addTextForm').classList.add('hidden');
+      document.getElementById('addImgForm').classList.add('hidden');
+      document.getElementById('addVidForm').classList.add('hidden');
+
+      document.getElementById('tabFounderBtn').className = "flex-1 py-2 text-gray-400 border-b-2 border-transparent";
+      document.getElementById('tabTeacherBtn').className = "flex-1 py-2 text-gray-400 border-b-2 border-transparent";
+      document.getElementById('tabVidBtn').className = "flex-1 py-2 text-gray-400 border-b-2 border-transparent";
+      document.getElementById('tabTextBtn').className = "flex-1 py-2 text-gray-400 border-b-2 border-transparent";
+      document.getElementById('tabImgBtn').className = "flex-1 py-2 text-gray-400 border-b-2 border-transparent";
+
+      if(type === 'founder') {
+        document.getElementById('addFounderForm').classList.remove('hidden');
+        document.getElementById('tabFounderBtn').className = "flex-1 py-2 border-b-2 border-gold text-primary font-bold";
+      } else if(type === 'teacher') {
+        document.getElementById('addTeacherForm').classList.remove('hidden');
+        document.getElementById('tabTeacherBtn').className = "flex-1 py-2 border-b-2 border-gold text-primary font-bold";
+      } else if(type === 'vid') {
+        document.getElementById('addVidForm').classList.remove('hidden');
+        document.getElementById('tabVidBtn').className = "flex-1 py-2 border-b-2 border-gold text-primary font-bold";
+      } else if(type === 'text') {
         document.getElementById('addTextForm').classList.remove('hidden');
-        document.getElementById('addImgForm').classList.add('hidden');
-        document.getElementById('tabTextBtn').className = "flex-1 py-2 font-bold text-xs border-b-2 border-gold text-primary";
-        document.getElementById('tabImgBtn').className = "flex-1 py-2 font-bold text-xs text-gray-400 border-b-2 border-transparent";
-      } else {
-        document.getElementById('addTextForm').classList.add('hidden');
+        document.getElementById('tabTextBtn').className = "flex-1 py-2 border-b-2 border-gold text-primary font-bold";
+      } else if(type === 'img') {
         document.getElementById('addImgForm').classList.remove('hidden');
-        document.getElementById('tabImgBtn').className = "flex-1 py-2 font-bold text-xs border-b-2 border-gold text-primary";
-        document.getElementById('tabTextBtn').className = "flex-1 py-2 font-bold text-xs text-gray-400 border-b-2 border-transparent";
+        document.getElementById('tabImgBtn').className = "flex-1 py-2 border-b-2 border-gold text-primary font-bold";
       }
+    }
+
+    function handleUpdateFounder(e) {
+      e.preventDefault();
+      const name = document.getElementById('founderNameInput').value;
+      const role = document.getElementById('founderRoleInput').value;
+      const fileInput = document.getElementById('founderFileInput');
+      const urlInput = document.getElementById('founderUrlInput').value;
+
+      document.getElementById('founderName').innerText = name;
+      document.getElementById('founderRole').innerText = role;
+
+      let founderData = { name, role, imgSrc: document.getElementById('founderImg').src };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          document.getElementById('founderImg').src = evt.target.result;
+          founderData.imgSrc = evt.target.result;
+          localStorage.setItem('elaf_founder_data', JSON.stringify(founderData));
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if(urlInput) {
+        document.getElementById('founderImg').src = urlInput;
+        founderData.imgSrc = urlInput;
+        localStorage.setItem('elaf_founder_data', JSON.stringify(founderData));
+      } else {
+        localStorage.setItem('elaf_founder_data', JSON.stringify(founderData));
+      }
+
+      closeAdminModal();
+      alert('تم تحديث بيانات وصورة المؤسس بنجاح!');
+    }
+
+    function handleAddTeacher(e) {
+      e.preventDefault();
+      const name = document.getElementById('teacherNameInput').value;
+      const role = document.getElementById('teacherRoleInput').value;
+      const fileInput = document.getElementById('teacherFileInput');
+      const urlInput = document.getElementById('teacherUrlInput').value;
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          renderTeacherCard(name, role, evt.target.result);
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if(urlInput) {
+        renderTeacherCard(name, role, urlInput);
+      } else {
+        renderTeacherCard(name, role, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300');
+      }
+    }
+
+    function renderTeacherCard(name, role, imgSrc) {
+      const uniqueId = 'tech-' + Date.now();
+      const card = `
+        <div class="teacher-card bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition text-center relative card-hover flex flex-col items-center" data-id="${uniqueId}">
+          <button onclick="deleteTeacherCard(this)" class="admin-delete-btn bg-red-500 text-white w-7 h-7 rounded-full text-xs shadow-md hover:bg-red-700 transition flex items-center justify-center absolute top-3 left-3 z-10" title="حذف المعلم">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-gold to-teal-700 mb-4 shadow-md overflow-hidden">
+            <img src="${imgSrc}" alt="${name}" class="w-full h-full object-cover rounded-full">
+          </div>
+          <h3 class="font-extrabold text-lg text-primary">${name}</h3>
+          <p class="text-xs font-bold text-gold mt-1">${role}</p>
+        </div>
+      `;
+
+      document.getElementById('teachers-grid').insertAdjacentHTML('beforeend', card);
+      saveTeacherToStorage(card);
+      closeAdminModal();
+      document.getElementById('addTeacherForm').reset();
+    }
+
+    function saveTeacherToStorage(htmlContent) {
+      let saved = JSON.parse(localStorage.getItem('elaf_dynamic_teachers') || '[]');
+      saved.push(htmlContent);
+      localStorage.setItem('elaf_dynamic_teachers', JSON.stringify(saved));
+    }
+
+    function handleChangeVideo(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('videoFileInput');
+      const urlInput = document.getElementById('videoUrlInput').value.trim();
+
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const videoDataUrl = evt.target.result;
+          displayVideoSrc(videoDataUrl);
+          try {
+            localStorage.setItem('elaf_local_video', videoDataUrl);
+          } catch(err) {
+            console.warn('الحجم كبير للتخزين الدائم بالمتصفح ولكن سيعمل الآن حالياً');
+          }
+        };
+        reader.readAsDataURL(file);
+      } else if (urlInput) {
+        displayVideoSrc(urlInput);
+        localStorage.setItem('elaf_local_video', urlInput);
+      } else {
+        alert('يرجى اختيار ملف فيديو من جهازك أو وضع رابط مباشر للفيديو.');
+        return;
+      }
+
+      closeAdminModal();
+      alert('تم تغيير وتعيين الفيديو التعريفي بنجاح!');
+    }
+
+    function displayVideoSrc(src) {
+      const localVid = document.getElementById('mainLocalVideo');
+      const vidSource = document.getElementById('mainVideoSource');
+      const placeholder = document.getElementById('videoPlaceholder');
+
+      vidSource.src = src;
+      localVid.load();
+      localVid.classList.remove('hidden');
+      if (placeholder) placeholder.classList.add('hidden');
     }
 
     function handleAddTextReview(e) {
@@ -542,6 +937,7 @@
       saveTestimonialToStorage(card);
       closeAdminModal();
       document.getElementById('addTextForm').reset();
+      applyTestimonialsLimit();
     }
 
     function handleAddImgReview(e) {
@@ -582,6 +978,7 @@
       saveTestimonialToStorage(card);
       closeAdminModal();
       document.getElementById('addImgForm').reset();
+      applyTestimonialsLimit();
     }
 
     function saveTestimonialToStorage(htmlContent) {
@@ -591,10 +988,33 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      let saved = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
-      saved.forEach(cardHtml => {
+      // Load saved Founder Data
+      const savedFounder = JSON.parse(localStorage.getItem('elaf_founder_data') || 'null');
+      if (savedFounder) {
+        if (savedFounder.name) document.getElementById('founderName').innerText = savedFounder.name;
+        if (savedFounder.role) document.getElementById('founderRole').innerText = savedFounder.role;
+        if (savedFounder.imgSrc) document.getElementById('founderImg').src = savedFounder.imgSrc;
+      }
+
+      // Load saved local video
+      const savedLocalVideo = localStorage.getItem('elaf_local_video');
+      if (savedLocalVideo) {
+        displayVideoSrc(savedLocalVideo);
+      }
+
+      // Load saved Teachers
+      let savedTeachers = JSON.parse(localStorage.getItem('elaf_dynamic_teachers') || '[]');
+      savedTeachers.forEach(cardHtml => {
+        document.getElementById('teachers-grid').insertAdjacentHTML('beforeend', cardHtml);
+      });
+
+      // Load saved reviews
+      let savedReviews = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
+      savedReviews.forEach(cardHtml => {
         document.getElementById('testimonials-grid').insertAdjacentHTML('afterbegin', cardHtml);
       });
+
+      applyTestimonialsLimit();
     });
   </script>
 
