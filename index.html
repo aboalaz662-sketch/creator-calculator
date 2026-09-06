@@ -111,6 +111,13 @@
     .gold-glow-circle {
       box-shadow: 0 0 25px rgba(197, 160, 89, 0.6), 0 0 45px rgba(197, 160, 89, 0.3);
     }
+
+    .social-link-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .social-link-btn:hover {
+      transform: translateY(-3px);
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-gold selection:text-white">
@@ -120,24 +127,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
-        <!-- Right Area: اللوجو والروابط محاذات إلى اليمين -->
-        <div class="flex items-center gap-6 sm:gap-10">
-          <!-- Logo Area -->
-          <div class="flex items-center gap-3">
-            <div class="relative group cursor-pointer" onclick="openAdminModal()">
-              <div id="logoContainer" class="w-12 h-12 bg-gold/10 border border-gold/40 rounded-2xl flex items-center justify-center overflow-hidden transition group-hover:scale-105 logo-glow">
-                <span id="logoText" class="text-gold font-black text-2xl decorated-title">إ</span>
-                <img id="logoImg" src="" alt="شعار منصة إيلاف" class="w-full h-full object-cover hidden">
-              </div>
-            </div>
-            <div class="hidden sm:block">
-              <h1 class="font-extrabold text-xl text-white tracking-wide decorated-title">منصة <span class="gold-gradient-text">إيلاف</span></h1>
-              <p class="text-[10px] text-gold-light font-medium tracking-wider">للتلاوة والتجويد والعلوم القرآنية</p>
-            </div>
-          </div>
+        <!-- Right Area: زر لوحة النظام + الروابط (أقصى اليمين) -->
+        <div class="flex items-center gap-6 sm:gap-8">
+          
+          <!-- زر لوحة النظام على اليمين -->
+          <button onclick="toggleSidebarNav()" class="bg-gold hover:bg-gold-dark text-primary font-black px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md relative">
+            <i class="fas fa-cog text-base"></i>
+            <span>لوحة النظام</span>
+            <span id="pendingBadgeHeader" class="hidden absolute -top-2 -right-2 bg-red-600 text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-primary">0</span>
+          </button>
 
-          <!-- Navigation Links (تسحب لليمين بجانب اللوجو) -->
-          <nav class="hidden md:flex items-center gap-6 font-bold text-sm text-gray-200">
+          <!-- Navigation Links بجانب زر لوحة النظام -->
+          <nav class="hidden md:flex items-center gap-5 font-bold text-sm text-gray-200">
             <a href="#hero" class="hover:text-gold transition-colors">الرئيسية</a>
             <a href="#founder" class="hover:text-gold transition-colors">المؤسس</a>
             <a href="#about" class="hover:text-gold transition-colors">عن المنصة</a>
@@ -145,16 +146,22 @@
             <a href="#teachers" class="hover:text-gold transition-colors">الكادر التعليمي</a>
             <a href="#testimonials" class="hover:text-gold transition-colors">آراء الطلاب</a>
             <a href="#register" class="hover:text-gold transition-colors">التسجيل</a>
+            <a href="#contact" class="hover:text-gold transition-colors">التواصل</a>
           </nav>
         </div>
 
-        <!-- Left Area: زر لوحة النظام -->
-        <div class="flex items-center">
-          <button onclick="toggleSidebarNav()" class="bg-gold hover:bg-gold-dark text-primary font-black px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md relative">
-            <i class="fas fa-cog text-base"></i>
-            <span>لوحة النظام</span>
-            <span id="pendingBadgeHeader" class="hidden absolute -top-2 -right-2 bg-red-600 text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-primary">0</span>
-          </button>
+        <!-- Left Area: اللوجو واسم المنصة (على اليسار) -->
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:block text-left">
+            <h1 class="font-extrabold text-xl text-white tracking-wide decorated-title">منصة <span class="gold-gradient-text">إيلاف</span></h1>
+            <p class="text-[10px] text-gold-light font-medium tracking-wider">للتلاوة والتجويد والعلوم القرآنية</p>
+          </div>
+          <div class="relative group cursor-pointer" onclick="openAdminModal()">
+            <div id="logoContainer" class="w-12 h-12 bg-gold/10 border border-gold/40 rounded-2xl flex items-center justify-center overflow-hidden transition group-hover:scale-105 logo-glow">
+              <span id="logoText" class="text-gold font-black text-2xl decorated-title">إ</span>
+              <img id="logoImg" src="" alt="شعار منصة إيلاف" class="w-full h-full object-cover hidden">
+            </div>
+          </div>
         </div>
 
       </div>
@@ -177,20 +184,12 @@
       <p class="text-xs text-gray-300 mb-4 font-normal">اختر الشاشة أو اللوحة التي ترغب بالانتقال إليها:</p>
 
       <div class="space-y-3">
-        <button onclick="openSystemPanel('assign')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5 relative">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-user-clock text-gold"></i>
-            <span>طلبات التسجيل المعلقة وترحيل الطلاب</span>
-          </div>
-          <span id="pendingBadgeSidebar" class="hidden bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold">0</span>
-        </button>
-
-        <button onclick="openSystemPanel('admin')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5">
+        <button onclick="openSystemPanel('admin')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5 relative">
           <div class="flex items-center gap-3">
             <i class="fas fa-user-shield text-gold"></i>
-            <span>صفحة الإدارة</span>
+            <span>صفحة الإدارة والتحكم</span>
           </div>
-          <i class="fas fa-chevron-left text-[10px] opacity-60"></i>
+          <span id="pendingBadgeSidebar" class="hidden bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold">0</span>
         </button>
 
         <button onclick="openSystemPanel('teacher')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5">
@@ -425,7 +424,7 @@
       <div class="text-center max-w-3xl mx-auto mb-16">
         <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">الكادر التعليمي</h2>
         <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">نخبة من المعلمين والمعلمات المجازين</h3>
-        <p class="text-xs text-gray-500 mt-2">يمكن للإدارة إضافة معلمين جدد عبر لوحة التحكم وتوليد حسابات لهم</p>
+        <p class="text-xs text-gray-500 mt-2">يمكن للإدارة إضافة وإدارة أو حذف وإيقاف المعلمين من لوحة التحكم</p>
         <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
       </div>
 
@@ -497,7 +496,7 @@
   </section>
 
   <!-- ================= CONTACT / FOOTER SECTION ================= -->
-  <section id="contact" class="bg-primary text-white pt-16 pb-12 border-t-4 border-gold relative">
+  <footer id="contact" class="bg-primary text-white pt-16 pb-12 border-t-4 border-gold relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-white/10">
       
       <div class="space-y-4">
@@ -505,7 +504,7 @@
           <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-primary font-black text-xl logo-glow decorated-title">إ</div>
           <span class="font-extrabold text-xl text-gold decorated-title">منصة إيلاف</span>
         </div>
-        <p class="text-xs text-gray-300 leading-relaxed">منصة تعليمية متخصصة في تعليم القرآن الكريم وتلاوته وتجويده بأحدث الأساليب التفاعلية.</p>
+        <p class="text-xs text-gray-300 leading-relaxed">منصة تعليمية متخصصة في تعلم القرآن الكريم وتلاوته وتجويده بأحدث الأساليب التفاعلية.</p>
       </div>
 
       <div class="space-y-3">
@@ -518,14 +517,29 @@
         </ul>
       </div>
 
-      <div class="space-y-3">
+      <div class="space-y-4">
         <h4 class="font-bold text-gold text-sm decorated-title">التواصل والدعم</h4>
-        <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-envelope text-gold ml-2"></i> info@elaf-platform.com</p>
-        <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-phone text-gold ml-2"></i> <span class="dir-ltr">00962780285762</span></p>
-        <div class="flex gap-3 text-gold text-base pt-2">
-          <a href="https://wa.me/962780285762" target="_blank" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-          <a href="#" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
-          <a href="#" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        
+        <div class="space-y-2">
+          <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-envelope text-gold ml-2"></i> info@elaf-platform.com</p>
+          <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-phone text-gold ml-2"></i> <span class="dir-ltr">00962780285762</span></p>
+        </div>
+
+        <div class="pt-1">
+          <a href="https://linktr.ee/elafacademic?fbclid=IwVERDUAUFboRwZG9mBWV4dG4DYWVtAjEwAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHjsQ6tpc5_0fKROP1X1yJOeVndVvomiKjtoWx2mtiEblZlKYTcpTn5QCIIem_aem_mB34RdGhDt92MV5uAMH-mQ" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-lg social-link-btn border border-emerald-400/30">
+            <i class="fas fa-tree text-sm"></i>
+            <span>روابط التواصل والمنصة (Linktree)</span>
+            <i class="fas fa-external-link-alt text-[10px] opacity-75 mr-1"></i>
+          </a>
+        </div>
+
+        <div class="flex gap-2.5 text-gold text-sm pt-1">
+          <a href="https://wa.me/962780285762" target="_blank" class="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center hover:bg-gold hover:text-primary transition social-link-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp text-base"></i></a>
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center hover:bg-gold hover:text-primary transition social-link-btn" aria-label="Telegram"><i class="fab fa-telegram-plane text-base"></i></a>
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center hover:bg-gold hover:text-primary transition social-link-btn" aria-label="YouTube"><i class="fab fa-youtube text-base"></i></a>
         </div>
       </div>
     </div>
@@ -539,74 +553,17 @@
         <span class="underline font-black dir-ltr text-white hover:text-gold transition">00962796094582</span>
       </a>
     </div>
-  </section>
-
-  <!-- ================= MODAL: لوحة الطلبات المعلقة وتعيين المعلم ================= -->
-  <div id="assignModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl border border-gray-100 relative p-6 sm:p-8 max-h-[85vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b pb-4 mb-6">
-        <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title">
-          <i class="fas fa-user-clock text-gold"></i> إدارة طلبات الانضمام والطلاب
-        </h3>
-        <button onclick="closeAssignModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
-      </div>
-
-      <!-- SECTION 1: طلبات التسجيل المعلقة (تنتظر موافقة رئيس المنصة) -->
-      <div class="space-y-4 mb-10">
-        <div class="flex items-center justify-between">
-          <h4 class="font-bold text-sm text-amber-700 flex items-center gap-2">
-            <i class="fas fa-clock"></i> طلبات التسجيل الجديدة المعلقة (تنتظر الموافقة)
-          </h4>
-          <span id="pendingCountBadge" class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">0 طلبات</span>
-        </div>
-        <div class="overflow-x-auto border border-amber-200 rounded-xl bg-amber-50/30">
-          <table class="w-full text-right text-xs border-collapse">
-            <thead>
-              <tr class="bg-amber-600 text-white">
-                <th class="p-3 border border-amber-700">اسم الطالب</th>
-                <th class="p-3 border border-amber-700">الهاتف</th>
-                <th class="p-3 border border-amber-700">المسار المطلوب</th>
-                <th class="p-3 border border-amber-700">الحالة</th>
-                <th class="p-3 border border-amber-700 text-center">قرار صاحب المنصة</th>
-              </tr>
-            </thead>
-            <tbody id="pendingRequestsTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- SECTION 2: الطلاب المقبولون (ترحيل للمعلم / حذف) -->
-      <div class="space-y-4">
-        <h4 class="font-bold text-sm text-primary flex items-center gap-2">
-          <i class="fas fa-user-check text-green-600"></i> الطلاب المقبولون (تحديد المعلم والترحيل)
-        </h4>
-        <div class="overflow-x-auto border rounded-xl">
-          <table class="w-full text-right text-xs border-collapse">
-            <thead>
-              <tr class="bg-primary text-white">
-                <th class="p-3 border">اسم الطالب</th>
-                <th class="p-3 border">الهاتف</th>
-                <th class="p-3 border">المسار</th>
-                <th class="p-3 border">ترحيل للمعلم</th>
-                <th class="p-3 border text-center">الإجراءات</th>
-              </tr>
-            </thead>
-            <tbody id="approvedStudentsTable"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+  </footer>
 
   <!-- ================= PORTAL MODAL ================= -->
   <div id="portalModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl border border-gray-100 relative p-6 sm:p-8">
+    <div class="bg-white rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl border border-gray-100 relative p-6 sm:p-8">
       <div class="flex justify-between items-center border-b pb-4 mb-6">
         <h3 id="portalTitle" class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-user-circle text-gold"></i> دخول الحساب</h3>
         <button onclick="closePortalModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
       </div>
 
-      <div id="portalLoginSection" class="space-y-4">
+      <div id="portalLoginSection" class="space-y-4 max-w-md mx-auto">
         <div>
           <label class="block text-xs font-bold text-gray-700 mb-1">رقم الهاتف / اسم المستخدم</label>
           <input type="text" id="portalUserAuth" placeholder="أدخل بياناتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
@@ -618,24 +575,25 @@
         <button onclick="handleLogin()" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">دخول الشاشة</button>
       </div>
 
-      <div id="teacherDashboard" class="hidden space-y-6 max-h-[75vh] overflow-y-auto">
+      <!-- بوابة المعلم التفاعلية -->
+      <div id="teacherDashboard" class="hidden space-y-6 max-h-[80vh] overflow-y-auto">
         <div class="bg-sand p-4 rounded-2xl border border-gold/30">
-          <h4 class="font-bold text-primary text-sm decorated-title">مرحباً بك في لوحة متابعة الطلاب وحصصهم</h4>
-          <p class="text-[11px] text-gray-500">استعرض طلابك المرحّلين إليك وقم بإدارة الحصص بالتفصيل</p>
+          <h4 class="font-bold text-primary text-sm decorated-title">مرحباً بك في لوحة إدخال وتعديل بيانات الطلاب الموكلين إليك</h4>
+          <p class="text-[11px] text-gray-500">يمكنك الآن كتابة وتعديل بيانات الطالب مباشرةً، وتحديث تفاصيل حِصصه وتوثيق إعطائها ثم الضغط على حفظ</p>
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-right text-xs border-collapse">
+          <table class="w-full text-right text-xs border-collapse min-w-[900px]">
             <thead>
-              <tr class="bg-primary text-white">
-                <th class="p-2.5 border">اسم الطالب</th>
-                <th class="p-2.5 border">نظام الحصص</th>
-                <th class="p-2.5 border">العدد الكلي</th>
-                <th class="p-2.5 border">حصص محاسبة</th>
-                <th class="p-2.5 border">حصص غير محاسبة</th>
-                <th class="p-2.5 border">تاريخ ووقت الحصة</th>
-                <th class="p-2.5 border">متى أُعطيت بالضبط</th>
-                <th class="p-2.5 border">الإجراء</th>
+              <tr class="bg-primary text-white text-[11px]">
+                <th class="p-2 border">اسم الطالب ورقم الهاتف</th>
+                <th class="p-2 border">المسار ونظام الحصة</th>
+                <th class="p-2 border text-center w-16">إجمالي الحصص</th>
+                <th class="p-2 border text-center w-16">محاسبة</th>
+                <th class="p-2 border text-center w-16">غير محاسبة</th>
+                <th class="p-2 border">تاريخ ووقت الحصة</th>
+                <th class="p-2 border min-w-[140px]">تاريخ إعطاء الحصص</th>
+                <th class="p-2 border text-center">الإجراءات والعمليات</th>
               </tr>
             </thead>
             <tbody id="teacherStudentsTable"></tbody>
@@ -655,7 +613,7 @@
 
   <!-- ================= ADMIN MODAL PANEL ================= -->
   <div id="adminModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl w-full max-w-3xl overflow-hidden shadow-2xl border border-gray-100 relative">
+    <div class="bg-white rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl border border-gray-100 relative">
       
       <div id="adminLoginView" class="p-8">
         <div class="flex justify-between items-center border-b pb-4 mb-6">
@@ -674,20 +632,103 @@
 
       <div id="adminContentView" class="p-6 sm:p-8 hidden max-h-[85vh] overflow-y-auto">
         <div class="flex justify-between items-center border-b pb-4 mb-4">
-          <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-sliders-h text-gold"></i> لوحة تعديل إعدادات وتصاميم الموقع</h3>
+          <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-sliders-h text-gold"></i> لوحة التحكم وإدارة النظام</h3>
           <button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
         </div>
 
         <div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1">
-          <button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap">اللوجو</button>
+          <button id="tabRequestsBtn" onclick="switchAdminTab('requests')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap flex items-center gap-1.5">
+            <i class="fas fa-tasks text-gold"></i> إدارة الطلبات والترحيل
+          </button>
+          <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">إدارة وتوليد المعلمين</button>
+          <button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">اللوجو</button>
           <button id="tabFounderBtn" onclick="switchAdminTab('founder')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المؤسس</button>
-          <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">إضافة معلم جديد</button>
           <button id="tabVidBtn" onclick="switchAdminTab('vid')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">الفيديو</button>
           <button id="tabTextBtn" onclick="switchAdminTab('text')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">رأي نصي</button>
           <button id="tabImgBtn" onclick="switchAdminTab('img')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">رأي صورة</button>
         </div>
 
-        <form id="addLogoForm" onsubmit="handleUpdateLogo(event)" class="space-y-4">
+        <!-- TAB 1: إدارة الطلبات والترحيل داخل الإدارة -->
+        <div id="requestsSection" class="space-y-8">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-xs sm:text-sm text-amber-700 flex items-center gap-2">
+                <i class="fas fa-clock"></i> طلبات التسجيل الجديدة المعلقة (تنتظر الموافقة)
+              </h4>
+              <span id="pendingCountBadge" class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">0 طلبات</span>
+            </div>
+            <div class="overflow-x-auto border border-amber-200 rounded-xl bg-amber-50/30">
+              <table class="w-full text-right text-xs border-collapse">
+                <thead>
+                  <tr class="bg-amber-600 text-white">
+                    <th class="p-3 border border-amber-700">اسم الطالب</th>
+                    <th class="p-3 border border-amber-700">الهاتف</th>
+                    <th class="p-3 border border-amber-700">المسار المطلوب</th>
+                    <th class="p-3 border border-amber-700">الحالة</th>
+                    <th class="p-3 border border-amber-700 text-center">قرار صاحب المنصة</th>
+                  </tr>
+                </thead>
+                <tbody id="pendingRequestsTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="font-bold text-xs sm:text-sm text-primary flex items-center gap-2">
+              <i class="fas fa-user-check text-green-600"></i> الطلاب المقبولون (تحديد المعلم والترحيل)
+            </h4>
+            <div class="overflow-x-auto border rounded-xl">
+              <table class="w-full text-right text-xs border-collapse">
+                <thead>
+                  <tr class="bg-primary text-white">
+                    <th class="p-3 border">اسم الطالب</th>
+                    <th class="p-3 border">الهاتف</th>
+                    <th class="p-3 border">المسار</th>
+                    <th class="p-3 border">ترحيل للمعلم</th>
+                    <th class="p-3 border text-center">الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="approvedStudentsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: إضافة وإدارة الكادر التعليمي (مع إمكانية الحذف والحظر) -->
+        <div id="addTeacherForm" class="space-y-6 hidden">
+          <form onsubmit="handleAddTeacher(event)" class="space-y-4 bg-sand p-4 rounded-2xl border border-gold/30">
+            <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-user-plus text-gold"></i> إضافة معلم جديد</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المعلم / المعلمة</label><input type="text" id="teacherNameInput" required class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">التخصص</label><input type="text" id="teacherRoleInput" required class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المستخدم للدخول</label><input type="text" id="teacherUserAuthInput" required placeholder="مثال: teacher1" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label><input type="password" id="teacherPassAuthInput" required placeholder="••••••••" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+            </div>
+            <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة المعلم</label><input type="file" id="teacherFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-white"></div>
+            <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="teacherUrlInput" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+            <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-2.5 rounded-xl transition text-xs shadow-md">إضافة المعلم وتوليد حسابه</button>
+          </form>
+
+          <!-- جدول التحكم بالمعلمين الحاليين (حذف / حظر) -->
+          <div class="space-y-3">
+            <h4 class="font-bold text-xs sm:text-sm text-primary flex items-center gap-2"><i class="fas fa-users-cog text-gold"></i> التحكم بالحسابات المعلمين المتاحة</h4>
+            <div class="overflow-x-auto border rounded-xl">
+              <table class="w-full text-right text-xs border-collapse">
+                <thead>
+                  <tr class="bg-primary text-white">
+                    <th class="p-2.5 border">المعلم</th>
+                    <th class="p-2.5 border">اسم المستخدم</th>
+                    <th class="p-2.5 border">الحالة</th>
+                    <th class="p-2.5 border text-center">الإجراءات والتحكم</th>
+                  </tr>
+                </thead>
+                <tbody id="adminTeachersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <form id="addLogoForm" onsubmit="handleUpdateLogo(event)" class="space-y-4 hidden">
           <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة اللوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط صورة اللوجو</label><input type="url" id="logoUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
           <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ اللوجو</button>
@@ -699,16 +740,6 @@
           <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة جديدة</label><input type="file" id="founderFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="founderUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
           <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ والتعديل</button>
-        </form>
-
-        <form id="addTeacherForm" onsubmit="handleAddTeacher(event)" class="space-y-4 hidden">
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المعلم / المعلمة</label><input type="text" id="teacherNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">التخصص</label><input type="text" id="teacherRoleInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المستخدم للدخول</label><input type="text" id="teacherUserAuthInput" required placeholder="مثال: teacher1" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label><input type="password" id="teacherPassAuthInput" required placeholder="••••••••" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة المعلم</label><input type="file" id="teacherFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="teacherUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">إضافة المعلم وتوليد حسابه</button>
         </form>
 
         <form id="addVidForm" onsubmit="handleChangeVideo(event)" class="space-y-4 hidden">
@@ -742,8 +773,8 @@
     let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
 
     const initialTeachers = [
-      { id: 'tech-1', name: 'الشيخ محمد علي', role: 'معلم القراءات العشر', userAuth: 'mohamed', passAuth: '123456', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400' },
-      { id: 'tech-2', name: 'الأستاذة فاطمة الزهراء', role: 'معلمة القاعدة النورانية', userAuth: 'fatima', passAuth: '123456', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400' }
+      { id: 'tech-1', name: 'الشيخ محمد علي', role: 'معلم القراءات العشر', userAuth: 'mohamed', passAuth: '123456', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400', isBlocked: false },
+      { id: 'tech-2', name: 'الأستاذة فاطمة الزهراء', role: 'معلمة القاعدة النورانية', userAuth: 'fatima', passAuth: '123456', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400', isBlocked: false }
     ];
 
     if(teachersDB.length === 0) {
@@ -786,20 +817,9 @@
       toggleSidebarNav();
       if(panelType === 'admin') {
         openAdminModal();
-      } else if(panelType === 'assign') {
-        openAssignModal();
       } else {
         openPortalModal(panelType);
       }
-    }
-
-    function openAssignModal() {
-      document.getElementById('assignModal').classList.remove('hidden');
-      renderAdminUnassigned();
-    }
-
-    function closeAssignModal() {
-      document.getElementById('assignModal').classList.add('hidden');
     }
 
     function openPortalModal(role) {
@@ -859,6 +879,10 @@
       if(activePortalRole === 'teacher') {
         const teacher = teachersDB.find(t => (t.userAuth === user || t.name === user) && t.passAuth === pass);
         if(teacher) {
+          if(teacher.isBlocked) {
+            alert('تم حظر هذا الحساب من قبل الإدارة. يرجى التواصل مع إدارة المنصة.');
+            return;
+          }
           document.getElementById('portalLoginSection').classList.add('hidden');
           document.getElementById('teacherDashboard').classList.remove('hidden');
           renderTeacherStudents(teacher.id);
@@ -885,6 +909,7 @@
       }
     }
 
+    /* عرض وتحرير بيانات الطلاب في بوابة المعلم */
     function renderTeacherStudents(teacherId) {
       const tbody = document.getElementById('teacherStudentsTable');
       tbody.innerHTML = '';
@@ -896,22 +921,68 @@
       }
 
       myStudents.forEach(std => {
-        const logsHtml = std.givenLogs.map(l => `<div>• ${l}</div>`).join('') || '<span class="text-gray-400">لم تُعطى بعد</span>';
+        const logsHtml = std.givenLogs.map(l => `<div class="bg-amber-100 text-amber-900 px-1 py-0.5 rounded text-[9px] mb-1">• ${l}</div>`).join('') || '<span class="text-gray-400">لم تُسجل بعد</span>';
+        
         tbody.innerHTML += `
-          <tr class="border-b">
-            <td class="p-2 border font-bold text-primary">${std.name}</td>
-            <td class="p-2 border">${std.systemType}</td>
-            <td class="p-2 border font-bold">${std.totalSessions}</td>
-            <td class="p-2 border text-green-600 font-bold">${std.paidSessions}</td>
-            <td class="p-2 border text-amber-600 font-bold">${std.unpaidSessions}</td>
-            <td class="p-2 border">${std.sessionTime}</td>
-            <td class="p-2 border text-[10px]">${logsHtml}</td>
+          <tr class="border-b hover:bg-gray-50 transition">
             <td class="p-2 border">
-              <button onclick="markSessionGiven('${std.id}')" class="bg-gold text-primary font-bold px-2 py-1 rounded text-[10px] hover:bg-gold-dark">+ تسجيل حصة معطاة</button>
+              <input type="text" id="t_name_${std.id}" value="${std.name || ''}" class="w-full border rounded px-1.5 py-1 text-xs font-bold text-primary focus:border-gold outline-none mb-1" placeholder="اسم الطالب">
+              <input type="text" id="t_phone_${std.id}" value="${std.phone || ''}" class="w-full border rounded px-1.5 py-1 text-[11px] dir-ltr text-right focus:border-gold outline-none" placeholder="رقم الهاتف">
+            </td>
+            <td class="p-2 border">
+              <select id="t_track_${std.id}" class="w-full border rounded px-1 py-1 text-[11px] mb-1 focus:border-gold outline-none">
+                <option value="مسار التصحيح والتلاوة" ${std.track === 'مسار التصحيح والتلاوة' ? 'selected' : ''}>مسار التصحيح والتلاوة</option>
+                <option value="مسار الحفظ والمراجعة" ${std.track === 'مسار الحفظ والمراجعة' ? 'selected' : ''}>مسار الحفظ والمراجعة</option>
+                <option value="مسار التجويد والإجازة" ${std.track === 'مسار التجويد والإجازة' ? 'selected' : ''}>مسار التجويد والإجازة</option>
+              </select>
+              <input type="text" id="t_systemType_${std.id}" value="${std.systemType || ''}" class="w-full border rounded px-1.5 py-1 text-[11px] focus:border-gold outline-none" placeholder="نظام الحصص">
+            </td>
+            <td class="p-2 border text-center">
+              <input type="number" id="t_total_${std.id}" value="${std.totalSessions ?? 0}" class="w-12 border text-center rounded py-1 text-xs font-bold focus:border-gold outline-none">
+            </td>
+            <td class="p-2 border text-center">
+              <input type="number" id="t_paid_${std.id}" value="${std.paidSessions ?? 0}" class="w-12 border text-center rounded py-1 text-xs font-bold text-green-700 focus:border-gold outline-none">
+            </td>
+            <td class="p-2 border text-center">
+              <input type="number" id="t_unpaid_${std.id}" value="${std.unpaidSessions ?? 0}" class="w-12 border text-center rounded py-1 text-xs font-bold text-amber-700 focus:border-gold outline-none">
+            </td>
+            <td class="p-2 border">
+              <input type="text" id="t_time_${std.id}" value="${std.sessionTime || ''}" class="w-full border rounded px-1.5 py-1 text-[11px] focus:border-gold outline-none" placeholder="أوقات الحصص">
+            </td>
+            <td class="p-2 border text-[10px]">
+              <div class="max-h-24 overflow-y-auto">${logsHtml}</div>
+            </td>
+            <td class="p-2 border text-center">
+              <div class="flex flex-col gap-1.5">
+                <button onclick="saveStudentDataByTeacher('${std.id}', '${teacherId}')" class="bg-primary hover:bg-primary-light text-white font-bold px-2 py-1 rounded text-[10px] transition shadow flex items-center justify-center gap-1">
+                  <i class="fas fa-save"></i> حفظ البيانات
+                </button>
+                <button onclick="markSessionGiven('${std.id}')" class="bg-gold hover:bg-gold-dark text-primary font-bold px-2 py-1 rounded text-[10px] transition shadow flex items-center justify-center gap-1">
+                  <i class="fas fa-plus-circle"></i> + إضافة حصة
+                </button>
+              </div>
             </td>
           </tr>
         `;
       });
+    }
+
+    function saveStudentDataByTeacher(studentId, teacherId) {
+      const std = studentsDB.find(s => s.id === studentId);
+      if(std) {
+        std.name = document.getElementById(`t_name_${studentId}`).value;
+        std.phone = document.getElementById(`t_phone_${studentId}`).value;
+        std.track = document.getElementById(`t_track_${studentId}`).value;
+        std.systemType = document.getElementById(`t_systemType_${studentId}`).value;
+        std.totalSessions = parseInt(document.getElementById(`t_total_${studentId}`).value) || 0;
+        std.paidSessions = parseInt(document.getElementById(`t_paid_${studentId}`).value) || 0;
+        std.unpaidSessions = parseInt(document.getElementById(`t_unpaid_${studentId}`).value) || 0;
+        std.sessionTime = document.getElementById(`t_time_${studentId}`).value;
+
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        alert('تم حفظ وتحديث كافة بيانات الطالب بنجاح!');
+        renderTeacherStudents(teacherId);
+      }
     }
 
     function markSessionGiven(studentId) {
@@ -949,7 +1020,7 @@
         const pendingStudents = studentsDB.filter(s => s.status === 'pending');
 
         if(pendingStudents.length === 0) {
-          pendingTbody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-gray-400">لا يوجد طلبات تسجل جديدة معلقة حالياً</td></tr>`;
+          pendingTbody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-gray-400">لا يوجد طلبات تسجيل جديدة معلقة حالياً</td></tr>`;
         } else {
           pendingStudents.forEach(std => {
             pendingTbody.innerHTML += `
@@ -985,7 +1056,9 @@
           approvedStudents.forEach(std => {
             let teacherOptions = `<option value="">اختر المعلم للترحيل</option>`;
             teachersDB.forEach(t => {
-              teacherOptions += `<option value="${t.id}" ${std.teacherId === t.id ? 'selected' : ''}>${t.name}</option>`;
+              if(!t.isBlocked) {
+                teacherOptions += `<option value="${t.id}" ${std.teacherId === t.id ? 'selected' : ''}>${t.name}</option>`;
+              }
             });
 
             approvedTbody.innerHTML += `
@@ -1014,7 +1087,91 @@
         }
       }
 
+      renderAdminTeachersTable();
       updatePendingBadges();
+    }
+
+    /* إدارة المعلمين في لوحة الأدمين (حذف / حظر) */
+    function renderAdminTeachersTable() {
+      const tbody = document.getElementById('adminTeachersTable');
+      if(!tbody) return;
+      tbody.innerHTML = '';
+
+      if(teachersDB.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center p-4 text-gray-400">لا يوجد معلمين مسجلين</td></tr>`;
+        return;
+      }
+
+      teachersDB.forEach(t => {
+        const statusBadge = t.isBlocked 
+          ? `<span class="bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded-full text-[10px]">محظور</span>` 
+          : `<span class="bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded-full text-[10px]">نشط</span>`;
+
+        const blockBtnText = t.isBlocked ? 'إلغاء الحظر' : 'حظر المعلم';
+        const blockBtnClass = t.isBlocked ? 'bg-amber-600 hover:bg-amber-700' : 'bg-slate-700 hover:bg-slate-800';
+
+        tbody.innerHTML += `
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-2.5 border font-bold text-primary flex items-center gap-2">
+              <img src="${t.img}" class="w-7 h-7 rounded-full object-cover">
+              <span>${t.name}</span>
+            </td>
+            <td class="p-2.5 border text-gray-600">${t.userAuth}</td>
+            <td class="p-2.5 border">${statusBadge}</td>
+            <td class="p-2.5 border text-center">
+              <div class="flex justify-center gap-2">
+                <button onclick="toggleBlockTeacher('${t.id}')" class="${blockBtnClass} text-white font-bold px-2.5 py-1 rounded text-xs transition shadow flex items-center gap-1">
+                  <i class="fas fa-ban"></i> ${blockBtnText}
+                </button>
+                <button onclick="deleteTeacher('${t.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 py-1 rounded text-xs transition shadow flex items-center gap-1">
+                  <i class="fas fa-trash-alt"></i> حذف
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    /* حظر أو إلغاء حظر معلم */
+    function toggleBlockTeacher(teacherId) {
+      const t = teachersDB.find(item => item.id === teacherId);
+      if(t) {
+        t.isBlocked = !t.isBlocked;
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        alert(t.isBlocked ? `تم حظر المعلم (${t.name}) ومنعه من دخول الصفحة.` : `تم إلغاء حظر المعلم (${t.name}).`);
+        renderAdminTeachersTable();
+        refreshTeachersMainGrid();
+      }
+    }
+
+    /* حذف معلم من المنصة */
+    function deleteTeacher(teacherId) {
+      const t = teachersDB.find(item => item.id === teacherId);
+      if(t && confirm(`هل أنت تأكد من حذف المعلم (${t.name}) نهائياً من الصفحة والكادر التعليمي؟`)) {
+        teachersDB = teachersDB.filter(item => item.id !== teacherId);
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+
+        // تفريغ إسناد الطلاب لهذا المعلم
+        studentsDB.forEach(s => {
+          if(s.teacherId === teacherId) s.teacherId = null;
+        });
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+
+        alert('تم حذف المعلم بنجاح.');
+        renderAdminUnassigned();
+        refreshTeachersMainGrid();
+      }
+    }
+
+    function refreshTeachersMainGrid() {
+      const grid = document.getElementById('teachers-grid');
+      if(grid) {
+        grid.innerHTML = '';
+        teachersDB.forEach(tech => {
+          if(!tech.isBlocked) renderTeacherCard(tech.name, tech.role, tech.img);
+        });
+      }
     }
 
     function deleteStudent(studentId) {
@@ -1102,26 +1259,31 @@
       if (pin === SECRET_PIN) {
         document.getElementById('adminLoginView').classList.add('hidden');
         document.getElementById('adminContentView').classList.remove('hidden');
+        renderAdminUnassigned();
       } else {
         document.getElementById('passwordError').classList.remove('hidden');
       }
     }
 
     function switchAdminTab(type) {
-      ['addLogoForm', 'addFounderForm', 'addTeacherForm', 'addTextForm', 'addImgForm', 'addVidForm'].forEach(f => {
-        const form = document.getElementById(f);
-        if (form) form.classList.add('hidden');
+      ['requestsSection', 'addLogoForm', 'addFounderForm', 'addTeacherForm', 'addTextForm', 'addImgForm', 'addVidForm'].forEach(f => {
+        const element = document.getElementById(f);
+        if (element) element.classList.add('hidden');
       });
-      ['tabLogoBtn', 'tabFounderBtn', 'tabTeacherBtn', 'tabVidBtn', 'tabTextBtn', 'tabImgBtn'].forEach(t => {
+      ['tabRequestsBtn', 'tabLogoBtn', 'tabFounderBtn', 'tabTeacherBtn', 'tabVidBtn', 'tabTextBtn', 'tabImgBtn'].forEach(t => {
         const tab = document.getElementById(t);
         if (tab) tab.className = "py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap font-bold";
       });
       
-      const formMap = { logo: 'addLogoForm', founder: 'addFounderForm', teacher: 'addTeacherForm', vid: 'addVidForm', text: 'addTextForm', img: 'addImgForm' };
-      const tabMap = { logo: 'tabLogoBtn', founder: 'tabFounderBtn', teacher: 'tabTeacherBtn', vid: 'tabVidBtn', text: 'tabTextBtn', img: 'tabImgBtn' };
+      const formMap = { requests: 'requestsSection', logo: 'addLogoForm', founder: 'addFounderForm', teacher: 'addTeacherForm', vid: 'addVidForm', text: 'addTextForm', img: 'addImgForm' };
+      const tabMap = { requests: 'tabRequestsBtn', logo: 'tabLogoBtn', founder: 'tabFounderBtn', teacher: 'tabTeacherBtn', vid: 'tabVidBtn', text: 'tabTextBtn', img: 'tabImgBtn' };
       
       if (formMap[type]) document.getElementById(formMap[type]).classList.remove('hidden');
       if (tabMap[type]) document.getElementById(tabMap[type]).className = "py-2.5 px-3 border-b-2 border-gold text-primary font-bold whitespace-nowrap";
+
+      if(type === 'requests' || type === 'teacher') {
+        renderAdminUnassigned();
+      }
     }
 
     function handleUpdateLogo(e) {
@@ -1202,13 +1364,15 @@
           role,
           userAuth,
           passAuth,
-          img
+          img,
+          isBlocked: false
         };
         teachersDB.push(newTeacher);
         localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
         renderTeacherCard(name, role, img);
-        closeAdminModal();
-        document.getElementById('addTeacherForm').reset();
+        renderAdminTeachersTable();
+        alert(`تمت إضافة المعلم (${name}) وتوليد حسابه بنجاح!`);
+        document.getElementById('addTeacherForm').querySelector('form').reset();
       };
 
       if (fileInput.files && fileInput.files[0]) {
@@ -1343,11 +1507,7 @@
       const savedVideo = localStorage.getItem('elaf_permanent_video');
       if (savedVideo) displayVideoSrc(savedVideo);
 
-      const teacherGrid = document.getElementById('teachers-grid');
-      if (teacherGrid) {
-        teachersDB.forEach(tech => renderTeacherCard(tech.name, tech.role, tech.img));
-      }
-
+      refreshTeachersMainGrid();
       applyTestimonialsLimit();
       updatePendingBadges();
     });
