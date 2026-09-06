@@ -1,559 +1,493 @@
-Pastebin
-واجهة برمجة التطبيقات (API)
-أدوات
-التعليمات
-لصق
-يبحث...
-
-تسجيل الدخول اشتراك
-يشارك
-سقسقة
-مستخدم ضيف
-بدون عنوان
-ضيف
-6 سبتمبر 2026
-1
-0
-أبداً
-أضف تعليقًا
-ملاحظة: تم نشر نصك كضيف. إذا قمت بالتسجيل للحصول على حساب مجاني، يمكنك تعديل وحذف نصوصك!
-58.67 كيلوبايت | لا يوجد |  
-     
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="scroll-smooth">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="منصة إيلاف التعليمية - المنصة الأولى لتعليم القرآن الكريم، العلوم الشرعية، واللغة العربية.">
-  <title>منصة إيلاف التعليمية | النظام التعليمي الشامل</title>
- 
-  <!-- Tailwind CSS CDN -->
+  <title>منصة إيلاف التعليمية</title>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons CDN -->
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
- 
-  <!-- إعدادات سمة Tailwind الموسعة -->
+
+  <!-- Google Fonts (Cairo + Reem Kufi) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+
   <script>
     tailwind.config = {
-      سمة: {
-        يمتد: {
-          الألوان: {
-            الأساسي: { الافتراضي: '#0D3B36'، الفاتح: '#16524B'، الداكن: '#072522' },
-            ذهبي: { الافتراضي: '#D4AF37'، فاتح: '#F3E5AB'، داكن: '#AA820A' },
-            اللهجة: '#E67E22',
-            bgSurface: '#F8FAFC',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              DEFAULT: '#0D3B2E',
+              light: '#165242',
+              dark: '#06241C',
+            },
+            gold: {
+              DEFAULT: '#C5A059',
+              light: '#E2C285',
+              dark: '#9A7B3E',
+            },
+            sand: '#F9F8F3',
           },
-          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] }
+          fontFamily: {
+            sans: ['Cairo', 'sans-serif'],
+            arabicDecorated: ['Reem Kufi', 'sans-serif'],
+          }
         }
       }
     }
   </script>
- 
-  <!-- أنماط CSS مخصصة -->
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
- 
-    * { box-sizing: border-box; }
-    body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; color: #334155; }
- 
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #0D3B36; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
- 
-    /* تأثيرات التوهج للصور والشعار */
-    .img-glow {
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
-      الانتقال: جميعها 0.4 ثانية من الدخول والخروج التدريجي؛
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #F9F8F3;
+      color: #2D3748;
     }
-    .img-glow:hover {
-      box-shadow: 0 0 35px rgba(212, 175, 55, 0.75);
-      التحويل: مقياس(1.03)؛
+    
+    html {
+      scroll-behavior: smooth;
     }
- 
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F9F8F3;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C5A059;
+      border-radius: 4px;
+    }
+
+    .decorated-title {
+      font-family: 'Reem Kufi', sans-serif;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-bg {
+      background: linear-gradient(135deg, rgba(13, 59, 46, 0.95) 0%, rgba(6, 36, 28, 0.98) 100%), 
+                  url('https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&q=80&w=1920');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(45deg, #C5A059, #F3E5AB, #9A7B3E);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .modal-backdrop {
+      background-color: rgba(6, 36, 28, 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .dir-ltr {
+      direction: ltr;
+      text-align: right;
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px -10px rgba(13, 59, 46, 0.15);
+    }
+
     .logo-glow {
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+      box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
     }
- 
-    .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 20px -5px rgba(13, 59, 54, 0.15); }
-    .glass-nav { background: rgba(13, 59, 54, 0.95); backdrop-filter: blur(10px); }
-    .modal-backdrop { background-color: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); }
+    .img-glow {
+      box-shadow: 0 0 20px rgba(197, 160, 89, 0.25);
+    }
+
+    /* توهج ذهبي دائم للصورة الدائرية للمؤسس */
+    .gold-glow-circle {
+      box-shadow: 0 0 25px rgba(197, 160, 89, 0.6), 0 0 45px rgba(197, 160, 89, 0.3);
+    }
   </style>
 </head>
-<body class="text-gray-800 antialiased min-h-screen flex flex-col justify-between bg-bgSurface relative">
- 
-  <!-- ================= شريط الإشعارات العلوي ================== -->
-  <div class="bg-gold text-primary text-xs font-bold py-2 px-4 text-center border-b border-gold-dark/20 flex flex-wrap items-center justify-center gap-2">
-    <i class="fas fa-bullhorn animate-pulse"></i>
-    <span>التسجيل مفتوح الآن للفصل الدراسي الجديد - للتواصل والإنضمام: </span>
-    <a href="tel:00962780285762" class="font-black dir-ltr hover:underline">00962780285762</a>
-    <a href="#register" class="underline font-black mr-2 hover:text-white transition"> التسجيل الآن</a>
-  </div>
- 
-  <!-- ================= رأس الصفحة / التنقل ================= -->
-  <header class="glass-nav text-white sticky top-0 z-40 shadow-lg border-b border-gold/20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
- 
-      <!-- حاوية الشعار -->
-      <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <div id="logoContainer" class="w-14 h-14 bg-gold rounded-2xl flex items-center justify-center text-primary font-black text-2xl logo-glow border-2 border-white/40 overflow-hidden">
-          <span id="logoText" class="text-2xl font-black text-primary">إ</span>
-          <img id="logoImg" src="" alt="لوجو المنصة" class="w-full h-full object-cover مخفي">
+<body class="antialiased selection:bg-gold selection:text-white">
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="sticky top-0 z-40 bg-primary/95 backdrop-blur-md border-b border-gold/30 shadow-lg transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo Area -->
+        <div class="flex items-center gap-3">
+          <div class="relative group cursor-pointer" onclick="openAdminModal()">
+            <div id="logoContainer" class="w-12 h-12 bg-gold/10 border border-gold/40 rounded-2xl flex items-center justify-center overflow-hidden transition group-hover:scale-105 logo-glow">
+              <span id="logoText" class="text-gold font-black text-2xl decorated-title">إ</span>
+              <img id="logoImg" src="" alt="شعار منصة إيلاف" class="w-full h-full object-cover hidden">
+            </div>
+          </div>
+          <div>
+            <h1 class="font-extrabold text-xl text-white tracking-wide decorated-title">منصة <span class="gold-gradient-text">إيلاف</span></h1>
+            <p class="text-[10px] text-gold-light font-medium tracking-wider">للتلاوة والتجويد والعلوم القرآنية</p>
+          </div>
         </div>
-        <div>
-          <span class="font-black text-xl sm:text-2xl tracking-wide text-gold block leading-tight"> وزير إيلاف</span>
-          <span class="text-[10px] sm:text-xs text-gray-200 Tracking-wider block Font-medium">للعلوم الشرعية والقرآن الكريم</span>
+
+        <!-- Navigation Links (Desktop) -->
+        <nav class="hidden md:flex items-center gap-8 font-bold text-sm text-gray-200">
+          <a href="#hero" class="hover:text-gold transition-colors">الرئيسية</a>
+          <a href="#founder" class="hover:text-gold transition-colors">المؤسس</a>
+          <a href="#about" class="hover:text-gold transition-colors">عن المنصة</a>
+          <a href="#courses" class="hover:text-gold transition-colors">المسارات</a>
+          <a href="#teachers" class="hover:text-gold transition-colors">الكادر التعليمي</a>
+          <a href="#testimonials" class="hover:text-gold transition-colors">آراء الطلاب</a>
+          <a href="#register" class="hover:text-gold transition-colors">التسجيل</a>
+        </nav>
+
+        <!-- Header Actions -->
+        <div class="flex items-center gap-3">
+          <a href="#register" class="bg-gold hover:bg-gold-dark text-primary font-black px-5 py-2.5 rounded-xl text-xs sm:text-sm transition-all transform hover:scale-105 shadow-md flex items-center gap-2">
+            <i class="fas fa-user-plus text-xs"></i>
+            <span>انضم إلينا</span>
+          </a>
+
+          <button onclick="openAdminModal()" title="لوحة التحكم" class="p-2 text-gray-400 hover:text-gold transition text-lg">
+            <i class="fas fa-cog"></i>
+          </button>
         </div>
-      </div>
- 
-      <!-- روابط شريط التنقل على سطح المكتب -->
-      <nav class="hidden lg:flex items-center gap-7 text-sm font-bold">
-        <a href="#about" class="hover:text-gold transition-colors flex items-center gap-1.5"><i class="fas fa-info-circle text-xs text-gold"></i> عن دائرة</a>
-        <a href="#founder" class="hover:text-gold transition-colors flex items-center gap-1.5"><i class="fas fa-user-tie text-xs text-gold"></i> المؤسس</a>
-        <a href="#courses" class="hover:text-gold transition-colors flex items-center gap-1.5"><i class="fas fa-book-open text-xs text-gold"></i> الدورات</a>
-        <a href="#teachers" class="hover:text-gold transition-colors flex items-center gap-1.5"><i class="fas fa-chalkboard-teacher text-xs text-gold"></i> المعلم</a>
-        <a href="#schedule" class="hover:text-gold transition-colors flex items-center gap-1.5"><i class="fas fa-calendar-alt text-xs text-gold"></i> جدول</a>
-        <a href="#pricing" class="hover:text-gold transition-colors flex items-center gap-1.5"><i class="fas fa-tags text-xs text-gold"></i>  </a>
-        <a href="#testimonials" class="hover:text-gold transition-colors flex items-center gap-1.5"><i class="fas fa-comments text-xs text-gold"></i> التعليقات</a>
-      </nav>
- 
-      <!-- أزرار الإجراءات -->
-      <div class="flex items-center gap-3">
-        <a href="https://wa.me/962780285762" target="_blank" class="hidden sm:inline-flex bg-gold hover:bg-gold-dark text-primary font-extrabold px-4 py-2 rounded-xl text-xs transition shadow-md items-center gap-1.5">
-          <i class="fab fa-whatsapp text-sm"></i> تواصل معنا
-        </a>
-        <button onclick="openAdminModal()" class="bg-white/10 hover:bg-gold hover:text-primary border border-gold/40 text-gold px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 shadow">
-          <i class="fas fa-user-shield"></i> <span class="hidden sm:inline">لوحة التحكم</span>
-        </button>
+
       </div>
     </div>
   </header>
- 
-  <!-- ================= قسم الأبطال ================= -->
-  <section id="about" class="relative bg-gradient-to-b from-primary via-primary-light to-primary text-white py-16 lg:py-24 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
- 
-        <div class="space-y-6 text-center lg:text-right">
-          <div class="inline-flex items-center gap-2 bg-gold/20 border border-gold/40 text-gold px-4 py-1.5 rounded-full text-xs font-extrabold logo-glow">
-            <i class="fas fa-star text-xs"></i> المنصة الأولى في تعليم القرآن واللغة العربية
+
+  <!-- ================= HERO SECTION (WITH VIDEO) ================= -->
+  <section id="hero" class="hero-bg min-h-[85vh] flex items-center relative overflow-hidden py-16 text-white">
+    <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-80"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Text Content -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/20 border border-gold/40 text-gold-light text-xs font-bold mb-2">
+            <i class="fas fa-quran text-gold"></i>
+            <span>رحلتك المباركة لتعلم القرآن تبدأ من هنا</span>
           </div>
-          <h1 class="text-3xl sm:text-5xl font-black leading-tight">
-            ارتقِ بتلاوة أبنائك حفظهم مع <span class="text-gold underline الديكور-gold/40 underline-offset-8">منصة إيلاف</span>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight decorated-title">
+            خيركم من تعلم <br class="hidden sm:inline" />
+            <span class="gold-gradient-text">القرآن وعلّمه</span>
           </h1>
-          <p class="text-gray-200 text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
-            بيئة تفاعلية حديثة مكونة من مزيج بين أصالة النماذج التكنولوجية، تحت الضوء نخبة من المؤهلين والمجازين بالسند لرسول الله صلى الله عليه وسلم.
+
+          <p class="text-sm sm:text-base text-gray-300 max-w-2xl font-normal leading-relaxed mx-auto lg:mx-0">
+            أهلاً بك في منصة إيلاف، البيئة التعليمية المتكاملة لضبط إتقان وتلاوة القرآن الكريم. نوفر لك جلسات تعليمية فردية وجماعية بإشراف نخبة من المعلمين المتقنين والمجازين.
           </p>
-          <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-2">
-            <a href="#courses" class="bg-gold hover:bg-gold-dark text-primary font-extrabold px-6 py-3 rounded-xl text-sm transition shadow-lg flex items-center gap-2">
-              <i class="fas fa-graduation-cap"></i> شركاء التنمية
+
+          <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+            <a href="#register" class="bg-gold hover:bg-gold-dark text-primary font-black px-8 py-3.5 rounded-xl text-sm transition transform hover:-translate-y-1 shadow-lg flex items-center gap-2">
+              <i class="fas fa-paper-plane"></i>
+              <span>سجل الآن مجاناً</span>
             </a>
-            <a href="#video" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-xl text-sm border border-white/20 transition flex items-center gap-2">
-              <i class="fas fa-circle-play text-gold"></i> شاهد كيف تعمل
+            <a href="#courses" class="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 rounded-xl text-sm border border-white/20 transition backdrop-blur-sm flex items-center gap-2">
+              <i class="fas fa-book-open"></i>
+              <span>استكشف المسارات</span>
             </a>
           </div>
-        </div>
- 
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl text-center space-y-2 card-hover">
-            <i class="fas fa-user-graduate text-3xl text-gold"></i>
-            <div class="text-2xl font-black text-white">+1,200</div>
-            <div class="text-xs text-gray-300font-medium">طالب الهوية حول العالم</div>
-          </div>
-          <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl text-center space-y-2 card-hover">
-            <i class="fas fa-certificate text-3xl text-gold"></i>
-            <div class="text-2xl font-black text-white">+50</div>
-            <div class="text-xs text-gray-300font-medium">معلم ومعلمة مجازين</div>
-          </div>
-          <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl text-center space-y-2 card-hover">
-            <i class="fas fa-book-quran text-3xl text-gold"></i>
-            <div class="text-2xl font-black text-white">100%</div>
-            <div class="text-xs text-gray-300 Font-medium"> مناهج معتمدة بالتجويد</div>
-          </div>
-          <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl text-center space-y-2 card-hover">
-            <i class="fas fa-smile text-3xl text-gold"></i>
-            <div class="text-2xl font-black text-white">98%</div>
-            <div class="text-xs text-gray-300font-medium">رضا أولياء الأمور</div>
+
+          <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white/10 text-center">
+            <div>
+              <h3 class="font-extrabold text-gold text-xl sm:text-2xl decorated-title">100%</h3>
+              <p class="text-[11px] text-gray-300">تعليم فردي مباشر</p>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-gold text-xl sm:text-2xl decorated-title">معلمون</h3>
+              <p class="text-[11px] text-gray-300">مجازون بالإسناد</p>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-gold text-xl sm:text-2xl decorated-title">مرونة</h3>
+              <p class="text-[11px] text-gray-300">في اختيار الأوقات</p>
+            </div>
           </div>
         </div>
- 
+
+        <!-- Media / Video Container -->
+        <div class="lg:col-span-5">
+          <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden border-2 border-gold/40 shadow-2xl bg-primary-dark/80 p-2 img-glow">
+            <div id="videoContainer" class="relative rounded-2xl overflow-hidden aspect-video bg-black/50 flex items-center justify-center group">
+              
+              <video id="mainLocalVideo" controls class="w-full h-full object-cover hidden">
+                <source id="mainVideoSource" src="" type="video/mp4">
+                متصفحك لا يدعم تشغيل الفيديو.
+              </video>
+
+              <div id="videoPlaceholder" class="text-center p-6 space-y-3">
+                <div class="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mx-auto text-gold text-2xl border border-gold/40">
+                  <i class="fas fa-play"></i>
+                </div>
+                <p class="text-xs text-gray-300 font-medium">فيديو تعريفي عن منصة إيلاف</p>
+                <span class="text-[10px] text-gold-light bg-gold/10 px-3 py-1 rounded-full inline-block border border-gold/30">يمكنك رفعه أو تغييره من لوحة التحكم</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
- 
-  <!-- ================= قسم المؤسسين ================= -->
-  <section id="founder" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-lg border border-gold/20 flex flex-col lg:flex-row items-center gap-10">
- 
-      <!-- صورة مكبرة مع تأثير توهج -->
-      <div class="relative flex-shrink-0">
-        <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-3xl p-2 bg-gradient-to-tr from-gold via-primary-light to-primary img-glow overflow-hidden">
-          <img id="founderImg" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=700" alt="الألوان" class="w-full h-full object-cover rounded-2xl">
-        </div>
-        <div class="absolute -bottom-3 -right-3 bg-gold text-primary p-3.5 rounded-2xl shadow-xl border-2 border-white">
-          <i class="fas fa-award text-2xl"></i>
-        </div>
-      </div>
- 
-      <div class="text-center lg:text-right space-y-4 flex-1">
-        <span class="bg-gold/10 text-gold-dark text-xs font-black px-3.5 py-1.5 rounded-full inline-block border border-gold/30">
-          <i class="fas fa-crown ml-1"></i> رؤية وتأسيس
-        </span>
-        <h2 id="founderName" class="text-3xl sm:text-4xl Font-black text-primary">الأستاذ الأيهم فائز أبو نجا</h2>
-        <p id="founderRole" class="text-base sm:text-lgfont-bold text-gold-dark">مؤسس مؤسس منصة إيلاف التعليمية</p>
-        <p class="text-gray-600 text-sm sm:text-base leading-relaxed max-w-3xl">
-          جرب في منصة إيلاف للارتقاء بمهارات أبنائنا وبناتنا في تلاوة القرآن الكريم حفظه وفهم علومه، مع الاعتماد على أفضل المناهج التعليمية المبتكرة والتقنيات التفاعلية لربط الأجيال الجديدة بكتاب الله عز وجل.
-        </p>
-      </div>
-    </div>
-  </section>
- 
-  <!-- ================= قسم الدورات ================= -->
-  <section id="courses" class="bg-gray-50 py-16 border-y border-gray-200/60">
+
+  <!-- ================= FOUNDER SECTION (موقع القسم تحت الفيديو مباشرة + صورة دائرية مع توهج ذهبي) ================= -->
+  <section id="founder" class="py-20 bg-white border-y border-gray-100 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-        <h2 class="text-2xl sm:text-3xl Font-extrabold text-primary">المسارات البرامجية المتاحة</h2>
-        <p class="text-xs sm:text-sm text-gray-500 Font-medium"> برامج تعليمية مُصممة لتناسب كافة الدروس</p>
-      </div>
- 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
- 
-        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-2xl font-bold">
-              <i class="fas fa-child-reaching text-gold"></i>
+      <div class="bg-gradient-to-br from-primary to-primary-dark rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          
+          <!-- Founder Image Container (Circular + Gold Glow) -->
+          <div class="md:col-span-4 text-center">
+            <div class="relative inline-block">
+              <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-full border-4 border-gold p-1.5 mx-auto overflow-hidden gold-glow-circle bg-primary-light transition-transform hover:scale-105 duration-300">
+                <img id="founderImg" src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=400" alt="صورة المؤسس" class="w-full h-full object-cover rounded-full">
+              </div>
             </div>
-            <h3 class="text-lgfont-bold text-primary">مسار الجامعة النورانية والتأسيس</h3>
-            <p class="text-xs text-gray-600 الرائدة-relaxed">تأسيس الأطفال من سن مبكرة على القراءة الصحيحة للحروف والكلمات القرآنية ومخارج الحروف النورانية.</p>
           </div>
-          <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-bold text-gold-dark">
-            <span>الفئة: 4 - 8 سنوات</span>
-            <i class="fas fa-arrow-left"></i>
+
+          <!-- Founder Info -->
+          <div class="md:col-span-8 space-y-4 text-center md:text-right">
+            <span class="text-gold font-bold text-xs uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">مؤسس المنصة</span>
+            <h3 id="founderName" class="text-2xl sm:text-3xl font-black text-white decorated-title">الشيخ د. أحمد المنصوري</h3>
+            <p id="founderRole" class="text-xs text-gold-light font-semibold">حاصل على القراءات العشر وأستاذ التجويد</p>
+            <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal pt-2">
+              "سعينا في إيلاف لإنشاء بيئة تعليمية تجمع بين أصالة التعليم القرآني وحداثة الوسائل التقنية، لنسهّل على كل راغب في تعلم كتاب الله العظيم الوصول إلى معلمين متقنين من بيته وبسهولة تامة."
+            </p>
           </div>
-        </div>
- 
-        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-2xl font-bold">
-              <i class="fas fa-book-open-reader text-gold"></i>
-            </div>
-            <h3 class="text-lgfont-bold text-primary">مسار الحفظ والمراجعة</h3>
-            <p class="text-xs text-gray-600 الرائدة-relaxed">خطط حفظ جديدة ومجتمعية تناسب وقت الطالب مع جدول مراجعة متقن وثبات الحفظ والضبط البسيط.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-bold text-gold-dark">
-            <span>جميع الألعاب</span>
-            <i class="fas fa-arrow-left"></i>
-          </div>
-        </div>
- 
-        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-2xl font-bold">
-              <i class="fas fa-scroll text-gold"></i>
-            </div>
-            <h3 class="text-lg Font-bold text-primary">مسار تنزيل التجويد والإجازات</h3>
-            <p class="text-xs text-gray-600leading-relaxed">دراسة متقدمة في تجربة التجويد النظري والتطبيقي والإعداد للحصول على تصاريح بالسند المتصل.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-bold text-gold-dark">
-            <span>للمتقدمين في وقت لاحق</span>
-            <i class="fas fa-arrow-left"></i>
-          </div>
-        </div>
- 
-        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-2xl font-bold">
-              <i class="fas fa-language text-gold"></i>
-            </div>
-            <h3 class="text-lg Font-bold text-primary">مسار اللغة العربية الناطقين بها</h3>
-            <p class="text-xs text-gray-600 الرائدة-relaxed">تعليم مهارات دبي والقراءة باللغة العربية التطوعية في جميع أنحاء العالم.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-bold text-gold-dark">
-            <span>الجاليات غير العربية</span>
-            <i class="fas fa-arrow-left"></i>
-          </div>
-        </div>
- 
-        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-2xl font-bold">
-              <i class="fas fa-kaaba text-gold"></i>
-            </div>
-            <h3 class="text-lg Font-bold text-primary">مسار العلوم الشرعية والتفسير</h3>
-            <p class="text-xs text-gray-600 الرائدة-relaxed">شرح معاني القرآن الكريم والأحاديث النبوية الشريفة وتدريس مبادئ العقيدة والفقه في يسير.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-bold text-gold-dark">
-            <span>الناشئة والناشئات</span>
-            <i class="fas fa-arrow-left"></i>
-          </div>
-        </div>
- 
-        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
-          <div class="space-y-4">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-2xl font-bold">
-              <i class="fas fa-user-clock text-gold"></i>
-            </div>
-            <h3 class="text-lgfont-bold text-primary">المعلم الخاص (حلقة خاصة 1x1)</h3>
-            <p class="text-xs text-gray-600 الرائدة-relaxed">دروس خاصة بين المعلم والطالب الكامل مباشرة لتسريع الحفظ على التجويد.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center text-xs font-bold text-gold-dark">
-            <span>مخصص ومصمم لك</span>
-            <i class="fas fa-arrow-left"></i>
-          </div>
-        </div>
- 
-      </div>
-    </div>
-  </section>
- 
-  <!-- ================= قسم الفيديو ================= -->
-  <section id="video" class="max-w-5xl mx-auto px-4 sm:px-6 py-16">
-    <div class="text-center mb-8">
-      <span class="bg-gold/10 text-gold-dark text-xs font-black px-3.5 py-1.5 rounded-full inline-block mb-2"> عرض حر</span>
-      <h2 class="text-2xl sm:text-3xl Font-black text-primary">الفيديو التعريفي عن منصة إيلاف</h2>
-    </div>
- 
-    <div class="bg-black rounded-3xl overflow-hidden shadow-2xl relative min-h-[280px] sm:min-h-[450px] flex items-center justify-center border-4 border-gold/40 img-glow">
-      <video id="mainLocalVideo" controls class="w-full h-full max-h-[550px] hidden object-cover">
-        <source id="mainVideoSource" src="" type="video/mp4">
-        متصفحك لا يدعم تشغيل الفيديو.
-      </video>
- 
-      <div id="videoPlaceholder" class="text-center text-gray-400 p-8 space-y-4">
-        <div class="w-20 h-20 bg-gold/20 text-gold rounded-full flex items-center justify-center mx-auto border border-gold/30">
-          <i class="fas fa-play text-3xl mr-1"></i>
-        </div>
-        <div>
-          <p class="text-base Font-bold text-white">لم يتم اختيار فيديو للعرض حاليا</p>
-          <p class="text-xs text-gray-400 mt-1">يمكنك رفع أو تغيير رابط الفيديو من لوحة التحكم</p>
+
         </div>
       </div>
     </div>
   </section>
- 
-  <!-- ================= قسم المعلمين ================= -->
-  <section id="teachers" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-    <div class="text-center mb-12">
-      <span class="bg-primary/10 text-primary text-xs Font-black px-3.5 py-1.5 rounded-full inline-block mb-2">الكادر المتميز</span>
-      <h2 class="text-2xl sm:text-3xl Font-black text-primary">نخبة الامام والمعلمات</h2>
-    </div>
-    <!-- Grid Teachers with Bigger Glow Images -->
-    <div id="teachers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-  </section>
- 
-  <!-- ================= قسم الجدول الزمني ================= -->
-  <section id="schedule" class="bg-white py-16 border-t border-gray-100">
+
+  <!-- ================= ABOUT SECTION ================= -->
+  <section id="about" class="py-20 bg-sand relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-10">
-        <h2 class="text-2xl sm:text-3xl Font-black text-primary">جدول المواعيد المخصصة</h2>
-        <p class="text-xs sm:text-sm text-gray-500 mt-1">اطلع على أوقات الحلقات والتسجيل المباشر</p>
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">عن إيلاف</h2>
+        <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">رؤيتنا ورسالتنا في خدمة كتاب الله</h3>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
       </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-xs sm:text-sm text-right text-gray-600 border border-gray-200 rounded-xl">
-          <thead class="bg-primary text-white font-bold text-xs uppercase">
-            <tr>
-              <th class="px-6 py-4">المسار</th>
-              <th class="px-6 py-4">الأيام</th>
-              <th class="px-6 py-4">التوقيت (مكة)</th>
-              <th class="px-6 py-4">المعلم</th>
-              <th class="px-6 py-4">الحالة</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100 bg-white">
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4font-bold text-primary">القاعدة النورانية</td>
-              <td class="px-6 py-4">الأحد - الثلاثاء</td>
-              <td class="px-6 py-4">04:00 مساءً</td>
-              <td class="px-6 py-4">أ. فاطمة الزهراء</td>
-              <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-md text-[10px] font-bold">محسنات بصرية</span></td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4font-bold text-primary">الحفظ الحاضر</td>
-              <td class="px-6 py-4">السبت - الأربعاء</td>
-              <td class="px-6 py-4">06:00 مساءً</td>
-              <td class="px-6 py-4">الشيخ محمد علي</td>
-              <td class="px-6 py-4"><span class="bg-amber-100 text-amber-700 px-2 py-1 rounded-md text-[10px]font-bold">مقاعد غير محدودة</span></td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4font-bold text-primary">أحكام التجويد</td>
-              <td class="px-6 py-4">الإثنين - الخميس</td>
-              <td class="px-6 py-4">08:00 مساءً</td>
-              <td class="px-6 py-4">الشيخ إبراهيم الخليل</td>
-              <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-md text-[10px] font-bold">محسنات بصرية</span></td>
-            </tr>
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4font-bold text-primary">اللغة العربية</td>
-              <td class="px-6 py-4">الأحد - الأربعاء</td>
-              <td class="px-6 py-4">05:00 مساءً</td>
-              <td class="px-6 py-4">أ. مريم أحمد</td>
-              <td class="px-6 py-4"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-md text-[10px] font-bold">محسنات بصرية</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
- 
-  <!-- ================= قسم التسعير ================= -->
-  <section id="pricing" class="py-16 bg-gray-50 border-t border-gray-200/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-        <span class="bg-gold/10 text-gold-dark text-xs font-black px-3.5 py-1.5 rounded-full inline-block"> ألوان ذهبية</span>
-        <h2 class="text-2xl sm:text-3xl Font-black text-primary">باقات الاشتراك والتسجيل</h2>
-        <p class="text-xs sm:text-sm text-gray-500 Font-medium">اختر الباقة الصحيحة لاحتياجاتك التعليمية</p>
-      </div>
- 
+
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
- 
-        <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm flex flex-col justify-between card-hover">
-          <div>
-            <h3 class="text-lgfont-bold text-primary mb-2">الباقة الأساسية</h3>
-            <p class="text-xs text-gray-500 mb-6">مناسبة التمنيات التهنئة والتأسيس</p>
-            <div class="text-3xl font-black text-primary mb-6">$49 <span class="text-xs font-normal text-gray-400">/ تاجراً</span></div>
-            <ul class="space-y-3 text-xs text-gray-600 mb-8">
-              <li class="flex items-center الفجوة-2"><i class="fas fa-check text-gold"></i> 8 حصص شهرياً (حصتان أسبوعياً)</li>
-              <li class="flex items-center Gap-2"><i class="fas fa-check text-gold"></i> زمن الحصة 30 دقيقة</li>
-              <li class="flex items-center غاب-2"><i class="fas fa-check text-gold"></i> تقرير شهري لمستوى الطالب</li>
-              <li class="flex items-center Gap-2 text-gray-300"><i class="fas fa-times"></i> متابعة يومية عبر الواتساب</li>
-            </ul>
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm card-hover relative overflow-hidden group">
+          <div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-primary group-hover:text-gold transition-colors">
+            <i class="fas fa-heart"></i>
           </div>
-          <a href="#register" class="w-full bg-primary hover:bg-primary-light text-white text-xs font-bold py-3 rounded-xl text-center block transition">اشترك الآن</a>
+          <h4 class="font-extrabold text-lg text-primary mb-3 decorated-title">رسالتنا</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            تيسير تعلم القرآن الكريم لكل مسلم في أي مكان بالعالم، مع الالتزام بأعلى معايير الإتقان والتجويد على أيدي كادر تعليمي مؤهل.
+          </p>
         </div>
- 
-        <div class="bg-primary text-white rounded-3xl p-8 shadow-xl flex flex-col justify-between relative transform lg:-translate-y-2 border-2 border-gold">
-          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gold text-primary text-[10px] font-black px-3 py-1 rounded-full uppercase">الطلبات</div>
-          <div>
-            <h3 class="text-lgfont-bold text-gold mb-2">الباقة المتقدمة</h3>
-            <p class="text-xs text-gray-300 mb-6">الخيار الأفضل للحفظ الحالي</p>
-            <div class="text-3xl font-black text-white mb-6">$89 <span class="text-xs font-normal text-gray-300">/ درعاً</span></div>
-            <ul class="space-y-3 text-xs text-gray-200 mb-8">
-              <li class="flex items-center غاب-2"><i class="fas fa-check text-gold"></i> 12 حصة اسبوعيا (3 حصص أسبوعيا)</li>
-              <li class="flex items-center Gap-2"><i class="fas fa-check text-gold"></i> زمن الحصة 45 دقيقة</li>
-              <li class="flex items-center Gap-2"><i class="fas fa-check text-gold"></i> تقارير أسبوعية تفصيلية</li>
-              <li class="flex items-center Gap-2"><i class="fas fa-check text-gold"></i> متابعة يومية وتسميع مباشر</li>
-            </ul>
+
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm card-hover relative overflow-hidden group">
+          <div class="w-14 h-14 bg-gold/10 text-gold-dark rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-gold group-hover:text-primary transition-colors">
+            <i class="fas fa-eye"></i>
           </div>
-          <a href="#register" class="w-full bg-gold hover:bg-gold-dark text-primary text-xs font-extrabold py-3 rounded-xl text-center block transition shadow-lg">اشترك الآن</a>
+          <h4 class="font-extrabold text-lg text-primary mb-3 decorated-title">رؤيتنا</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            أن نكون المنصة الأولى والمفضلة عالمياً في تقديم التعليم القرآني الرقمي التفاعلي بطرق حديثة ومبسطة تناسب كافة الأعمار.
+          </p>
         </div>
- 
-        <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm flex flex-col justify-between card-hover">
-          <div>
-            <h3 class="text-lgfont-bold text-primary mb-2">بطاقة الإجازة بالسند</h3>
-            <p class="text-xs text-gray-500 mb-6">مخصصة للمتقدمين والكاتمين</p>
-            <div class="text-3xl font-black text-primary mb-6">$129 <span class="text-xs font-normal text-gray-400">/ تاجراً</span></div>
-            <ul class="space-y-3 text-xs text-gray-600 mb-8">
-              <li class="flex items-center غاب-2"><i class="fas fa-check text-gold"></i> 16 حصة شهرياً (4 حصص أسبوعياً)</li>
-              <li class="flex items-center Gap-2"><i class="fas fa-check text-gold"></i> زمن الحصة 60 دقيقة</li>
-              <li class="flex items-center Gap-2"><i class="fas fa-check text-gold"></i> إعداد كامل للحصول على الإجازة</li>
-              <li class="flex items-center Gap-2"><i class="fas fa-check text-gold"></i> السيولة مع شيوخ مجازين</li>
-            </ul>
+
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm card-hover relative overflow-hidden group">
+          <div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-primary group-hover:text-gold transition-colors">
+            <i class="fas fa-star"></i>
           </div>
-          <a href="#register" class="w-full bg-primary hover:bg-primary-light text-white text-xs font-bold py-3 rounded-xl text-center block transition">اشترك الآن</a>
+          <h4 class="font-extrabold text-lg text-primary mb-3 decorated-title">قيمنا</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            الإتقان، الأمانة العلمية، الصبر، والتشجيع المستمر للطلاب لضمان تحقيق أفضل النتائج في الحفظ والتلاوة.
+          </p>
         </div>
- 
       </div>
     </div>
   </section>
- 
-  <!-- ================= قسم نموذج التسجيل ================= -->
-  <section id="register" class="max-w-4xl mx-auto px-4 py-16">
-    <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-200">
-      <div class="text-center mb-8">
-        <h2 class="text-2xlfont-black text-primary">نموذج التسجيل السريع</h2>
-        <p class="text-xs text-gray-500 mt-1">سجل بياناتك وسيتم التواصل معك خلال 24 ساعة موعد التقييم المجاني</p>
+
+  <!-- ================= COURSES / TRACKS ================= -->
+  <section id="courses" class="py-20 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">المسارات التعليمية</h2>
+        <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">برامجنا المخصصة لكل المستويات</h3>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
       </div>
- 
-      <form onsubmit="handleRegistration(event)" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xsfont-bold text-gray-700 mb-1">اسم الطالب الكامل</label>
-            <input type="text" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm card-hover flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="w-12 h-12 bg-gold/10 text-gold-dark rounded-xl flex items-center justify-center text-xl font-bold">1</div>
+            <h4 class="font-black text-xl text-primary decorated-title">مسار التصحيح والتلاوة</h4>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              مخصص لمن يرغب في تصحيح تلاوته وقراءة القرآن الكريم بشكل صحيح مع تطبيق المبادئ الأساسية للتجويد.
+            </p>
+            <ul class="space-y-2 text-xs text-gray-500 pt-2">
+              <li class="flex items-center gap-2"><i class="fas fa-check text-gold"></i> تصحيح المخارج والحركات</li>
+              <li class="flex items-center gap-2"><i class="fas fa-check text-gold"></i> جلسات فردية مباشرة</li>
+            </ul>
           </div>
-          <div>
-            <label class="block text-xs font-bold text-gray-700 mb-1">العمر</label>
-            <input type="number" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none">
-          </div>
+          <a href="#register" class="mt-8 block text-center bg-primary hover:bg-primary-light text-white font-bold py-3 rounded-xl text-xs transition">سجل في هذا المسار</a>
         </div>
- 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xsfont-bold text-gray-700 mb-1">رقم الهاتف (مع رمز الدولة)</label>
-            <input type="tel" value="00962780285762" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none dir-ltr text-right">
+
+        <div class="bg-white rounded-3xl border-2 border-gold p-8 shadow-md card-hover flex flex-col justify-between relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-primary font-black text-[10px] px-3 py-1 rounded-full uppercase">الأكثر طلباً</div>
+          <div class="space-y-4">
+            <div class="w-12 h-12 bg-primary text-gold rounded-xl flex items-center justify-center text-xl font-bold">2</div>
+            <h4 class="font-black text-xl text-primary decorated-title">مسار الحفظ والمراجعة</h4>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              خطة منهجية منظمة لحفظ السور والفتحات القرآنية مع نظام تثبيت ومراجعة مستمر يضمن عدم النسيان.
+            </p>
+            <ul class="space-y-2 text-xs text-gray-500 pt-2">
+              <li class="flex items-center gap-2"><i class="fas fa-check text-gold"></i> جداول حفظ مخصصة</li>
+              <li class="flex items-center gap-2"><i class="fas fa-check text-gold"></i> متابعة أسبوعية دقيقة</li>
+            </ul>
           </div>
+          <a href="#register" class="mt-8 block text-center bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl text-xs transition shadow-md">سجل في هذا المسار</a>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm card-hover flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="w-12 h-12 bg-gold/10 text-gold-dark rounded-xl flex items-center justify-center text-xl font-bold">3</div>
+            <h4 class="font-black text-xl text-primary decorated-title">مسار التجويد والإجازة</h4>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              دراسة متقدمة لمتون الأحكام والتجويد للراغبين في الحصول على سند متصل إلى رسول الله صلى الله عليه وسلم.
+            </p>
+            <ul class="space-y-2 text-xs text-gray-500 pt-2">
+              <li class="flex items-center gap-2"><i class="fas fa-check text-gold"></i> دراسة متون الجزرية والأطفال</li>
+              <li class="flex items-center gap-2"><i class="fas fa-check text-gold"></i> منح شهادات وإجازات معتمدة</li>
+            </ul>
+          </div>
+          <a href="#register" class="mt-8 block text-center bg-primary hover:bg-primary-light text-white font-bold py-3 rounded-xl text-xs transition">سجل في هذا المسار</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEACHERS SECTION ================= -->
+  <section id="teachers" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">الكادر التعليمي</h2>
+        <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">نخبة من المعلمين والمعلمات المجازين</h3>
+        <p class="text-xs text-gray-500 mt-2">يمكن للإدارة إضافة معلمين جدد عبر لوحة التحكم</p>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div id="teachers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONIALS SECTION ================= -->
+  <section id="testimonials" class="py-20 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">آراء وانطباعات</h2>
+        <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">ماذا يقول طلابنا عن منصة إيلاف</h3>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+      <div id="show-more-container" class="text-center mt-12 hidden">
+        <button onclick="showAllTestimonials()" class="bg-primary hover:bg-primary-light text-white font-bold px-8 py-3 rounded-xl text-xs transition shadow-md">
+          عرض المزيد من الآراء
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REGISTER FORM SECTION ================= -->
+  <section id="register" class="py-20 bg-white relative">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-sand rounded-3xl border border-gold/30 p-8 sm:p-12 shadow-xl relative">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-black text-primary decorated-title">استمارة التسجيل والالتحاق</h3>
+          <p class="text-xs text-gray-600 mt-2">سجل بياناتك وسنتواصل معك لتحديد موعد الجلسة التقييمية المجانية</p>
+        </div>
+
+        <form onsubmit="handleRegistration(event)" class="space-y-5">
           <div>
-            <label class="block text-xsfont-bold text-gray-700 mb-1">المسار المطلوب</label>
-            <select class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none bg-white">
-              <option>القاعدة النورانية</option>
-              <option>الحفظ والمراجعة</option>
-              <option>أحكام التجويد والإجازات</option>
-              <option>اللغة العربية</option>
+            <label class="block text-xs font-bold text-gray-700 mb-2">الاسم الكامل</label>
+            <input type="text" required placeholder="أدخل اسمك الثلاثي" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold focus:ring-1 focus:ring-gold outline-none bg-white">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-2">رقم الهاتف (الواتساب)</label>
+              <input type="tel" required placeholder="00962..." class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold focus:ring-1 focus:ring-gold outline-none bg-white dir-ltr">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-2">العمر</label>
+              <input type="number" required placeholder="مثال: 20" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold focus:ring-1 focus:ring-gold outline-none bg-white">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-2">المسار المفضل</label>
+            <select required class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold focus:ring-1 focus:ring-gold outline-none bg-white">
+              <option value="">اختر المسار المناسب لك</option>
+              <option value="1">مسار التصحيح والتلاوة</option>
+              <option value="2">مسار الحفظ والمراجعة</option>
+              <option value="3">مسار التجويد والإجازة</option>
             </select>
           </div>
-        </div>
- 
-        <div>
-          <label class="block text-xsfont-bold text-gray-700 mb-1">ملاحظات أو مستوى الطالب الحالي</label>
-          <textarea rows="3" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none"></textarea>
-        </div>
- 
-        <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary Font-black py-3 rounded-xl Transition text-xs Shadow-md">إرسال طلب التسجيل</button>
-      </form>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-2">ملاحظات أو طلبات خاصة</label>
+            <textarea rows="3" placeholder="أذكر الأوقات المناسبة لك أو أي ملاحظة أخرى..." class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold focus:ring-1 focus:ring-gold outline-none bg-white"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-4 rounded-xl text-sm transition shadow-lg transform hover:scale-[1.01]">
+            إرسال طلب التسجيل
+          </button>
+        </form>
+      </div>
     </div>
   </section>
- 
-  <!-- ================= قسم الشهادات ================= -->
-  <section id="testimonials" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-white rounded-3xl my-8 border border-gray-100 shadow-sm">
-    <div class="text-center mb-12">
-      <span class="bg-gold/10 text-gold-dark text-xs font-black px-3.5 py-1.5 rounded-full inline-block mb-2"> ثقتنا</span>
-      <h2 class="text-2xl sm:text-3xl Font-black text-primary">آراء وتجارب أولياء الأمور</h2>
-    </div>
-    <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    <div id="show-more-container" class="text-center mt-10 hidden">
-      <button onclick="showAllTestimonials()" class="bg-primary hover:bg-primary-light text-white text-xs font-black px-8 py-3 rounded-2xl transition shadow-md flex items-center gap-2 mx-auto">
-        <i class="fas fa-chevron-down text-gold"></i> عرض جميع الآراء والتقييمات
-      </button>
-    </div>
-  </section>
- 
-  <!-- ================= اتصل بنا / قسم التذييل ================= -->
+
+  <!-- ================= CONTACT / FOOTER SECTION ================= -->
   <section id="contact" class="bg-primary text-white pt-16 pb-12 border-t-4 border-gold relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-white/10">
+      
       <div class="space-y-4">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-primary font-black text-xl logo-glow">إ</div>
-          <span class="font-extrabold text-xl text-gold">منصة إيلاف</span>
+          <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-primary font-black text-xl logo-glow decorated-title">إ</div>
+          <span class="font-extrabold text-xl text-gold decorated-title">منصة إيلاف</span>
         </div>
-        <p class="text-xs text-gray-300 الرائدة-relaxed">منصة متخصصة في تعليم القرآن الكريم وتلاوته وتجويده أحدث الفروقات.</p>
+        <p class="text-xs text-gray-300 leading-relaxed">منصة تعليمية متخصصة في تعليم القرآن الكريم وتلاوته وتجويده بأحدث الأساليب التفاعلية.</p>
       </div>
- 
+
       <div class="space-y-3">
-        <h4 class="font-bold text-gold text-sm">روابط سريعة</h4>
+        <h4 class="font-bold text-gold text-sm decorated-title">روابط سريعة</h4>
         <ul class="space-y-2 text-xs text-gray-300 font-medium">
-          <li><a href="#about" class="hover:text-gold Transition">عن المنصة</a></li>
-          <li><a href="#founder" class="hover:text-gold Transition">المؤسس</a></li>
-          <li><a href="#courses" class="hover:text-gold Transition">المسارات الدراسية</a></li>
-          <li><a href="#teachers" class="hover:text-gold Transition">الكادر التعليمي</a></li>
+          <li><a href="#founder" class="hover:text-gold transition">المؤسس</a></li>
+          <li><a href="#about" class="hover:text-gold transition">عن المنصة</a></li>
+          <li><a href="#courses" class="hover:text-gold transition">المسارات الدراسية</a></li>
+          <li><a href="#teachers" class="hover:text-gold transition">الكادر التعليمي</a></li>
         </ul>
       </div>
- 
+
       <div class="space-y-3">
-        <h4 class="font-bold text-gold text-sm">التواصل والدعم</h4>
-        <p class="text-xs text-gray-300"><i class="fas fa-envelope text-gold ml-2"></i> info@elaf-platform.com </p>
+        <h4 class="font-bold text-gold text-sm decorated-title">التواصل والدعم</h4>
+        <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-envelope text-gold ml-2"></i> info@elaf-platform.com</p>
         <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-phone text-gold ml-2"></i> <span class="dir-ltr">00962780285762</span></p>
         <div class="flex gap-3 text-gold text-base pt-2">
-          <a href="https://wa.me/962780285762" target="_blank" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition"><i class="fab fa-whatsapp"></i></a>
-          <a href="#" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition"><i class="fab fa-telegram-plane"></i></a>
-          <a href="#" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition"><i class="fab fa-youtube"></i></a>
+          <a href="https://wa.me/962780285762" target="_blank" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+          <a href="#" class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center hover:bg-gold hover:text-primary transition" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
     </div>
- 
-    <!-- حقوق التذييل وعلامة المصمم في الزاوية السفلية اليسرى -->
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-4">
-      <p>© جميع الحقوق محفوظة لـ <strong class="text-gold">منصة إيلاف التعليمية</strong> 2026</p>
- 
-      <!-- تم وضع علامة حقوق المصمم في أسفل اليسار، وهي مرتبطة مباشرة بتطبيق واتساب -->
+      <p>© جميع الحقوق محفوظة لـ <strong class="text-gold decorated-title">منصة إيلاف التعليمية</strong> 2026</p>
+      
       <a href="https://wa.me/962796094582" target="_blank" class="bg-white/5 border border-gold/30 px-3.5 py-1.5 rounded-xl text-gold font-bold flex items-center gap-2 shadow-inner hover:bg-white/10 transition cursor-pointer">
         <i class="fas fa-code text-xs"></i>
         <span>مصمم الصفحة: أحمد أبو العسل</span>
@@ -561,293 +495,303 @@ Pastebin
       </a>
     </div>
   </section>
- 
-  <!-- ================= لوحة تحكم الإدارة ================= -->
+
+  <!-- ================= ADMIN MODAL PANEL ================= -->
   <div id="adminModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-3xl w-full max-w-xl overflow-hidden shadow-2xl border border-gray-100 relative">
- 
-      <!-- عرض تسجيل دخول المسؤول -->
+      
       <div id="adminLoginView" class="p-8">
         <div class="flex justify-between items-center border-b pb-4 mb-6">
-          <h3 class="font-black text-lg text-primary flex items-center الفجوة-2"><i class="fas fa-lock text-gold"></i> دخول لوحة التحكم</h3>
+          <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-lock text-gold"></i> دخول لوحة التحكم</h3>
           <button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
         </div>
         <div class="space-y-5">
           <div>
-            <label class="block text-xs Font-bold text-gray-700 mb-2">أدخل الرقم السري</label>
+            <label class="block text-xs font-bold text-gray-700 mb-2">أدخل الرقم السري</label>
             <input type="password" id="adminPassword" placeholder="••••••••" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none">
-            <p id="passwordError" class="text-red-500 text-xs Font-bold mt-2 Hidden">الرقم السري غير صحيح!</p>
+            <p id="passwordError" class="text-red-500 text-xs font-bold mt-2 hidden">الرقم السري غير صحيح!</p>
           </div>
-          <button onclick="verifyPassword()" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3 rounded-xl transition text-xs shadow-lg"> تسجيل دخول</button>
+          <button onclick="verifyPassword()" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3 rounded-xl transition text-xs shadow-lg">تسجيل الدخول</button>
         </div>
       </div>
- 
-      <!-- عرض محتوى المسؤول -->
+
       <div id="adminContentView" class="p-6 sm:p-8 hidden max-h-[85vh] overflow-y-auto">
         <div class="flex justify-between items-center border-b pb-4 mb-4">
-          <h3 class="font-black text-lg text-primary flex items-center Gap-2"><i class="fas fa-sliders-h text-gold"></i> لوحة الإدارة والتعديل</h3>
+          <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-sliders-h text-gold"></i> لوحة الإدارة والتعديل</h3>
           <button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
         </div>
- 
-        <!-- علامات تبويب ديناميكية -->
+
         <div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1">
-          <button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap">الشعار</button>
+          <button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap">اللوجو</button>
           <button id="tabFounderBtn" onclick="switchAdminTab('founder')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المؤسس</button>
-          <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">معلم</button>
+          <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">إضافة معلم</button>
           <button id="tabVidBtn" onclick="switchAdminTab('vid')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">الفيديو</button>
-          <button id="tabTextBtn" onclick="switchAdminTab('text')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"> انعكاس نصي</button>
-          <button id="tabImgBtn" onclick="switchAdminTab('img')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"> انعكاس صورة</button>
+          <button id="tabTextBtn" onclick="switchAdminTab('text')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">رأي نصي</button>
+          <button id="tabImgBtn" onclick="switchAdminTab('img')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">رأي صورة</button>
         </div>
- 
-        <!-- نموذج تخصيص الشعار -->
+
         <form id="addLogoForm" onsubmit="handleUpdateLogo(event)" class="space-y-4">
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة لوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1"> أو رابط صورة لوجو</label><input type="url" id="logoUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ بوجو</button>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة اللوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط صورة اللوجو</label><input type="url" id="logoUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ اللوجو</button>
         </form>
- 
-        <!-- نموذج تحديث المؤسس -->
+
         <form id="addFounderForm" onsubmit="handleUpdateFounder(event)" class="space-y-4 hidden">
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المؤسسة</label><input type="text" id="founderNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">المهم للعمل</label><input type="text" id="founderRoleInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المؤسس</label><input type="text" id="founderNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">المسمى الوظيفي</label><input type="text" id="founderRoleInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة جديدة</label><input type="file" id="founderFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1"> أو رابط الصورة المباشر</label><input type="url" id="founderUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ</button>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="founderUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ التعديلات</button>
         </form>
- 
-        <!-- نموذج إضافة معلم -->
+
         <form id="addTeacherForm" onsubmit="handleAddTeacher(event)" class="space-y-4 hidden">
           <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المعلم / المعلمة</label><input type="text" id="teacherNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">التخصص</label><input type="text" id="teacherRoleInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة المعلم</label><input type="file" id="teacherFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1"> رابط الصورة</label><input type="url" id="teacherUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md"> إرسال الساعة</button>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="teacherUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">إضافة المعلم</button>
         </form>
- 
-        <!-- نموذج إضافة فيديو -->
+
         <form id="addVidForm" onsubmit="handleChangeVideo(event)" class="space-y-4 hidden">
-          <div><label class="block text-xs font-bold text-gray-700 mb-1"> رابط فيديو MP4 مباشر</label><input type="url" id="videoUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو اختر فيديو من الموسيقى</label><input type="file" id="videoFileInput" accept="video/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رابط فيديو MP4 مباشر</label><input type="url" id="videoUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو اختر فيديو من جهازك</label><input type="file" id="videoFileInput" accept="video/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
           <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ الفيديو</button>
         </form>
- 
-        <!-- نموذج مراجعة النص -->
+
         <form id="addTextForm" onsubmit="handleAddTextReview(event)" class="space-y-4 hidden">
           <div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم / الصفة</label><input type="text" id="reviewAuthor" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">نص مراجعة</label><textarea id="reviewText" rows="3" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></textarea></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md"> نشر رسائل</button>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">نص الرأي</label><textarea id="reviewText" rows="3" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></textarea></div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">نشر الرأي</button>
         </form>
- 
-        <!-- نموذج مراجعة الصور -->
+
         <form id="addImgForm" onsubmit="handleAddImgReview(event)" class="space-y-4 hidden">
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم /الوصف</label><input type="text" id="imgAuthor" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة عكس</label><input type="file" id="imgFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1"> أو رابط الصورة</label><input type="url" id="imgUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-primary hover:bg-primary-light text-white font-black py-3 rounded-xl transition text-xs shadow-md">إرسال صورة</button>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم / الوصف</label><input type="text" id="imgAuthor" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة الرأي</label><input type="file" id="imgFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="imgUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-primary hover:bg-primary-light text-white font-black py-3 rounded-xl transition text-xs shadow-md">إضافة الصورة</button>
         </form>
       </div>
     </div>
   </div>
- 
-  <!-- ================= منطق جافاسكريبت ================= -->
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
     const SECRET_PIN = "Elaf0123";
- 
+
     const initialTeachers = [
-      { المعرف: 'tech-1', الاسم: 'الشيخ محمد علي', الدور: 'معلم القراءات العشر', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400' },
-      { المعرف: 'tech-2'، الاسم: 'الأستاذة فاطمة الزهراء'، الدور: 'معلمة الجامعة النورانية'، img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400' },
-      { id: 'tech-3', name: 'الشيخ إبراهيم الخليل', role: 'معلم التجويد', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400' },
-      { id: 'tech-4', name: 'الأستاذة مريم أحمد', الدور: 'مشرفة الحفظ والمراجعة', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400' }
+      { id: 'tech-1', name: 'الشيخ محمد علي', role: 'معلم القراءات العشر', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400' },
+      { id: 'tech-2', name: 'الأستاذة فاطمة الزهراء', role: 'معلمة القاعدة النورانية', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400' },
+      { id: 'tech-3', name: 'الشيخ إبراهيم الخليل', role: 'معلم أحكام التجويد', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400' },
+      { id: 'tech-4', name: 'الأستاذة مريم أحمد', role: 'مشرفة الحفظ والمراجعة', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400' }
     ];
- 
-    دالة تطبيق حد الشهادات() {
+
+    function applyTestimonialsLimit() {
       const cards = document.querySelectorAll('.testimonial-card');
       const showMoreBtn = document.getElementById('show-more-container');
       cards.forEach((card, index) => {
-        إذا كان (الفهرس < 6) card.classList.remove('hidden');
-        وإلا، أضف الفئة 'hidden' إلى قائمة فئات البطاقة.
+        if (index < 6) card.classList.remove('hidden');
+        else card.classList.add('hidden');
       });
-      إذا كان طول قائمة البطاقات أكبر من 6، فقم بإزالة فئة "مخفي" من قائمة فئات زر "المزيد".
-      وإلا، أضف 'hidden' إلى قائمة فئات زر المزيد.
+      if (showMoreBtn) {
+        if (cards.length > 6) showMoreBtn.classList.remove('hidden');
+        else showMoreBtn.classList.add('hidden');
+      }
     }
- 
-    دالة عرض جميع الشهادات () {
+
+    function showAllTestimonials() {
       document.querySelectorAll('.testimonial-card').forEach(card => card.classList.remove('hidden'));
-      document.getElementById('show-more-container').classList.add('hidden');
+      const showMoreBtn = document.getElementById('show-more-container');
+      if (showMoreBtn) showMoreBtn.classList.add('hidden');
     }
- 
-    دالة فتح نافذة الإدارة() {
+
+    function openAdminModal() {
       document.getElementById('adminModal').classList.remove('hidden');
-      document.getElementById('founderNameInput').value = document.getElementById('founderName').innerText;
-      document.getElementById('founderRoleInput').value = document.getElementById('founderRole').innerText;
+      const founderNameEl = document.getElementById('founderName');
+      const founderRoleEl = document.getElementById('founderRole');
+      if (founderNameEl) document.getElementById('founderNameInput').value = founderNameEl.innerText;
+      if (founderRoleEl) document.getElementById('founderRoleInput').value = founderRoleEl.innerText;
     }
- 
-    دالة إغلاق نافذة الإدارة() {
+
+    function closeAdminModal() {
       document.getElementById('adminModal').classList.add('hidden');
       document.getElementById('adminPassword').value = '';
       document.getElementById('passwordError').classList.add('hidden');
     }
- 
-    دالة التحقق من كلمة المرور() {
+
+    function verifyPassword() {
       const pin = document.getElementById('adminPassword').value;
-      إذا كان (pin === SECRET_PIN) {
+      if (pin === SECRET_PIN) {
         document.getElementById('adminLoginView').classList.add('hidden');
         document.getElementById('adminContentView').classList.remove('hidden');
-      } آخر {
+      } else {
         document.getElementById('passwordError').classList.remove('hidden');
       }
     }
- 
-    دالة تبديل علامة تبويب الإدارة(النوع) {
-      ['addLogoForm', 'addFounderForm', 'addTeacherForm', 'addTextForm', 'addImgForm', 'addVidForm'].forEach(f => document.getElementById(f).classList.add('hidden'));
-      ['tabLogoBtn', 'tabFounderBtn', 'tabTeacherBtn', 'tabVidBtn', 'tabTextBtn', 'tabImgBtn'].forEach(t => document.getElementById(t).className = "py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap font-bold");
- 
+
+    function switchAdminTab(type) {
+      ['addLogoForm', 'addFounderForm', 'addTeacherForm', 'addTextForm', 'addImgForm', 'addVidForm'].forEach(f => {
+        const form = document.getElementById(f);
+        if (form) form.classList.add('hidden');
+      });
+      ['tabLogoBtn', 'tabFounderBtn', 'tabTeacherBtn', 'tabVidBtn', 'tabTextBtn', 'tabImgBtn'].forEach(t => {
+        const tab = document.getElementById(t);
+        if (tab) tab.className = "py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap font-bold";
+      });
+      
       const formMap = { logo: 'addLogoForm', founder: 'addFounderForm', teacher: 'addTeacherForm', vid: 'addVidForm', text: 'addTextForm', img: 'addImgForm' };
-      const tabMap = { logo: 'tabLogoBtn'، المؤسس: 'tabFounderBtn'، المعلم: 'tabTeacherBtn'، vid: 'tabVidBtn'، النص: 'tabTextBtn'، img: 'tabImgBtn' };
- 
-      document.getElementById(formMap[type]).classList.remove('hidden');
-      document.getElementById(tabMap[type]).className = "py-2.5 px-3 border-b-2 border-gold text-primary font-bold whitespace-nowrap";
+      const tabMap = { logo: 'tabLogoBtn', founder: 'tabFounderBtn', teacher: 'tabTeacherBtn', vid: 'tabVidBtn', text: 'tabTextBtn', img: 'tabImgBtn' };
+      
+      if (formMap[type]) document.getElementById(formMap[type]).classList.remove('hidden');
+      if (tabMap[type]) document.getElementById(tabMap[type]).className = "py-2.5 px-3 border-b-2 border-gold text-primary font-bold whitespace-nowrap";
     }
- 
-    // التعامل مع تخصيص الشعار
-    دالة معالجة تحديث الشعار(هـ) {
+
+    function handleUpdateLogo(e) {
       e.preventDefault();
       const fileInput = document.getElementById('logoFileInput');
       const urlInput = document.getElementById('logoUrlInput').value.trim();
- 
-      إذا كان (fileInput.files && fileInput.files[0]) {
+
+      if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) { applyLogo(evt.target.result); }
         reader.readAsDataURL(fileInput.files[0]);
       } else if (urlInput) {
-        تطبيق الشعار(urlInput)؛
+        applyLogo(urlInput);
       }
     }
- 
-    دالة تطبيق الشعار (src) {
+
+    function applyLogo(src) {
       const logoText = document.getElementById('logoText');
       const logoImg = document.getElementById('logoImg');
-      logoText.classList.add('hidden');
-      logoImg.src = src;
-      logoImg.classList.remove('hidden');
+      if (logoText) logoText.classList.add('hidden');
+      if (logoImg) {
+        logoImg.src = src;
+        logoImg.classList.remove('hidden');
+      }
       localStorage.setItem('elaf_logo_src', src);
-      أغلق نافذة الإدارة();
+      closeAdminModal();
     }
- 
-    دالة معالجة تحديث المؤسس(هـ) {
+
+    function handleUpdateFounder(e) {
       e.preventDefault();
       const name = document.getElementById('founderNameInput').value;
       const role = document.getElementById('founderRoleInput').value;
       const fileInput = document.getElementById('founderFileInput');
       const urlInput = document.getElementById('founderUrlInput').value;
- 
-      document.getElementById('founderName').innerText = name;
-      document.getElementById('founderRole').innerText = role;
- 
-      let founderData = { name, role, imgSrc: document.getElementById('founderImg').src };
- 
-      إذا كان (fileInput.files && fileInput.files[0]) {
+
+      const nameEl = document.getElementById('founderName');
+      const roleEl = document.getElementById('founderRole');
+      const imgEl = document.getElementById('founderImg');
+
+      if (nameEl) nameEl.innerText = name;
+      if (roleEl) roleEl.innerText = role;
+
+      let founderData = { name, role, imgSrc: imgEl ? imgEl.src : '' };
+
+      if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          document.getElementById('founderImg').src = evt.target.result;
+          if (imgEl) imgEl.src = evt.target.result;
           founderData.imgSrc = evt.target.result;
           localStorage.setItem('elaf_founder_data', JSON.stringify(founderData));
         }
         reader.readAsDataURL(fileInput.files[0]);
       } else if(urlInput) {
-        document.getElementById('founderImg').src = urlInput;
+        if (imgEl) imgEl.src = urlInput;
         founderData.imgSrc = urlInput;
         localStorage.setItem('elaf_founder_data', JSON.stringify(founderData));
-      } آخر {
+      } else {
         localStorage.setItem('elaf_founder_data', JSON.stringify(founderData));
       }
-      أغلق نافذة الإدارة();
+      closeAdminModal();
     }
- 
-    دالة handleAddTeacher(e) {
+
+    function handleAddTeacher(e) {
       e.preventDefault();
       const name = document.getElementById('teacherNameInput').value;
       const role = document.getElementById('teacherRoleInput').value;
       const fileInput = document.getElementById('teacherFileInput');
       const urlInput = document.getElementById('teacherUrlInput').value;
- 
-      إذا كان (fileInput.files && fileInput.files[0]) {
+
+      if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) { renderTeacherCard(name, role, evt.target.result); }
         reader.readAsDataURL(fileInput.files[0]);
       } else if(urlInput) {
         renderTeacherCard(name, role, urlInput);
-      } آخر {
+      } else {
         renderTeacherCard(name, role, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400');
       }
     }
- 
-    دالة renderTeacherCard(name, role, imgSrc) {
+
+    function renderTeacherCard(name, role, imgSrc) {
       const uniqueId = 'tech-' + Date.now();
       const card = `
         <div class="teacher-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition text-center relative card-hover flex flex-col items-center" data-id="${uniqueId}">
           <div class="w-32 h-32 rounded-full p-1.5 bg-gradient-to-tr from-gold to-primary mb-4 shadow-lg overflow-hidden img-glow">
             <img src="${imgSrc}" alt="${name}" class="w-full h-full object-cover rounded-full">
           </div>
-          <h3 class="font-black text-lg text-primary">${name}</h3>
+          <h3 class="font-black text-lg text-primary decorated-title">${name}</h3>
           <p class="text-xs font-bold text-gold-dark mt-1">${role}</p>
         </div>
       `;
-      document.getElementById('teachers-grid').insertAdjacentHTML('beforeend', card);
+      const grid = document.getElementById('teachers-grid');
+      if (grid) grid.insertAdjacentHTML('beforeend', card);
       saveTeacherToStorage(card);
-      أغلق نافذة الإدارة();
+      closeAdminModal();
       document.getElementById('addTeacherForm').reset();
     }
- 
-    دالة حفظ محتوى HTML للمعلم في وحدة التخزين {
+
+    function saveTeacherToStorage(htmlContent) {
       let saved = JSON.parse(localStorage.getItem('elaf_dynamic_teachers') || '[]');
       saved.push(htmlContent);
       localStorage.setItem('elaf_dynamic_teachers', JSON.stringify(saved));
     }
- 
-    دالة handleChangeVideo(e) {
+
+    function handleChangeVideo(e) {
       e.preventDefault();
       const fileInput = document.getElementById('videoFileInput');
       const urlInput = document.getElementById('videoUrlInput').value.trim();
- 
-      إذا كان (urlInput) {
+
+      if (urlInput) {
         displayVideoSrc(urlInput);
         localStorage.setItem('elaf_permanent_video', urlInput);
       } else if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          عرض مصدر الفيديو (evt.target.result)؛
-          حاول { localStorage.setItem('elaf_permanent_video', evt.target.result); } catch(e){}
+          displayVideoSrc(evt.target.result);
+          try { localStorage.setItem('elaf_permanent_video', evt.target.result); } catch(err){}
         };
         reader.readAsDataURL(fileInput.files[0]);
       }
-      أغلق نافذة الإدارة();
+      closeAdminModal();
     }
- 
-    دالة عرض مصدر الفيديو (src) {
+
+    function displayVideoSrc(src) {
       const localVid = document.getElementById('mainLocalVideo');
       const vidSource = document.getElementById('mainVideoSource');
       const placeholder = document.getElementById('videoPlaceholder');
-      vidSource.src = src;
-      localVid.load();
-      localVid.classList.remove('hidden');
-      إذا كان (placeholder) placeholder.classList.add('hidden');
+      if (vidSource && localVid) {
+        vidSource.src = src;
+        localVid.load();
+        localVid.classList.remove('hidden');
+      }
+      if (placeholder) placeholder.classList.add('hidden');
     }
- 
-    دالة معالجة إضافة نص للمراجعة(هـ) {
+
+    function handleAddTextReview(e) {
       e.preventDefault();
       const author = document.getElementById('reviewAuthor').value;
       const text = document.getElementById('reviewText').value;
-      const UniqueId = 'dyn-' + Date.now();
- 
+      const uniqueId = 'dyn-' + Date.now();
+
       const card = `
         <div class="testimonial-card bg-white p-6 rounded-2xl shadow-sm border border-gold/30 card-hover flex flex-col justify-between relative" data-id="${uniqueId}">
           <div class="text-gold mb-3 text-lg"><i class="fas fa-quote-right"></i></div>
           <p class="text-gray-700 text-xs sm:text-sm leading-relaxed mb-6 font-medium">"${text}"</p>
           <div class="border-t pt-4 flex justify-between items-center">
             <div>
-              <h4 class="font-bold text-primary text-xs sm:text-sm">${author}</h4>
-              <span class="text-[10px] text-gold-darkfont-extrabold">معتمد معتمد</span>
+              <h4 class="font-bold text-primary text-xs sm:text-sm decorated-title">${author}</h4>
+              <span class="text-[10px] text-gold-dark font-extrabold">تقييم معتمد</span>
             </div>
             <div class="text-gold text-[10px] flex gap-0.5">
               <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
@@ -855,20 +799,21 @@ Pastebin
           </div>
         </div>
       `;
-      document.getElementById('testimonials-grid').insertAdjacentHTML('afterbegin', card);
+      const grid = document.getElementById('testimonials-grid');
+      if (grid) grid.insertAdjacentHTML('afterbegin', card);
       saveTestimonialToStorage(card);
-      أغلق نافذة الإدارة();
+      closeAdminModal();
       document.getElementById('addTextForm').reset();
-      تطبيق حد الشهادات();
+      applyTestimonialsLimit();
     }
- 
-    دالة handleAddImgReview(e) {
+
+    function handleAddImgReview(e) {
       e.preventDefault();
       const author = document.getElementById('imgAuthor').value;
       const fileInput = document.getElementById('imgFileInput');
       const urlInput = document.getElementById('imgUrlInput').value;
- 
-      إذا كان (fileInput.files && fileInput.files[0]) {
+
+      if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) { renderImgCard(author, evt.target.result); }
         reader.readAsDataURL(fileInput.files[0]);
@@ -876,89 +821,73 @@ Pastebin
         renderImgCard(author, urlInput);
       }
     }
- 
-    دالة renderImgCard(author, src) {
-      const UniqueId = 'dyn-' + Date.now();
+
+    function renderImgCard(author, src) {
+      const uniqueId = 'dyn-' + Date.now();
       const card = `
         <div class="testimonial-card bg-white p-4 rounded-2xl shadow-sm border border-gold/30 card-hover flex flex-col justify-between relative" data-id="${uniqueId}">
-          <img src="${src}" alt=" معكوس" class="w-full h-auto rounded-xl border object-cover mb-3 max-h-80 img-glow">
+          <img src="${src}" alt="رأي" class="w-full h-auto rounded-xl border object-cover mb-3 max-h-80 img-glow">
           <div class="pt-2 flex justify-between items-center border-t">
-            <h4 class="font-bold text-primary text-xs">${author}</h4>
-            <span class="text-[10px] text-gold-dark Font-extrabold"><i class="fas fa-check-circle"></i> صورة معتمدة</span>
+            <h4 class="font-bold text-primary text-xs decorated-title">${author}</h4>
+            <span class="text-[10px] text-gold-dark font-extrabold"><i class="fas fa-check-circle"></i> صورة معتمدة</span>
           </div>
         </div>
       `;
-      document.getElementById('testimonials-grid').insertAdjacentHTML('afterbegin', card);
+      const grid = document.getElementById('testimonials-grid');
+      if (grid) grid.insertAdjacentHTML('afterbegin', card);
       saveTestimonialToStorage(card);
-      أغلق نافذة الإدارة();
+      closeAdminModal();
       document.getElementById('addImgForm').reset();
-      تطبيق حد الشهادات();
+      applyTestimonialsLimit();
     }
- 
-    دالة حفظ الشهادة في وحدة التخزين (محتوى HTML) {
+
+    function saveTestimonialToStorage(htmlContent) {
       let saved = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
       saved.unshift(htmlContent);
       localStorage.setItem('elaf_dynamic_reviews', JSON.stringify(saved));
     }
- 
-    دالة معالجة التسجيل(هـ) {
+
+    function handleRegistration(e) {
       e.preventDefault();
-      تنبيه('تم التخطيط الفعال! سوف نتواصل مع فريق منصة إيلاف قريبا.');
+      alert('تم إرسال طلبك بنجاح! سوف يتواصل معك فريق منصة إيلاف قريباً.');
       e.target.reset();
     }
- 
+
     window.addEventListener('DOMContentLoaded', () => {
       const savedLogo = localStorage.getItem('elaf_logo_src');
-      إذا كان (savedLogo) قم بتطبيق الشعار(savedLogo)؛
- 
+      if (savedLogo) applyLogo(savedLogo);
+
       const savedFounder = JSON.parse(localStorage.getItem('elaf_founder_data') || 'null');
-      إذا (تم حفظ المؤسس) {
-        إذا كان (savedFounder.name) document.getElementById('founderName').innerText = savedFounder.name;
-        إذا كان (savedFounder.role) document.getElementById('founderRole').innerText = savedFounder.role;
-        إذا كان (savedFounder.imgSrc) document.getElementById('founderImg').src = savedFounder.imgSrc;
+      if (savedFounder) {
+        const nameEl = document.getElementById('founderName');
+        const roleEl = document.getElementById('founderRole');
+        const imgEl = document.getElementById('founderImg');
+        if (savedFounder.name && nameEl) nameEl.innerText = savedFounder.name;
+        if (savedFounder.role && roleEl) roleEl.innerText = savedFounder.role;
+        if (savedFounder.imgSrc && imgEl) imgEl.src = savedFounder.imgSrc;
       }
- 
+
       const savedVideo = localStorage.getItem('elaf_permanent_video');
-      إذا كان (savedVideo) اعرض مصدر الفيديو (savedVideo)؛
- 
+      if (savedVideo) displayVideoSrc(savedVideo);
+
       let savedTeachers = JSON.parse(localStorage.getItem('elaf_dynamic_teachers') || '[]');
-      إذا كان عدد المعلمين المحفوظين يساوي صفرًا {
-        initialTeachers.forEach(tech => renderTeacherCard(tech.name, tech.role, tech.img));
-      } آخر {
-        savedTeachers.forEach(cardHtml => document.getElementById('teachers-grid').insertAdjacentHTML('beforeend', cardHtml));
+      const teacherGrid = document.getElementById('teachers-grid');
+      if (teacherGrid) {
+        if (savedTeachers.length === 0) {
+          initialTeachers.forEach(tech => renderTeacherCard(tech.name, tech.role, tech.img));
+        } else {
+          savedTeachers.forEach(cardHtml => teacherGrid.insertAdjacentHTML('beforeend', cardHtml));
+        }
       }
- 
+
       let savedReviews = JSON.parse(localStorage.getItem('elaf_dynamic_reviews') || '[]');
-      إذا كان عدد المراجعات المحفوظة أكبر من صفر {
-        savedReviews.forEach(cardHtml => document.getElementById('testimonials-grid').insertAdjacentHTML('afterbegin', cardHtml));
+      const testimonialGrid = document.getElementById('testimonials-grid');
+      if (savedReviews.length > 0 && testimonialGrid) {
+        savedReviews.forEach(cardHtml => testimonialGrid.insertAdjacentHTML('afterbegin', cardHtml));
       }
- 
-      تطبيق حد الشهادات();
+
+      applyTestimonialsLimit();
     });
   </script>
 </body>
 </html>
-إعلان
-أضف تعليقًا
-الرجاء تسجيل الدخول لإضافة تعليق
-منشورات عامة
-دليل الربح من عيوب API
-CSS | منذ 32 دقيقة | 0.99 كيلوبايت
-⭐ 12,000 دولار في يومين
-CSS | منذ 51 دقيقة | 0.99 كيلوبايت
-نقد شرودنغر
-قبل يومين | 15.37 كيلوبايت
-مؤشر PRCE الداخلي
-قبل 3 أيام | 0.73 كيلوبايت
-أسلوب التفاعل مع الذكاء الاصطناعي
-قبل 3 أيام | 1.60 كيلوبايت
-awkwrapper.c
-ج | منذ 3 أيام | 2.35 كيلوبايت
-z66is_archive.zip.txt
-قبل 3 أيام | 39.19 كيلوبايت
-العملاء: إعداد المصادقة الثنائية
-قبل 3 أيام | 1.44 كيلوبايت
-إنشاء لصق جديد  /  لغات البرمجة / الأرشيف  /   الأسئلة  الشائعة  /  الأدوات  /  الوضع الليلي  /  واجهة برمجة التطبيقات  /  واجهة برمجة تطبيقات استخراج البيانات  /  الأخبار  /  بيان خصوصية المحترفين  /  سياسة ملفات تعريف الارتباط  /  شروط الخدمة  /  إفصاح أمني  /  قانون الألفية الرقمية لحقوق المؤلف  /  الإبلاغ عن إساءة الاستخدام  /  اتصل بنا. باستخدامك Pastebin.com، فإنك توافق على سياسة ملفات تعريف الارتباط الخاصة بنا لتحسين تجربتك. تصميم الموقع والشعار © 2026 Pastebin
-
-
-
