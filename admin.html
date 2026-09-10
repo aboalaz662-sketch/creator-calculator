@@ -37,16 +37,16 @@
   <style>
     body { font-family: 'Cairo', sans-serif; background-color: #06241C; color: #2D3748; min-height: 100vh; }
     .decorated-title { font-family: 'Reem Kufi', sans-serif; }
-    .dir-ltr { direction: ltr; text-align: right; }
+    .dir-ltr { direction: ltr; text-align: left; }
   </style>
 </head>
-<body class="antialiased flex items-center justify-center p-4 selection:bg-gold selection:text-white">
+<body class="antialiased flex items-center justify-center p-2 sm:p-4 selection:bg-gold selection:text-white">
 
   <!-- ================= MAIN CONTAINER ================= -->
-  <div class="bg-white rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl border border-gold/30 my-8">
+  <div class="bg-white rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl border border-gold/30 my-4 sm:my-8">
     
     <!-- شاشة تسجيل دخول الإدارة -->
-    <div id="adminLoginView" class="p-8 sm:p-12">
+    <div id="adminLoginView" class="p-6 sm:p-12">
       <div class="text-center mb-8">
         <div class="w-16 h-16 bg-gold/10 text-gold border border-gold/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
           <i class="fas fa-user-shield"></i>
@@ -55,18 +55,18 @@
         <p class="text-xs text-gray-500 mt-1">أكاديمية إيلاف التعليمية</p>
       </div>
 
-      <div class="space-y-5 max-w-md mx-auto">
+      <form onsubmit="event.preventDefault(); verifyPassword();" class="space-y-5 max-w-md mx-auto">
         <div>
           <label class="block text-xs font-bold text-gray-700 mb-2">أدخل الرقم السري للإدارة</label>
           <input type="password" id="adminPassword" placeholder="••••••••" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none transition">
           <p id="passwordError" class="text-red-500 text-xs font-bold mt-2 hidden">الرقم السري غير صحيح!</p>
         </div>
-        <button onclick="verifyPassword()" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3.5 rounded-xl transition text-xs shadow-lg">تسجيل الدخول</button>
-      </div>
+        <button type="submit" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3.5 rounded-xl transition text-xs shadow-lg">تسجيل الدخول</button>
+      </form>
     </div>
 
     <!-- محتوى لوحة التحكم الرئيسي -->
-    <div id="adminContentView" class="p-6 sm:p-8 hidden">
+    <div id="adminContentView" class="p-4 sm:p-8 hidden">
       
       <!-- الهيدر العلوي للوحة -->
       <div class="flex flex-col sm:flex-row justify-between items-center border-b pb-4 mb-6 gap-4">
@@ -77,14 +77,19 @@
             <p class="text-[11px] text-gray-500">أكاديمية إيلاف التعليمية - الإدارة العامة</p>
           </div>
         </div>
-        <a href="index.html" target="_blank" class="bg-sand hover:bg-gray-200 text-primary border border-gray-300 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
-          <i class="fas fa-globe"></i>
-          <span>معاينة الموقع الرئيسي</span>
-        </a>
+        <div class="flex items-center gap-2">
+          <a href="index.html" target="_blank" class="bg-sand hover:bg-gray-200 text-primary border border-gray-300 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
+            <i class="fas fa-globe"></i>
+            <span>معاينة الموقع الرئيسي</span>
+          </a>
+          <button onclick="logoutAdmin()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold px-3 py-2 rounded-xl text-xs transition" title="تسجيل الخروج">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
       </div>
 
       <!-- تبويبات اللوحة -->
-      <div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1">
+      <div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1 pb-1">
         <button id="tabRequestsBtn" onclick="switchAdminTab('requests')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap flex items-center gap-1.5">
           <i class="fas fa-tasks text-gold"></i> إدارة الطلبات والترحيل
         </button>
@@ -117,7 +122,7 @@
             <span id="pendingCountBadge" class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">0 طلبات</span>
           </div>
           <div class="overflow-x-auto border border-amber-200 rounded-xl bg-amber-50/30">
-            <table class="w-full text-right text-xs border-collapse">
+            <table class="w-full text-right text-xs border-collapse min-w-[600px]">
               <thead>
                 <tr class="bg-amber-600 text-white">
                   <th class="p-3 border border-amber-700 text-center w-10">م</th>
@@ -138,7 +143,7 @@
             <i class="fas fa-user-check text-green-600"></i> الطلاب المقبولون (تحديد المعلم، حالة الحساب، عدد الدفعات والترحيل)
           </h4>
           <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-right text-xs border-collapse">
+            <table class="w-full text-right text-xs border-collapse min-w-[700px]">
               <thead>
                 <tr class="bg-primary text-white">
                   <th class="p-3 border text-center w-10">م</th>
@@ -147,8 +152,8 @@
                   <th class="p-3 border">المسار</th>
                   <th class="p-3 border min-w-[130px]">حالة الحساب / الدفع</th>
                   <th class="p-3 border w-24 text-center">عدد الدفعات</th>
-                  <th class="p-3 border">ترحيل للمعلم</th>
-                  <th class="p-3 border text-center">الإجراءات</th>
+                  <th class="p-3 border min-w-[150px]">ترحيل للمعلم</th>
+                  <th class="p-3 border text-center min-w-[140px]">الإجراءات</th>
                 </tr>
               </thead>
               <tbody id="approvedStudentsTable"></tbody>
@@ -157,7 +162,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: إضافة وإدارة الكادر التعليمي (مع شريط البحث) -->
+      <!-- TAB 2: إضافة وإدارة الكادر التعليمي -->
       <div id="addTeacherForm" class="space-y-6 hidden">
         <form onsubmit="handleAddTeacher(event)" class="space-y-4 bg-sand p-4 rounded-2xl border border-gold/30">
           <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-user-plus text-gold"></i> إضافة معلم جديد</h4>
@@ -177,7 +182,6 @@
             <h4 class="font-bold text-xs sm:text-sm text-primary flex items-center gap-2"><i class="fas fa-users-cog text-gold"></i> التحكم بالحسابات المعلمين المتاحة</h4>
           </div>
 
-          <!-- خانة البحث عن المعلمين بالاسم أو اسم المستخدم -->
           <div class="bg-sand p-3 rounded-2xl border border-gold/30 shadow-sm">
             <div class="relative">
               <input type="text" id="teacherSearchInput" oninput="renderAdminTeachersTable()" placeholder="ابحث باسم المعلم أو اسم المستخدم..." class="w-full border rounded-xl px-4 py-2 text-xs focus:border-gold outline-none bg-white pl-10">
@@ -186,7 +190,7 @@
           </div>
 
           <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-right text-xs border-collapse">
+            <table class="w-full text-right text-xs border-collapse min-w-[500px]">
               <thead>
                 <tr class="bg-primary text-white">
                   <th class="p-2.5 border text-center w-10">م</th>
@@ -282,10 +286,25 @@
     let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
     let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
 
-    const fileToBase64 = file => new Promise((resolve) => {
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAuthStatus();
+    });
+
+    function checkAuthStatus() {
+      if (localStorage.getItem('elaf_is_admin_logged_in') === 'true') {
+        document.getElementById('adminLoginView').classList.add('hidden');
+        document.getElementById('adminContentView').classList.remove('hidden');
+        renderAdminUnassigned();
+        renderAdminTeachersTable();
+        loadExistingFormData();
+      }
+    }
+
+    const fileToBase64 = file => new Promise((resolve, reject) => {
       if (!file) return resolve(null);
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
       reader.readAsDataURL(file);
     });
 
@@ -298,9 +317,17 @@
         document.getElementById('passwordError').classList.add('hidden');
         renderAdminUnassigned();
         renderAdminTeachersTable();
+        loadExistingFormData();
       } else {
         document.getElementById('passwordError').classList.remove('hidden');
       }
+    }
+
+    function logoutAdmin() {
+      localStorage.removeItem('elaf_is_admin_logged_in');
+      document.getElementById('adminContentView').classList.add('hidden');
+      document.getElementById('adminLoginView').classList.remove('hidden');
+      document.getElementById('adminPassword').value = '';
     }
 
     function switchAdminTab(tab) {
@@ -339,6 +366,35 @@
       });
     }
 
+    function loadExistingFormData() {
+      // تعبئة بيانات الثلاث حافظين إن وجدت
+      const threeImgs = JSON.parse(localStorage.getItem('elaf_three_images') || '{}');
+      for (let i = 1; i <= 3; i++) {
+        if (threeImgs[`name${i}`]) {
+          const el = document.getElementById(`threeImgName${i}`);
+          if (el) el.value = threeImgs[`name${i}`];
+        }
+        if (threeImgs[`img${i}`] && !threeImgs[`img${i}`].startsWith('data:')) {
+          const elUrl = document.getElementById(`threeImgUrl${i}`);
+          if (elUrl) elUrl.value = threeImgs[`img${i}`];
+        }
+      }
+
+      // تعبئة بيانات المؤسس إن وجدت
+      const founder = JSON.parse(localStorage.getItem('elaf_saved_founder') || '{}');
+      if (founder.name) document.getElementById('founderNameInput').value = founder.name;
+      if (founder.role) document.getElementById('founderRoleInput').value = founder.role;
+      if (founder.img && !founder.img.startsWith('data:')) document.getElementById('founderUrlInput').value = founder.img;
+
+      // تعبئة اللوجو
+      const savedLogo = localStorage.getItem('elaf_saved_logo');
+      if (savedLogo && !savedLogo.startsWith('data:')) document.getElementById('logoUrlInput').value = savedLogo;
+
+      // تعبئة الفيديو
+      const savedVid = localStorage.getItem('elaf_saved_video');
+      if (savedVid && !savedVid.startsWith('data:')) document.getElementById('videoUrlInput').value = savedVid;
+    }
+
     function renderAdminUnassigned() {
       const searchVal = (document.getElementById('adminSearchInput')?.value || '').toLowerCase().trim();
       const pendingTbody = document.getElementById('pendingRequestsTable');
@@ -370,9 +426,9 @@
           tr.className = "hover:bg-amber-100/50";
           tr.innerHTML = `
             <td class="p-2.5 border border-amber-200 text-center font-bold">${idx + 1}</td>
-            <td class="p-2.5 border border-amber-200 font-bold text-primary">${std.name}</td>
-            <td class="p-2.5 border border-amber-200 dir-ltr text-right">${std.phone}</td>
-            <td class="p-2.5 border border-amber-200 text-[11px]">${std.track}</td>
+            <td class="p-2.5 border border-amber-200 font-bold text-primary">${std.name || '-'}</td>
+            <td class="p-2.5 border border-amber-200 dir-ltr text-right">${std.phone || '-'}</td>
+            <td class="p-2.5 border border-amber-200 text-[11px]">${std.track || '-'}</td>
             <td class="p-2.5 border border-amber-200 text-center"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">بانتظار الموافقة</span></td>
             <td class="p-2.5 border border-amber-200 text-center space-x-1 space-x-reverse">
               <button onclick="approveStudent('${std.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded text-[11px]">موافقة</button>
@@ -396,20 +452,20 @@
 
           tr.innerHTML = `
             <td class="p-2.5 border text-center font-bold">${idx + 1}</td>
-            <td class="p-2.5 border font-bold text-primary">${std.name}</td>
-            <td class="p-2.5 border dir-ltr text-right">${std.phone}</td>
-            <td class="p-2.5 border text-[11px]">${std.track}</td>
+            <td class="p-2.5 border font-bold text-primary">${std.name || '-'}</td>
+            <td class="p-2.5 border dir-ltr text-right">${std.phone || '-'}</td>
+            <td class="p-2.5 border text-[11px]">${std.track || '-'}</td>
             <td class="p-2.5 border text-center">
-              <select id="payStatus_${std.id}" class="border rounded p-1 text-[11px] font-bold">
+              <select id="payStatus_${std.id}" class="border rounded p-1 text-[11px] font-bold bg-white">
                 <option value="تم الدفع" ${std.paymentStatus === 'تم الدفع' ? 'selected' : ''}>تم الدفع</option>
                 <option value="لم يدفع" ${std.paymentStatus === 'لم يدفع' ? 'selected' : ''}>لم يدفع</option>
               </select>
             </td>
             <td class="p-2.5 border text-center">
-              <input type="number" id="payCount_${std.id}" value="${std.paymentsCount || 0}" class="w-12 border text-center rounded p-1 text-xs font-bold">
+              <input type="number" id="payCount_${std.id}" value="${std.paymentsCount || 0}" class="w-12 border text-center rounded p-1 text-xs font-bold bg-white">
             </td>
             <td class="p-2.5 border">
-              <select id="teacherSelect_${std.id}" class="w-full border rounded p-1 text-[11px]">${teacherOptions}</select>
+              <select id="teacherSelect_${std.id}" class="w-full border rounded p-1 text-[11px] bg-white">${teacherOptions}</select>
             </td>
             <td class="p-2.5 border text-center space-y-1">
               <button onclick="saveStudentApprovalData('${std.id}')" class="bg-gold hover:bg-gold-dark text-primary font-bold px-3 py-1 rounded text-[11px] w-full">حفظ وتحديث</button>
@@ -424,7 +480,7 @@
       const std = studentsDB.find(s => s.id === id);
       if (std) {
         std.status = 'approved';
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        saveToStorage('elaf_students_db', studentsDB);
         renderAdminUnassigned();
       }
     }
@@ -432,7 +488,7 @@
     function rejectStudent(id) {
       if (confirm('هل أنت متأكد من رفض وتجاهل هذا الطلب؟')) {
         studentsDB = studentsDB.filter(s => s.id !== id);
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        saveToStorage('elaf_students_db', studentsDB);
         renderAdminUnassigned();
       }
     }
@@ -443,7 +499,7 @@
         std.paymentStatus = document.getElementById(`payStatus_${id}`).value;
         std.paymentsCount = Number(document.getElementById(`payCount_${id}`).value);
         std.teacherId = document.getElementById(`teacherSelect_${id}`).value;
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        saveToStorage('elaf_students_db', studentsDB);
         alert('تم حفظ البيانات وترحيل الطالب بنجاح!');
         renderAdminUnassigned();
       }
@@ -452,7 +508,7 @@
     function deleteStudent(id) {
       if (confirm('هل أنت متأكد من حذف الطالب كلياً من النظام؟')) {
         studentsDB = studentsDB.filter(s => s.id !== id);
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        saveToStorage('elaf_students_db', studentsDB);
         renderAdminUnassigned();
       }
     }
@@ -466,19 +522,24 @@
       const file = document.getElementById('teacherFileInput').files[0];
       let imgUrl = document.getElementById('teacherUrlInput').value;
 
-      if (file) {
-        imgUrl = await fileToBase64(file);
-      }
+      try {
+        if (file) {
+          imgUrl = await fileToBase64(file);
+        }
 
-      if (!imgUrl) {
-        imgUrl = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400';
-      }
+        if (!imgUrl) {
+          imgUrl = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400';
+        }
 
-      teachersDB.push({ id: 'tech-' + Date.now(), name, role, userAuth, passAuth, img: imgUrl, isBlocked: false });
-      localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
-      alert('تمت إضافة المعلم بنجاح!');
-      e.target.reset();
-      renderAdminTeachersTable();
+        teachersDB.push({ id: 'tech-' + Date.now(), name, role, userAuth, passAuth, img: imgUrl, isBlocked: false });
+        if (saveToStorage('elaf_teachers_db', teachersDB)) {
+          alert('تمت إضافة المعلم بنجاح!');
+          e.target.reset();
+          renderAdminTeachersTable();
+        }
+      } catch (err) {
+        alert('حدث خطأ أثناء معالجة الصورة، يرجى المحاولة باستخدام صورة أصغر حجماً.');
+      }
     }
 
     function renderAdminTeachersTable() {
@@ -507,7 +568,7 @@
         tr.innerHTML = `
           <td class="p-2.5 border text-center font-bold">${idx + 1}</td>
           <td class="p-2.5 border font-bold text-primary flex items-center gap-2">
-            <img src="${t.img}" class="w-8 h-8 rounded-full object-cover border">
+            <img src="${t.img}" class="w-8 h-8 rounded-full object-cover border" onerror="this.src='https://via.placeholder.com/150'">
             <div>
               <span>${t.name}</span>
               <br><span class="text-[10px] text-gold-dark font-normal">${t.role}</span>
@@ -533,7 +594,7 @@
       const teacher = teachersDB.find(t => t.id === id);
       if (teacher) {
         teacher.isBlocked = !teacher.isBlocked;
-        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        saveToStorage('elaf_teachers_db', teachersDB);
         renderAdminTeachersTable();
       }
     }
@@ -541,7 +602,7 @@
     function deleteTeacher(id) {
       if (confirm('هل أنت متأكد من حذف حساب المعلم بالكامل؟')) {
         teachersDB = teachersDB.filter(t => t.id !== id);
-        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        saveToStorage('elaf_teachers_db', teachersDB);
         renderAdminTeachersTable();
       }
     }
@@ -550,21 +611,26 @@
       e.preventDefault();
       let currentData = JSON.parse(localStorage.getItem('elaf_three_images') || '{}');
 
-      for (let i = 1; i <= 3; i++) {
-        const nameVal = document.getElementById(`threeImgName${i}`).value;
-        const file = document.getElementById(`threeImgFile${i}`).files[0];
-        let urlVal = document.getElementById(`threeImgUrl${i}`).value;
+      try {
+        for (let i = 1; i <= 3; i++) {
+          const nameVal = document.getElementById(`threeImgName${i}`).value;
+          const file = document.getElementById(`threeImgFile${i}`).files[0];
+          let urlVal = document.getElementById(`threeImgUrl${i}`).value;
 
-        if (nameVal) currentData[`name${i}`] = nameVal;
-        if (file) {
-          currentData[`img${i}`] = await fileToBase64(file);
-        } else if (urlVal) {
-          currentData[`img${i}`] = urlVal;
+          if (nameVal) currentData[`name${i}`] = nameVal;
+          if (file) {
+            currentData[`img${i}`] = await fileToBase64(file);
+          } else if (urlVal) {
+            currentData[`img${i}`] = urlVal;
+          }
         }
-      }
 
-      localStorage.setItem('elaf_three_images', JSON.stringify(currentData));
-      alert('تم تحديث بيانات منصة التتويج بنجاح!');
+        if (saveToStorage('elaf_three_images', currentData)) {
+          alert('تم تحديث بيانات منصة التتويج بنجاح!');
+        }
+      } catch (err) {
+        alert('حجم الصور كبير جداً، يرجى اختيار صور أقل حجماً أو استخدام روابط مباشرة.');
+      }
     }
 
     async function handleUpdateLogo(e) {
@@ -572,11 +638,16 @@
       const file = document.getElementById('logoFileInput').files[0];
       let url = document.getElementById('logoUrlInput').value;
 
-      if (file) url = await fileToBase64(file);
-      if (url) {
-        localStorage.setItem('elaf_saved_logo', url);
-        alert('تم تحديث اللوجو بنجاح!');
-        e.target.reset();
+      try {
+        if (file) url = await fileToBase64(file);
+        if (url) {
+          if (saveToStorage('elaf_saved_logo', url)) {
+            alert('تم تحديث اللوجو بنجاح!');
+            e.target.reset();
+          }
+        }
+      } catch (err) {
+        alert('حدث خطأ في حفظ صورة اللوجو.');
       }
     }
 
@@ -587,11 +658,15 @@
       const file = document.getElementById('founderFileInput').files[0];
       let img = document.getElementById('founderUrlInput').value;
 
-      if (file) img = await fileToBase64(file);
-
-      const founderData = { name, role, img };
-      localStorage.setItem('elaf_saved_founder', JSON.stringify(founderData));
-      alert('تم تحديث بيانات المؤسس بنجاح!');
+      try {
+        if (file) img = await fileToBase64(file);
+        const founderData = { name, role, img };
+        if (saveToStorage('elaf_saved_founder', founderData)) {
+          alert('تم تحديث بيانات المؤسس بنجاح!');
+        }
+      } catch (err) {
+        alert('حدث خطأ في حفظ بيانات المؤسس.');
+      }
     }
 
     async function handleChangeVideo(e) {
@@ -599,11 +674,16 @@
       const file = document.getElementById('videoFileInput').files[0];
       let url = document.getElementById('videoUrlInput').value;
 
-      if (file) url = await fileToBase64(file);
-      if (url) {
-        localStorage.setItem('elaf_saved_video', url);
-        alert('تم تحديث الفيديو بنجاح!');
-        e.target.reset();
+      try {
+        if (file) url = await fileToBase64(file);
+        if (url) {
+          if (saveToStorage('elaf_saved_video', url)) {
+            alert('تم تحديث الفيديو بنجاح!');
+            e.target.reset();
+          }
+        }
+      } catch (err) {
+        alert('عذراً، حجم الفيديو كبير جداً للتخزين المحلي. ينصح باستعمال رابط فيديو مباشر (مثل y2u.be أو MP4 خارجي).');
       }
     }
 
@@ -613,13 +693,29 @@
       const file = document.getElementById('imgFileInput').files[0];
       let imgUrl = document.getElementById('imgUrlInput').value;
 
-      if (file) imgUrl = await fileToBase64(file);
+      try {
+        if (file) imgUrl = await fileToBase64(file);
 
-      if (imgUrl) {
-        reviewsDB.unshift({ id: Date.now(), author, imgUrl, date: new Date().toLocaleDateString('ar-EG'), isImageReview: true });
-        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
-        alert('تمت إضافة رأي الصورة بنجاح!');
-        e.target.reset();
+        if (imgUrl) {
+          reviewsDB.unshift({ id: Date.now(), author, imgUrl, date: new Date().toLocaleDateString('ar-EG'), isImageReview: true });
+          if (saveToStorage('elaf_reviews_db', reviewsDB)) {
+            alert('تمت إضافة رأي الصورة بنجاح!');
+            e.target.reset();
+          }
+        }
+      } catch (err) {
+        alert('حدث خطأ في رفع الصورة.');
+      }
+    }
+
+    function saveToStorage(key, value) {
+      try {
+        const valToSave = typeof value === 'string' ? value : JSON.stringify(value);
+        localStorage.setItem(key, valToSave);
+        return true;
+      } catch (e) {
+        alert('تنبيه: مساحة التخزين الخاصة بالمتصفح امتلات، يرجى تقليل أحجام الصور المرفوعة أو استخدام روابط خارجية.');
+        return false;
       }
     }
   </script>
