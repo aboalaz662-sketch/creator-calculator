@@ -779,6 +779,7 @@
       renderTestimonials();
     });
 
+    // استماع للتحديثات المباشرة والتغيرات من تبويبات أو نوافذ أخرى
     window.addEventListener('storage', (e) => {
       if (e.key === 'elaf_saved_logo') loadSavedLogo();
       if (e.key === 'elaf_saved_founder') loadSavedFounder();
@@ -794,6 +795,13 @@
       if (e.key === 'elaf_reviews_db') {
         reviewsDB = JSON.parse(e.newValue || '[]');
         renderTestimonials();
+      }
+      if (e.key === 'elaf_students_db') {
+        studentsDB = JSON.parse(e.newValue || '[]');
+        if (currentLoggedInUser) {
+          if (activePortalRole === 'teacher') renderTeacherStudents();
+          if (activePortalRole === 'student') renderStudentDashboard();
+        }
       }
     });
 
@@ -886,7 +894,7 @@
       else section.classList.add('hidden');
     }
 
-    // دالة عرض الآراء والصور مع الزر السري المخصص للمدير
+    // دالة عرض الآراء والصور مع التحديث المباشر
     function renderTestimonials() {
       const grid = document.getElementById('testimonials-grid');
       const isAdminLoggedIn = localStorage.getItem('elaf_is_admin_logged_in') === 'true';
@@ -945,15 +953,28 @@
       }
     }
 
+    // إضافة وإدراج التعليق الجديد فوراً للزائر وفي الواجهة المباشرة
     function handlePublicAddReview(e) {
       e.preventDefault();
       const author = document.getElementById('publicReviewAuthor').value;
       const rating = document.getElementById('publicReviewRating').value;
       const text = document.getElementById('publicReviewText').value;
 
-      reviewsDB.unshift({ id: Date.now(), author, rating, text, date: new Date().toLocaleDateString('ar-EG'), isImageReview: false });
+      const newReview = { 
+        id: Date.now(), 
+        author: author, 
+        rating: rating, 
+        text: text, 
+        date: new Date().toLocaleDateString('ar-EG'), 
+        isImageReview: false 
+      };
+
+      reviewsDB.unshift(newReview);
       localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+      
+      // التحديث الفوري للواجهة
       renderTestimonials();
+      
       alert('شكراً لك! تم نشر رأيك فوراً.');
       e.target.reset();
     }
