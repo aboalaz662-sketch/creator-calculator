@@ -1,8 +1,6 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDWG6LUvXrx8IDKMQoTUWRVNhRiLhDEIY8",
   authDomain: "elaf-academy.firebaseapp.com",
@@ -13,14 +11,15 @@ const firebaseConfig = {
   measurementId: "G-YY8Y9VDYGQ"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Analytics conditionally to prevent errors in environments without window/analytics support
 let analytics = null;
 if (typeof window !== "undefined") {
-  analytics = getAnalytics(app);
+  try {
+    analytics = getAnalytics(app);
+  } catch (e) {
+    console.warn("Analytics not initialized:", e);
+  }
 }
 
-// Export app & analytics for use across all scripts
 export { app, analytics };
