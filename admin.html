@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة التحكم والإدارة - أكاديمية إيلاف</title>
+  <title>أكاديمية إيلاف التعليمية - الصفحة الرئيسية</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -35,689 +35,1136 @@
   </script>
 
   <style>
-    body { font-family: 'Cairo', sans-serif; background-color: #06241C; color: #2D3748; min-height: 100vh; }
-    .decorated-title { font-family: 'Reem Kufi', sans-serif; }
-    .dir-ltr { direction: ltr; text-align: left; }
+    body { font-family: 'Cairo', sans-serif; background-color: #F9F8F3; color: #2D3748; }
+    html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #F9F8F3; }
+    ::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 4px; }
+    .decorated-title { font-family: 'Reem Kufi', sans-serif; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15); }
+    .hero-bg {
+      background: linear-gradient(135deg, rgba(13, 59, 46, 0.95) 0%, rgba(6, 36, 28, 0.98) 100%), 
+                  url('https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&q=80&w=1920');
+      background-size: cover; background-position: center;
+    }
+    .gold-gradient-text { background: linear-gradient(45deg, #C5A059, #F3E5AB, #9A7B3E); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .modal-backdrop { background-color: rgba(6, 36, 28, 0.85); backdrop-filter: blur(5px); }
+    .dir-ltr { direction: ltr; text-align: right; }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 12px 24px -10px rgba(13, 59, 46, 0.15); }
+    .logo-glow { box-shadow: 0 0 15px rgba(197, 160, 89, 0.3); }
+    .img-glow { box-shadow: 0 0 20px rgba(197, 160, 89, 0.25); }
+    .gold-glow-circle { box-shadow: 0 0 25px rgba(197, 160, 89, 0.6), 0 0 45px rgba(197, 160, 89, 0.3); }
+    .avatar-glow { box-shadow: 0 0 25px rgba(197, 160, 89, 0.7), 0 0 50px rgba(197, 160, 89, 0.4); }
+    .social-link-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .social-link-btn:hover { transform: translateY(-3px); }
   </style>
 </head>
-<body class="antialiased flex items-center justify-center p-2 sm:p-4 selection:bg-gold selection:text-white">
+<body class="antialiased selection:bg-gold selection:text-white">
 
-  <!-- ================= MAIN CONTAINER ================= -->
-  <div class="bg-white rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl border border-gold/30 my-4 sm:my-8">
-    
-    <!-- شاشة تسجيل دخول الإدارة -->
-    <div id="adminLoginView" class="p-6 sm:p-12">
-      <div class="text-center mb-8">
-        <div class="w-16 h-16 bg-gold/10 text-gold border border-gold/30 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">
-          <i class="fas fa-user-shield"></i>
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="sticky top-0 z-40 bg-primary/95 backdrop-blur-md border-b border-gold/30 shadow-lg transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <div class="flex items-center gap-6 sm:gap-8">
+          <button onclick="toggleSidebarNav()" class="bg-gold hover:bg-gold-dark text-primary font-black px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md relative">
+            <i class="fas fa-bars text-base"></i>
+            <span>القائمة واللوحات</span>
+          </button>
+
+          <nav class="hidden md:flex items-center gap-5 font-bold text-sm text-gray-200">
+            <a href="#hero" class="hover:text-gold transition-colors">الرئيسية</a>
+            <a href="#founder" class="hover:text-gold transition-colors">المؤسس</a>
+            <a href="#threeImagesSection" class="hover:text-gold transition-colors">حافظين كتاب الله</a>
+            <a href="#features" class="hover:text-gold transition-colors">مميزات إيلاف</a>
+            <a href="#courses" class="hover:text-gold transition-colors">المسارات</a>
+            <a href="#teachers" class="hover:text-gold transition-colors">الكادر التعليمي</a>
+            <a href="#testimonials" class="hover:text-gold transition-colors">آراء الطلاب</a>
+            <a href="#register" class="hover:text-gold transition-colors">التسجيل</a>
+            <a href="#contact" class="hover:text-gold transition-colors">التواصل</a>
+          </nav>
         </div>
-        <h3 class="font-black text-2xl text-primary decorated-title">دخول لوحة الإدارة والتحكم</h3>
-        <p class="text-xs text-gray-500 mt-1">أكاديمية إيلاف التعليمية</p>
+
+        <div class="flex items-center gap-3">
+          <div class="hidden sm:block text-left">
+            <h1 class="font-extrabold text-xl text-white tracking-wide decorated-title"><span class="gold-gradient-text"> أكاديمية إيلاف التعليمية</span></h1>
+            <p class="text-[10px] text-gold-light font-medium tracking-wider">للتلاوة والتجويد والعلوم القرآنية</p>
+          </div>
+          <div class="relative group">
+            <div id="logoContainer" class="w-12 h-12 bg-gold/10 border border-gold/40 rounded-2xl flex items-center justify-center overflow-hidden logo-glow">
+              <span id="logoText" class="text-gold font-black text-2xl decorated-title">إ</span>
+              <img id="logoImg" src="" alt="شعار أكاديمية إيلاف التعليمية" class="w-full h-full object-cover hidden">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= SIDEBAR MENU ================= -->
+  <div id="sidebarNavOverlay" onclick="toggleSidebarNav()" class="fixed inset-0 bg-primary-dark/80 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  
+  <div id="sidebarNav" class="fixed top-0 right-0 h-full w-80 bg-primary border-l border-gold/30 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 text-white flex flex-col justify-between">
+    <div>
+      <div class="flex justify-between items-center border-b border-gold/30 pb-4 mb-6">
+        <div class="flex items-center gap-2 text-gold font-black text-lg decorated-title">
+          <i class="fas fa-sliders-h"></i>
+          <span>القائمة واللوحات</span>
+        </div>
+        <button onclick="toggleSidebarNav()" class="text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
       </div>
 
-      <form onsubmit="event.preventDefault(); verifyPassword();" class="space-y-5 max-w-md mx-auto">
-        <div>
-          <label class="block text-xs font-bold text-gray-700 mb-2">أدخل الرقم السري للإدارة</label>
-          <input type="password" id="adminPassword" placeholder="••••••••" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none transition">
-          <p id="passwordError" class="text-red-500 text-xs font-bold mt-2 hidden">الرقم السري غير صحيح!</p>
-        </div>
-        <button type="submit" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3.5 rounded-xl transition text-xs shadow-lg">تسجيل الدخول</button>
-      </form>
+      <p class="text-xs text-gray-300 mb-4 font-normal">اختر البوابة التي ترغب بالانتقال إليها:</p>
+
+      <div class="space-y-3">
+        <button onclick="openSystemPanel('teacher')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-chalkboard-teacher text-gold"></i>
+            <span>بوابة المعلم</span>
+          </div>
+          <i class="fas fa-chevron-left text-[10px] opacity-60"></i>
+        </button>
+
+        <button onclick="openSystemPanel('student')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-user-graduate text-gold"></i>
+            <span>بوابة الطالب</span>
+          </div>
+          <i class="fas fa-chevron-left text-[10px] opacity-60"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- محتوى لوحة التحكم الرئيسي -->
-    <div id="adminContentView" class="p-4 sm:p-8 hidden">
-      
-      <!-- الهيدر العلوي للوحة -->
-      <div class="flex flex-col sm:flex-row justify-between items-center border-b pb-4 mb-6 gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-primary font-black text-xl decorated-title">إ</div>
-          <div>
-            <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-sliders-h text-gold"></i> لوحة التحكم وإدارة النظام</h3>
-            <p class="text-[11px] text-gray-500">أكاديمية إيلاف التعليمية - الإدارة العامة</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <a href="index.html" target="_blank" class="bg-sand hover:bg-gray-200 text-primary border border-gray-300 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
-            <i class="fas fa-globe"></i>
-            <span>معاينة الموقع الرئيسي</span>
-          </a>
-          <button onclick="logoutAdmin()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold px-3 py-2 rounded-xl text-xs transition" title="تسجيل الخروج">
-            <i class="fas fa-sign-out-alt"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- تبويبات اللوحة -->
-      <div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1 pb-1">
-        <button id="tabRequestsBtn" onclick="switchAdminTab('requests')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap flex items-center gap-1.5">
-          <i class="fas fa-tasks text-gold"></i> إدارة الطلبات والترحيل
-        </button>
-        <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">إدارة وتوليد المعلمين</button>
-        <button id="tabThreeImgsBtn" onclick="switchAdminTab('threeImgs')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-images text-gold ml-1"></i> إدارة الحافظين (1-2-3)</button>
-        <button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">اللوجو</button>
-        <button id="tabFounderBtn" onclick="switchAdminTab('founder')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المؤسس</button>
-        <button id="tabVidBtn" onclick="switchAdminTab('vid')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">الفيديو</button>
-        <button id="tabImgBtn" onclick="switchAdminTab('img')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">رأي صورة</button>
-      </div>
-
-      <!-- TAB 1: إدارة الطلبات والترحيل -->
-      <div id="requestsSection" class="space-y-8">
-        <div class="bg-sand p-4 rounded-2xl border border-gold/40 shadow-sm space-y-2">
-          <label class="block text-xs font-extrabold text-primary flex items-center gap-2">
-            <i class="fas fa-search text-gold text-sm"></i>
-            <span>البحث الشامل بالسجل (بالاسم أو الرقم):</span>
-          </label>
-          <div class="relative">
-            <input type="text" id="adminSearchInput" oninput="renderAdminUnassigned()" placeholder="اكتب اسم الطالب أو رقم الهاتف للبحث الفوري..." class="w-full border-2 border-gold/30 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none bg-white shadow-inner pl-10">
-            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="font-bold text-xs sm:text-sm text-amber-700 flex items-center gap-2">
-              <i class="fas fa-clock"></i> طلبات التسجيل الجديدة المعلقة (تنتظر الموافقة)
-            </h4>
-            <span id="pendingCountBadge" class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">0 طلبات</span>
-          </div>
-          <div class="overflow-x-auto border border-amber-200 rounded-xl bg-amber-50/30">
-            <table class="w-full text-right text-xs border-collapse min-w-[600px]">
-              <thead>
-                <tr class="bg-amber-600 text-white">
-                  <th class="p-3 border border-amber-700 text-center w-10">م</th>
-                  <th class="p-3 border border-amber-700">اسم الطالب</th>
-                  <th class="p-3 border border-amber-700">الهاتف</th>
-                  <th class="p-3 border border-amber-700">المسار المطلوب</th>
-                  <th class="p-3 border border-amber-700">الحالة</th>
-                  <th class="p-3 border border-amber-700 text-center">قرار الإدارة</th>
-                </tr>
-              </thead>
-              <tbody id="pendingRequestsTable"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h4 class="font-bold text-xs sm:text-sm text-primary flex items-center gap-2">
-            <i class="fas fa-user-check text-green-600"></i> الطلاب المقبولون (تحديد المعلم، حالة الحساب، عدد الدفعات والترحيل)
-          </h4>
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-right text-xs border-collapse min-w-[700px]">
-              <thead>
-                <tr class="bg-primary text-white">
-                  <th class="p-3 border text-center w-10">م</th>
-                  <th class="p-3 border">اسم الطالب</th>
-                  <th class="p-3 border">الهاتف</th>
-                  <th class="p-3 border">المسار</th>
-                  <th class="p-3 border min-w-[130px]">حالة الحساب / الدفع</th>
-                  <th class="p-3 border w-24 text-center">عدد الدفعات</th>
-                  <th class="p-3 border min-w-[150px]">ترحيل للمعلم</th>
-                  <th class="p-3 border text-center min-w-[140px]">الإجراءات</th>
-                </tr>
-              </thead>
-              <tbody id="approvedStudentsTable"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 2: إضافة وإدارة الكادر التعليمي -->
-      <div id="addTeacherForm" class="space-y-6 hidden">
-        <form onsubmit="handleAddTeacher(event)" class="space-y-4 bg-sand p-4 rounded-2xl border border-gold/30">
-          <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-user-plus text-gold"></i> إضافة معلم جديد</h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المعلم / المعلمة</label><input type="text" id="teacherNameInput" required class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
-            <div><label class="block text-xs font-bold text-gray-700 mb-1">التخصص</label><input type="text" id="teacherRoleInput" required class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
-            <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المستخدم للدخول</label><input type="text" id="teacherUserAuthInput" required placeholder="مثال: teacher1" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
-            <div><label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label><input type="password" id="teacherPassAuthInput" required placeholder="••••••••" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
-          </div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة المعلم</label><input type="file" id="teacherFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-white"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="teacherUrlInput" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-2.5 rounded-xl transition text-xs shadow-md">إضافة المعلم وتوليد حسابه</button>
-        </form>
-
-        <div class="space-y-3">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <h4 class="font-bold text-xs sm:text-sm text-primary flex items-center gap-2"><i class="fas fa-users-cog text-gold"></i> التحكم بالحسابات المعلمين المتاحة</h4>
-          </div>
-
-          <div class="bg-sand p-3 rounded-2xl border border-gold/30 shadow-sm">
-            <div class="relative">
-              <input type="text" id="teacherSearchInput" oninput="renderAdminTeachersTable()" placeholder="ابحث باسم المعلم أو اسم المستخدم..." class="w-full border rounded-xl px-4 py-2 text-xs focus:border-gold outline-none bg-white pl-10">
-              <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-            </div>
-          </div>
-
-          <div class="overflow-x-auto border rounded-xl">
-            <table class="w-full text-right text-xs border-collapse min-w-[500px]">
-              <thead>
-                <tr class="bg-primary text-white">
-                  <th class="p-2.5 border text-center w-10">م</th>
-                  <th class="p-2.5 border">المعلم</th>
-                  <th class="p-2.5 border">اسم المستخدم</th>
-                  <th class="p-2.5 border">الحالة</th>
-                  <th class="p-2.5 border text-center">الإجراءات والتحكم</th>
-                </tr>
-              </thead>
-              <tbody id="adminTeachersTable"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB THREE IMGS -->
-      <div id="threeImagesForm" class="space-y-6 hidden">
-        <div class="bg-sand p-4 rounded-2xl border border-gold/30">
-          <h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fas fa-trophy text-gold"></i> إدارة صور وأسماء الحافظين على منصة التتويج</h4>
-          <p class="text-[11px] text-gray-500 mt-1">قم برفع الصور وإدخال أسماء الطلاب الحافظين للقرآن الكريم.</p>
-        </div>
-
-        <form onsubmit="handleSaveThreeImages(event)" class="space-y-6">
-          <div class="p-4 border-2 border-amber-400 rounded-2xl bg-amber-50/20 shadow-sm space-y-3">
-            <span class="inline-block bg-amber-400 text-primary font-black text-xs px-3 py-1 rounded-full shadow">صورة واسم صاحب المركز الأول (1) - المنتصف</span>
-            <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم الطالب / الطالبة</label><input type="text" id="threeImgName1" placeholder="مثال: الطالب/ أحمد المحمد" class="w-full border rounded-xl px-3.5 py-2 text-xs outline-none bg-white font-bold"></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع ملف صورة</label><input type="file" id="threeImgFile1" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs outline-none bg-white"></div>
-              <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="threeImgUrl1" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2 text-xs outline-none bg-white"></div>
-            </div>
-          </div>
-
-          <div class="p-4 border border-gold/40 rounded-2xl bg-white shadow-sm space-y-3">
-            <span class="inline-block bg-gold text-primary font-black text-xs px-3 py-1 rounded-full shadow">صورة واسم المركز الثاني (2) - اليمين</span>
-            <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم الطالب / الطالبة</label><input type="text" id="threeImgName2" placeholder="مثال: الطالبة/ مريم السالم" class="w-full border rounded-xl px-3.5 py-2 text-xs outline-none bg-gray-50 font-bold"></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع ملف صورة</label><input type="file" id="threeImgFile2" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs outline-none bg-gray-50"></div>
-              <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="threeImgUrl2" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2 text-xs outline-none"></div>
-            </div>
-          </div>
-
-          <div class="p-4 border border-gold/40 rounded-2xl bg-white shadow-sm space-y-3">
-            <span class="inline-block bg-gold text-primary font-black text-xs px-3 py-1 rounded-full shadow">صورة واسم المركز الثالث (3) - الشمال</span>
-            <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم الطالب / الطالبة</label><input type="text" id="threeImgName3" placeholder="مثال: الطالب/ عمر خالد" class="w-full border rounded-xl px-3.5 py-2 text-xs outline-none bg-gray-50 font-bold"></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع ملف صورة</label><input type="file" id="threeImgFile3" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs outline-none bg-gray-50"></div>
-              <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="threeImgUrl3" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2 text-xs outline-none"></div>
-            </div>
-          </div>
-
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث التتويج فوراً</button>
-        </form>
-      </div>
-
-      <!-- TAB LOGO -->
-      <form id="addLogoForm" onsubmit="handleUpdateLogo(event)" class="space-y-4 hidden">
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة اللوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs outline-none bg-gray-50"></div>
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط صورة اللوجو</label><input type="url" id="logoUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none"></div>
-        <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ اللوجو</button>
-      </form>
-
-      <!-- TAB FOUNDER -->
-      <form id="addFounderForm" onsubmit="handleUpdateFounder(event)" class="space-y-4 hidden">
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المؤسس</label><input type="text" id="founderNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none"></div>
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">المسمى الوظيفي</label><input type="text" id="founderRoleInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none"></div>
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة جديدة</label><input type="file" id="founderFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs outline-none bg-gray-50"></div>
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="founderUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none"></div>
-        <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ والتعديل</button>
-      </form>
-
-      <!-- TAB VIDEO -->
-      <form id="addVidForm" onsubmit="handleChangeVideo(event)" class="space-y-4 hidden">
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">رابط فيديو MP4 مباشر أو رابط يوتيوب</label><input type="url" id="videoUrlInput" placeholder="https://www.youtube.com/watch?v=..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none"></div>
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">أو اختر فيديو من جهازك</label><input type="file" id="videoFileInput" accept="video/*" class="w-full border rounded-xl px-3 py-2 text-xs outline-none bg-gray-50"></div>
-        <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ الفيديو</button>
-      </form>
-
-      <!-- TAB IMG REVIEW -->
-      <form id="addImgForm" onsubmit="handleAddImgReview(event)" class="space-y-4 hidden">
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم / الوصف</label><input type="text" id="imgAuthor" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none"></div>
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة الرأي</label><input type="file" id="imgFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs outline-none bg-gray-50"></div>
-        <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="imgUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none"></div>
-        <button type="submit" class="w-full bg-primary hover:bg-primary-light text-white font-black py-3 rounded-xl transition text-xs shadow-md">إضافة الصورة</button>
-      </form>
-
+    <div class="border-t border-gold/20 pt-4 text-center">
+      <span class="text-[10px] text-gold-light"> أكاديمية إيلاف التعليمية</span>
     </div>
   </div>
 
-  <!-- JavaScript Logic -->
+  <!-- ================= HERO SECTION ================= -->
+  <section id="hero" class="hero-bg min-h-[85vh] flex items-center relative overflow-hidden py-16 text-white">
+    <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-80"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/20 border border-gold/40 text-gold-light text-xs font-bold mb-2">
+            <i class="fas fa-quran text-gold"></i>
+            <span>رحلتك المباركة لتعلم القرآن تبدأ من هنا</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight decorated-title">
+            خيركم من تعلم <br class="hidden sm:inline" />
+            <span class="gold-gradient-text">القرآن وعلّمه</span>
+          </h1>
+
+          <p class="text-sm sm:text-base text-gray-300 max-w-2xl font-normal leading-relaxed mx-auto lg:mx-0">
+            أهلاً بك في أكاديمية إيلاف التعليمية، البيئة التعليمية المتكاملة لضبط إتقان وتلاوة القرآن الكريم. نوفر لك جلسات تعليمية فردية وجماعية بإشراف نخبة من المعلمين المتقنين والمجازين.
+          </p>
+
+          <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+            <a href="https://wa.me/962780285762" target="_blank" class="bg-gold hover:bg-gold-dark text-primary font-black px-8 py-3.5 rounded-xl text-sm transition transform hover:-translate-y-1 shadow-lg flex items-center gap-2">
+              <i class="fas fa-paper-plane"></i>
+              <span>سجل الان</span>
+            </a>
+            <a href="#courses" class="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 rounded-xl text-sm border border-white/20 transition backdrop-blur-sm flex items-center gap-2">
+              <i class="fas fa-book-open"></i>
+              <span>استكشف المسارات</span>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white/10 text-center">
+            <div>
+              <h3 class="font-extrabold text-gold text-xl sm:text-2xl decorated-title">100%</h3>
+              <p class="text-[11px] text-gray-300">تعليم فردي مباشر</p>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-gold text-xl sm:text-2xl decorated-title">معلمون</h3>
+              <p class="text-[11px] text-gray-300">مجازون بالإسناد</p>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-gold text-xl sm:text-2xl decorated-title">مرونة</h3>
+              <p class="text-[11px] text-gray-300">في اختيار الأوقات</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden border-2 border-gold/40 shadow-2xl bg-primary-dark/80 p-2 img-glow">
+            <div id="videoContainer" class="relative rounded-2xl overflow-hidden aspect-video bg-black/50 flex items-center justify-center group">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="فيديو إيلاف" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full rounded-2xl"></iframe>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOUNDER SECTION ================= -->
+  <section id="founder" class="py-20 bg-white border-y border-gray-100 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-br from-primary to-primary-dark rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          
+          <div class="md:col-span-4 text-center">
+            <div class="relative inline-block">
+              <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-full border-4 border-gold p-1.5 mx-auto overflow-hidden gold-glow-circle bg-primary-light transition-transform hover:scale-105 duration-300">
+                <img id="founderImg" src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=400" alt="صورة المؤسس" class="w-full h-full object-cover rounded-full">
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-8 space-y-4 text-center md:text-right">
+            <span class="text-gold font-bold text-xs uppercase tracking-widest bg-gold/10 px-3 py-1 rounded-full border border-gold/30">مؤسس الأكاديمية</span>
+            <h3 id="founderName" class="text-2xl sm:text-3xl font-black text-white decorated-title">الشيخ د. أحمد المنصوري</h3>
+            <p id="founderRole" class="text-xs text-gold-light font-semibold">حاصل على القراءات العشر وأستاذ التجويد</p>
+            <p class="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal pt-2">
+              "سعينا في إيلاف لإنشاء بيئة تعليمية تجمع بين أصالة التعليم القرآني وحداثة الوسائل التقنية، لنسهّل على كل راغب في تعلم كتاب الله العظيم الوصول إلى معلمين متقنين من بيته وبسهولة تامة."
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= THREE IMAGES DISPLAY SECTION ================= -->
+  <section id="threeImagesSection" class="py-16 bg-gradient-to-b from-primary-dark to-primary border-b border-gold/30 text-white hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="bg-gold/20 text-gold-light border border-gold/40 text-xs px-4 py-1.5 rounded-full font-bold inline-block mb-3 shadow">
+          <i class="fas fa-crown text-gold ml-1"></i> لوحة الشرف والافتخار
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-black decorated-title gold-gradient-text tracking-wide">
+          حافظين كتاب الله في أكاديمية إيلاف
+        </h2>
+        <div class="w-24 h-1 bg-gold mx-auto mt-4 rounded-full shadow-lg"></div>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center md:items-end justify-center gap-8 md:gap-12 pt-6">
+        
+        <div id="cardImg2" class="flex flex-col items-center order-2 md:order-1 mb-4 md:mb-0 hidden">
+          <div class="relative group">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-gold text-primary font-black text-sm w-9 h-9 rounded-full flex items-center justify-center border-2 border-white shadow-xl">2</div>
+            <div class="w-44 h-44 sm:w-52 sm:h-52 rounded-full border-4 border-gold p-1 bg-primary-light avatar-glow transition-transform duration-300 hover:scale-105">
+              <img id="displayImg2" src="" class="w-full h-full object-cover rounded-full">
+            </div>
+          </div>
+          <span class="mt-4 bg-gold/20 border border-gold/40 text-gold-light font-bold text-xs px-4 py-1 rounded-full shadow">المركز الثاني</span>
+          <div id="displayName2" class="mt-2 bg-primary/80 border border-gold/50 px-5 py-1.5 rounded-xl shadow-lg text-center font-extrabold text-sm text-gold-light decorated-title hidden"></div>
+        </div>
+
+        <div id="cardImg1" class="flex flex-col items-center order-1 md:order-2 z-20 mb-8 md:mb-6 hidden">
+          <div class="relative group">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 z-10 text-gold text-2xl animate-bounce">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-10 bg-amber-400 text-primary font-black text-base w-11 h-11 rounded-full flex items-center justify-center border-2 border-white shadow-2xl">1</div>
+            <div class="w-56 h-56 sm:w-64 sm:h-64 rounded-full border-4 border-amber-400 p-1.5 bg-primary-light avatar-glow transition-transform duration-300 hover:scale-105">
+              <img id="displayImg1" src="" class="w-full h-full object-cover rounded-full">
+            </div>
+          </div>
+          <span class="mt-4 bg-amber-400 text-primary font-black text-sm px-6 py-1.5 rounded-full shadow-lg">المركز الأول</span>
+          <div id="displayName1" class="mt-2.5 bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-primary font-black text-base px-6 py-2 rounded-2xl shadow-2xl border-2 border-amber-300 decorated-title hidden"></div>
+        </div>
+
+        <div id="cardImg3" class="flex flex-col items-center order-3 md:order-3 mb-4 md:mb-0 hidden">
+          <div class="relative group">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-gold text-primary font-black text-sm w-9 h-9 rounded-full flex items-center justify-center border-2 border-white shadow-xl">3</div>
+            <div class="w-44 h-44 sm:w-52 sm:h-52 rounded-full border-4 border-gold p-1 bg-primary-light avatar-glow transition-transform duration-300 hover:scale-105">
+              <img id="displayImg3" src="" class="w-full h-full object-cover rounded-full">
+            </div>
+          </div>
+          <span class="mt-4 bg-gold/20 border border-gold/40 text-gold-light font-bold text-xs px-4 py-1 rounded-full shadow">المركز الثالث</span>
+          <div id="displayName3" class="mt-2 bg-primary/80 border border-gold/50 px-5 py-1.5 rounded-xl shadow-lg text-center font-extrabold text-sm text-gold-light decorated-title hidden"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HAFIZ SECTION ================= -->
+  <section id="hafiz" class="py-16 bg-gradient-to-b from-primary to-primary-dark text-white border-y border-gold/30 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <p class="text-xs sm:text-sm text-gray-300 font-normal">
+          نعتز ونفتخر بنخبة من طلابنا وطالباتنا الذين أتموا حفظ كتاب الله كاملاً بإتقان وتجويد داخل أكاديميتنا.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white/5 border border-gold/30 p-6 rounded-2xl text-center backdrop-blur-sm card-hover relative overflow-hidden group">
+          <div class="w-20 h-20 bg-gold/20 text-gold rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-gold/50 shadow-inner">
+            <i class="fas fa-award"></i>
+          </div>
+          <h3 class="font-extrabold text-lg text-gold mb-1 decorated-title">خريجو القرآن الكريم</h3>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            تكريم سنوي للطلاب الذين أتموا الختمة الكاملة وحصلوا على الإجازات والشهادات التقديرية.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-gold/30 p-6 rounded-2xl text-center backdrop-blur-sm card-hover relative overflow-hidden group">
+          <div class="w-20 h-20 bg-gold/20 text-gold rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-gold/50 shadow-inner">
+            <i class="fas fa-star-and-crescent"></i>
+          </div>
+          <h3 class="font-extrabold text-lg text-gold mb-1 decorated-title">برامج المراجعة المتقدمة</h3>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            متابعة مستمرة وخُطط خاصة للحفاظ لضمان تثبيت الحفظ وعدم النسيان برواية حفص وغيرها.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-gold/30 p-6 rounded-2xl text-center backdrop-blur-sm card-hover relative overflow-hidden group">
+          <div class="w-20 h-20 bg-gold/20 text-gold rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-gold/50 shadow-inner">
+            <i class="fas fa-certificate"></i>
+          </div>
+          <h3 class="font-extrabold text-lg text-gold mb-1 decorated-title">سند متصل معتمد</h3>
+          <p class="text-xs text-gray-300 leading-relaxed">
+            إجازة بالحفظ والتلاوة بالسند المتصل إلى رسول الله صلى الله عليه وسلم عقب الاختبارات النهائية.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURES SECTION (لماذا إيلاف؟) ================= -->
+  <section id="features" class="py-20 bg-sand relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">مميزات إيلاف</h2>
+        <h3 class="text-3xl sm:text-5xl font-black text-primary decorated-title">لماذا إيلاف؟</h3>
+        <p class="text-xs sm:text-sm text-gray-600 mt-3 font-medium">10 أسباب تجعل إيلاف الخيار الأمثل لرحلتك القرآنية المباركة</p>
+        <div class="w-20 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-gold/10 text-gold-dark rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-user-graduate"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">01</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">تعليم فردي 100% — One-to-One</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              حصص خاصة بين الطالب والمعلم، بتركيز كامل على احتياج الطالب ومستواه.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-chalkboard-teacher"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">02</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">نخبة من المعلمين والمعلمات</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              نختار معلمينا بعناية لنقدّم للطالب تعليمًا قرآنيًا موثوقًا ومتميزًا.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-gold/10 text-gold-dark rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-hands-helping"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">03</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">حصص تربوية مجانية</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              لأننا لا نريد للطالب أن يحفظ القرآن فقط، بل أن يعيش معانيه ويترجمها إلى سلوك.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-route"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">04</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">خطة تعليمية خاصة لكل طالب</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              لكل طالب قدراته وسرعته؛ لذلك نضع له مسارًا تعليميًا يناسب مستواه وأهدافه.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-gold/10 text-gold-dark rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-book-reader"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">05</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">تعليم القرآن والتجويد</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              تلاوة صحيحة، أحكام تجويد، حفظ ومراجعة، بإشراف معلمين متخصصين.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">06</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">متابعة مستمرة</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              نرصد تقدم الطالب ونقاط القوة والجوانب التي تحتاج إلى تطوير، خطوة بخطوة.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-gold/10 text-gold-dark rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">07</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">مرونة في المواعيد</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              حصص أونلاين تناسب جدول الطالب والأسرة، من أي مكان وفي أي وقت مناسب.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-smile-beam"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">08</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">بيئة تعليمية محفزة</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              نحوّل رحلة حفظ القرآن إلى تجربة ممتعة تجمع بين التعليم، التشجيع والتحفيز.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-14 h-14 bg-gold/10 text-gold-dark rounded-2xl flex items-center justify-center text-2xl">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <span class="text-3xl font-black text-gray-200 decorated-title">09</span>
+            </div>
+            <h4 class="font-extrabold text-base sm:text-lg text-primary mb-2 decorated-title">برامج ومسابقات قرآنية</h4>
+            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+              مسابقات، تحديات، أنشطة وبرامج تحفيزية تساعد الطالب على الاستمرار والتميز.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-primary to-primary-dark p-6 sm:p-8 rounded-3xl border border-gold/40 shadow-md card-hover flex flex-col justify-between text-white md:col-span-2 lg:col-span-3">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 bg-gold text-primary rounded-2xl flex items-center justify-center text-3xl font-black shadow-lg shrink-0">
+                <i class="fas fa-heart"></i>
+              </div>
+              <div>
+                <span class="text-gold font-bold text-xs uppercase tracking-wider">الهدف الأسمى</span>
+                <h4 class="font-black text-xl sm:text-2xl text-white decorated-title mt-0.5">10. تعليم يمتد إلى ما بعد الحصة</h4>
+                <p class="text-xs sm:text-sm text-gray-300 leading-relaxed mt-1 font-normal">
+                  في إيلاف، هدفنا ليس إنهاء الحصة؛ هدفنا بناء طالبٍ يحب القرآن، ويتعلمه ويعمل به.
+                </p>
+              </div>
+            </div>
+            <a href="https://wa.me/962780285762" target="_blank" class="bg-gold hover:bg-gold-dark text-primary font-black px-8 py-3.5 rounded-xl text-xs sm:text-sm transition shadow-lg shrink-0 flex items-center gap-2">
+              <i class="fas fa-paper-plane"></i>
+              <span>انضم إلى إيلاف الآن</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= COURSES / TRACKS ================= -->
+  <section id="courses" class="py-20 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">المسارات التعليمية</h2>
+        <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">برامجنا المخصصة لكل المستويات</h3>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm card-hover flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="w-12 h-12 bg-gold/10 text-gold-dark rounded-xl flex items-center justify-center text-xl font-bold">1</div>
+            <h4 class="font-black text-lg text-primary decorated-title">مسار فردي برايفيت تحفيظ (8 حصص)</h4>
+            <p class="text-xs text-gray-600 leading-relaxed">تحفيظ فردي خاص بواقع حصتين بالأسبوع بمجموع 8 حصص بالشهر.</p>
+          </div>
+          <a href="https://wa.me/962780285762" target="_blank" class="mt-8 block text-center bg-primary hover:bg-primary-light text-white font-bold py-3 rounded-xl text-xs transition">سجل الان</a>
+        </div>
+
+        <div class="bg-white rounded-3xl border-2 border-gold p-6 shadow-md card-hover flex flex-col justify-between relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-primary font-black text-[10px] px-3 py-1 rounded-full uppercase">الأكثر طلباً</div>
+          <div class="space-y-4">
+            <div class="w-12 h-12 bg-primary text-gold rounded-xl flex items-center justify-center text-xl font-bold">2</div>
+            <h4 class="font-black text-lg text-primary decorated-title">مسار فردي برايفيت تحفيظ (12 حصة)</h4>
+            <p class="text-xs text-gray-600 leading-relaxed">تحفيظ فردي خاص بواقع 3 حصص بالأسبوع بمجموع 12 حصة بالشهر.</p>
+          </div>
+          <a href="https://wa.me/962780285762" target="_blank" class="mt-8 block text-center bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl text-xs transition shadow-md">سجل الان</a>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm card-hover flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="w-12 h-12 bg-gold/10 text-gold-dark rounded-xl flex items-center justify-center text-xl font-bold">3</div>
+            <h4 class="font-black text-lg text-primary decorated-title">مسار فردي تحفيظ (16 حصة)</h4>
+            <p class="text-xs text-gray-600 leading-relaxed">تحفيظ مكثف بواقع 4 حصص بالأسبوع بمجموع 16 حصة بالشهر.</p>
+          </div>
+          <a href="https://wa.me/962780285762" target="_blank" class="mt-8 block text-center bg-primary hover:bg-primary-light text-white font-bold py-3 rounded-xl text-xs transition">سجل الان</a>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm card-hover flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="w-12 h-12 bg-gold/10 text-gold-dark rounded-xl flex items-center justify-center text-xl font-bold">4</div>
+            <h4 class="font-black text-lg text-primary decorated-title">مسار القاعدة النورانية</h4>
+            <p class="text-xs text-gray-600 leading-relaxed">تأسيس النطق الصحيح والقراءة السليمة للحروف والأحكام بواقع حصتين اسبوعياً.</p>
+          </div>
+          <a href="https://wa.me/962780285762" target="_blank" class="mt-8 block text-center bg-primary hover:bg-primary-light text-white font-bold py-3 rounded-xl text-xs transition">سجل الان</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEACHERS SECTION ================= -->
+  <section id="teachers" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">الكادر التعليمي</h2>
+        <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">نخبة من المعلمين والمعلمات المجازين</h3>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div id="teachers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+    </div>
+  </section>
+
+  <!-- ================= TESTIMONIALS SECTION ================= -->
+  <section id="testimonials" class="py-20 bg-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">آراء وانطباعات</h2>
+        <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">ماذا يقول طلابنا وأولياء الأمور عن أكاديمية إيلاف التعليمية</h3>
+        <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <!-- شبكة عرض الآراء النصية وصور الآراء -->
+      <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+      <div class="mt-16 bg-white p-6 sm:p-8 rounded-3xl border border-gold/30 shadow-lg max-w-2xl mx-auto">
+        <h4 class="font-black text-lg text-primary mb-2 text-center decorated-title"><i class="fas fa-comment-dots text-gold ml-2"></i>أضف رأيك وانطباعك بالأكاديمية</h4>
+        
+        <form onsubmit="handlePublicAddReview(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">الاسم / ولي الأمر</label>
+              <input type="text" id="publicReviewAuthor" required placeholder="أدخل اسمك أو صفتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-1">التقييم</label>
+              <select id="publicReviewRating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
+                <option value="5">⭐⭐⭐⭐⭐ (5/5 ممتاز)</option>
+                <option value="4">⭐⭐⭐⭐ (4/5 جيد جداً)</option>
+                <option value="3">⭐⭐⭐ (3/5 جيد)</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">انطباعك أو تعليقك</label>
+            <textarea id="publicReviewText" rows="3" required placeholder="اكتب رأيك وتجربتك مع أكاديمية إيلاف التعليمية..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none resize-none"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">نشر الرأي فوراً</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REGISTER FORM SECTION ================= -->
+  <section id="register" class="py-20 bg-white relative">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-sand rounded-3xl border border-gold/30 p-8 sm:p-12 shadow-xl relative">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-black text-primary decorated-title">تسجيل طالب جديد وإنشاء حساب</h3>
+          <p class="text-xs text-gray-600 mt-2">سجل بياناتك وسيتم إرسال طلبك للإدارة للموافقة عليه وترحيلك للمعلم المناسب</p>
+        </div>
+
+        <form onsubmit="handleStudentSelfRegister(event)" class="space-y-5">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-2">الاسم الكامل</label>
+            <input type="text" id="regStudentName" required placeholder="أدخل اسمك الثلاثي" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs outline-none bg-white">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-2">رقم الهاتف (الواتساب)</label>
+              <input type="tel" id="regStudentPhone" required placeholder="00962..." class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs outline-none bg-white dir-ltr">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-gray-700 mb-2">كلمة المرور للحساب</label>
+              <input type="password" id="regStudentPass" required placeholder="••••••••" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs outline-none bg-white">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-2">المسار المفضل</label>
+            <select id="regStudentTrack" required class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs outline-none bg-white">
+              <option value="">اختر المسار المناسب لك</option>
+              <option value="مسار فردي برايفيت تحفيظ حصتين بالاسبوع (8 حصص شهريا)">مسار فردي برايفيت تحفيظ حصتين بالاسبوع (8 حصص شهريا)</option>
+              <option value="مسار فردي برايفيت تحفيظ 3حصص بالاسبوع (12 حصة شهريا)">مسار فردي برايفيت تحفيظ 3حصص بالاسبوع (12 حصة شهريا)</option>
+              <option value="مسار فردي تحفيظ 4حصص بالاسبوع (16 حصة شهريا)">مسار فردي تحفيظ 4حصص بالاسبوع (16 حصة شهريا)</option>
+              <option value="مسار القاعدة النورانية (حصتين اسبوعيا)">مسار القاعدة النورانية (حصتين اسبوعيا)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-4 rounded-xl text-sm transition shadow-lg">إرسال طلب التسجيل إلى الإدارة</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer id="contact" class="bg-primary text-white pt-16 pb-12 border-t-4 border-gold relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-white/10">
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div id="footerLogoContainer" class="w-10 h-10 bg-gold/10 border border-gold/40 rounded-xl flex items-center justify-center overflow-hidden logo-glow">
+            <span id="footerLogoText" class="text-gold font-black text-xl decorated-title">إ</span>
+            <img id="footerLogoImg" src="" alt="شعار أكاديمية إيلاف التعليمية" class="w-full h-full object-cover hidden">
+          </div>
+          <span class="font-extrabold text-xl text-gold decorated-title"> أكاديمية إيلاف التعليمية</span>
+        </div>
+        <p class="text-xs text-gray-300 leading-relaxed">أكاديمية تعليمية متخصصة في تعلم القرآن الكريم وتلاوته وتجويده بأحدث الأساليب التفاعلية.</p>
+      </div>
+
+      <div class="space-y-3">
+        <h4 class="font-bold text-gold text-sm decorated-title">روابط سريعة</h4>
+        <ul class="space-y-2 text-xs text-gray-300 font-medium">
+          <li><a href="#founder" class="hover:text-gold transition">المؤسس</a></li>
+          <li><a href="#threeImagesSection" class="hover:text-gold transition">حافظين كتاب الله</a></li>
+          <li><a href="#features" class="hover:text-gold transition">مميزات إيلاف</a></li>
+          <li><a href="#courses" class="hover:text-gold transition">المسارات الدراسية</a></li>
+          <li><a href="#teachers" class="hover:text-gold transition">الكادر التعليمي</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-4">
+        <h4 class="font-bold text-gold text-sm decorated-title">التواصل والدعم</h4>
+        <div class="space-y-2">
+          <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-envelope text-gold ml-2"></i> info@elaf-platform.com</p>
+          <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-phone text-gold ml-2"></i> <span class="dir-ltr">00962780285762</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-4">
+      <p>© جميع الحقوق محفوظة لـ <strong class="text-gold decorated-title"> أكاديمية إيلاف التعليمية</strong> 2026</p>
+      <a href="https://wa.me/962796094582" target="_blank" class="bg-white/5 border border-gold/30 px-3.5 py-1.5 rounded-xl text-gold font-bold flex items-center gap-2 shadow-inner hover:bg-white/10 transition">
+        <i class="fas fa-code text-xs"></i>
+        <span>مصمم الصفحة: أحمد أبو العسل</span>
+        <span class="underline font-black dir-ltr text-white hover:text-gold">00962796094582</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- ================= PORTAL MODAL (طلاب ومعلمين فقط) ================= -->
+  <div id="portalModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl w-full max-w-6xl overflow-hidden shadow-2xl border border-gray-100 relative p-6 sm:p-8">
+      <div class="flex justify-between items-center border-b pb-4 mb-6">
+        <h3 id="portalTitle" class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-user-circle text-gold"></i> دخول الحساب</h3>
+        <button onclick="closePortalModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div id="portalLoginSection" class="space-y-4 max-w-md mx-auto">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">رقم الهاتف / اسم المستخدم</label>
+          <input type="text" id="portalUserAuth" placeholder="أدخل بياناتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label>
+          <input type="password" id="portalPassAuth" placeholder="••••••••" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
+        </div>
+        <button onclick="handleLogin()" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">دخول الشاشة</button>
+      </div>
+
+      <!-- بوابة المعلم -->
+      <div id="teacherDashboard" class="hidden space-y-6 max-h-[80vh] overflow-y-auto">
+        <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+          <h4 class="font-bold text-primary text-sm decorated-title">لوحة إدخال وتعديل بيانات الطلاب الموكلين إليك</h4>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs border-collapse min-w-[1100px]">
+            <thead>
+              <tr class="bg-primary text-white text-[11px]">
+                <th class="p-2 border text-center w-10">م</th>
+                <th class="p-2 border">اسم الطالب ورقم الهاتف</th>
+                <th class="p-2 border">المسار ونظام الحصة</th>
+                <th class="p-2 border text-center w-20">العدد الكلي للحصص</th>
+                <th class="p-2 border text-center min-w-[120px]">حالة الحساب / الدفع</th>
+                <th class="p-2 border text-center min-w-[100px]">عدد الدفعات</th>
+                <th class="p-2 border min-w-[150px]">ملاحظات الطالب</th>
+                <th class="p-2 border min-w-[150px]">إنجاز الطالب بالحصة</th>
+                <th class="p-2 border">تاريخ ووقت الحصة</th>
+                <th class="p-2 border min-w-[130px]">تاريخ إعطاء الحصص</th>
+                <th class="p-2 border text-center">الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="teacherStudentsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- بوابة الطالب -->
+      <div id="studentDashboard" class="hidden space-y-6 max-h-[80vh] overflow-y-auto">
+        <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+          <h4 class="font-bold text-primary text-sm decorated-title" id="studentWelcome">أهلاً بك يا طالبنا</h4>
+        </div>
+        <div id="studentDetailsCard" class="space-y-3 text-xs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
   <script>
-    const SECRET_PIN = "Elaf0123";
+    let activePortalRole = 'student';
+    let currentLoggedInUser = null;
+
     let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
     let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
     let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
+    let threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
 
-    document.addEventListener('DOMContentLoaded', () => {
-      checkAuthStatus();
+    const initialTeachers = [
+      { id: 'tech-1', name: 'الشيخ محمد علي', role: 'معلم القراءات العشر', userAuth: 'mohamed', passAuth: '123456', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400', isBlocked: false },
+      { id: 'tech-2', name: 'الأستاذة فاطمة الزهراء', role: 'معلمة القاعدة النورانية', userAuth: 'fatima', passAuth: '123456', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400', isBlocked: false }
+    ];
+
+    if(teachersDB.length === 0) {
+      teachersDB = initialTeachers;
+      localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+    }
+
+    const initialReviews = [
+      { id: 1, author: 'أحمد محمود', rating: 5, text: 'أكاديمية رائعة جداً والتزام تام بالمواعيد مع المعلمين.', date: '2026/01/10', isImageReview: false },
+      { id: 2, author: 'أم سارة', rating: 5, text: 'ماشاء الله تبارك الله، تحسن ملحوظ في قراءة ابنتي في القاعدة النورانية.', date: '2026/02/01', isImageReview: false }
+    ];
+
+    if(reviewsDB.length === 0) {
+      reviewsDB = initialReviews;
+      localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedLogo();
+      loadSavedVideo();
+      renderThreeImages();
+      refreshTeachersMainGrid();
+      loadSavedFounder();
+      renderTestimonials();
     });
 
-    function checkAuthStatus() {
-      if (localStorage.getItem('elaf_is_admin_logged_in') === 'true') {
-        document.getElementById('adminLoginView').classList.add('hidden');
-        document.getElementById('adminContentView').classList.remove('hidden');
-        renderAdminUnassigned();
-        renderAdminTeachersTable();
-        loadExistingFormData();
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'elaf_saved_logo') loadSavedLogo();
+      if (e.key === 'elaf_saved_founder') loadSavedFounder();
+      if (e.key === 'elaf_saved_video') loadSavedVideo();
+      if (e.key === 'elaf_three_images') {
+        threeImgsDB = JSON.parse(e.newValue || '{}');
+        renderThreeImages();
       }
-    }
-
-    const fileToBase64 = file => new Promise((resolve, reject) => {
-      if (!file) return resolve(null);
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-      reader.readAsDataURL(file);
+      if (e.key === 'elaf_teachers_db') {
+        teachersDB = JSON.parse(e.newValue || '[]');
+        refreshTeachersMainGrid();
+      }
+      if (e.key === 'elaf_reviews_db') {
+        reviewsDB = JSON.parse(e.newValue || '[]');
+        renderTestimonials();
+      }
+      if (e.key === 'elaf_students_db') {
+        studentsDB = JSON.parse(e.newValue || '[]');
+        if (currentLoggedInUser) {
+          if (activePortalRole === 'teacher') renderTeacherStudents();
+          if (activePortalRole === 'student') renderStudentDashboard();
+        }
+      }
     });
 
-    function verifyPassword() {
-      const input = document.getElementById('adminPassword').value;
-      if (input === SECRET_PIN) {
-        localStorage.setItem('elaf_is_admin_logged_in', 'true');
-        document.getElementById('adminLoginView').classList.add('hidden');
-        document.getElementById('adminContentView').classList.remove('hidden');
-        document.getElementById('passwordError').classList.add('hidden');
-        renderAdminUnassigned();
-        renderAdminTeachersTable();
-        loadExistingFormData();
-      } else {
-        document.getElementById('passwordError').classList.remove('hidden');
+    function toggleSidebarNav() {
+      const sidebar = document.getElementById('sidebarNav');
+      const overlay = document.getElementById('sidebarNavOverlay');
+      if (sidebar && overlay) {
+        sidebar.classList.toggle('translate-x-full');
+        overlay.classList.toggle('hidden');
       }
     }
 
-    function logoutAdmin() {
-      localStorage.removeItem('elaf_is_admin_logged_in');
-      document.getElementById('adminContentView').classList.add('hidden');
-      document.getElementById('adminLoginView').classList.remove('hidden');
-      document.getElementById('adminPassword').value = '';
+    function openSystemPanel(panelType) {
+      toggleSidebarNav();
+      openPortalModal(panelType);
     }
 
-    function switchAdminTab(tab) {
-      const sections = {
-        requests: document.getElementById('requestsSection'),
-        teacher: document.getElementById('addTeacherForm'),
-        threeImgs: document.getElementById('threeImagesForm'),
-        logo: document.getElementById('addLogoForm'),
-        founder: document.getElementById('addFounderForm'),
-        vid: document.getElementById('addVidForm'),
-        img: document.getElementById('addImgForm')
-      };
-
-      const buttons = {
-        requests: document.getElementById('tabRequestsBtn'),
-        teacher: document.getElementById('tabTeacherBtn'),
-        threeImgs: document.getElementById('tabThreeImgsBtn'),
-        logo: document.getElementById('tabLogoBtn'),
-        founder: document.getElementById('tabFounderBtn'),
-        vid: document.getElementById('tabVidBtn'),
-        img: document.getElementById('tabImgBtn')
-      };
-
-      Object.keys(sections).forEach(key => {
-        if (sections[key]) {
-          if (key === tab) sections[key].classList.remove('hidden');
-          else sections[key].classList.add('hidden');
-        }
-      });
-
-      Object.keys(buttons).forEach(key => {
-        if (buttons[key]) {
-          if (key === tab) buttons[key].className = "py-2.5 px-3 border-b-2 border-gold text-primary font-bold whitespace-nowrap flex items-center gap-1.5";
-          else buttons[key].className = "py-2.5 px-3 text-gray-400 border-b-2 border-transparent font-bold whitespace-nowrap";
-        }
-      });
+    function formatYouTubeEmbedUrl(url) {
+      if (!url) return '';
+      let videoId = '';
+      if (url.includes('youtube.com/shorts/')) videoId = url.split('youtube.com/shorts/')[1].split('?')[0];
+      else if (url.includes('youtube.com/watch?v=')) videoId = url.split('v=')[1].split('&')[0];
+      else if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split('?')[0];
+      else if (url.includes('youtube.com/embed/')) return url;
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
     }
 
-    function loadExistingFormData() {
-      // تعبئة بيانات الثلاث حافظين إن وجدت
-      const threeImgs = JSON.parse(localStorage.getItem('elaf_three_images') || '{}');
-      for (let i = 1; i <= 3; i++) {
-        if (threeImgs[`name${i}`]) {
-          const el = document.getElementById(`threeImgName${i}`);
-          if (el) el.value = threeImgs[`name${i}`];
-        }
-        if (threeImgs[`img${i}`] && !threeImgs[`img${i}`].startsWith('data:')) {
-          const elUrl = document.getElementById(`threeImgUrl${i}`);
-          if (elUrl) elUrl.value = threeImgs[`img${i}`];
-        }
-      }
-
-      // تعبئة بيانات المؤسس إن وجدت
-      const founder = JSON.parse(localStorage.getItem('elaf_saved_founder') || '{}');
-      if (founder.name) document.getElementById('founderNameInput').value = founder.name;
-      if (founder.role) document.getElementById('founderRoleInput').value = founder.role;
-      if (founder.img && !founder.img.startsWith('data:')) document.getElementById('founderUrlInput').value = founder.img;
-
-      // تعبئة اللوجو
-      const savedLogo = localStorage.getItem('elaf_saved_logo');
-      if (savedLogo && !savedLogo.startsWith('data:')) document.getElementById('logoUrlInput').value = savedLogo;
-
-      // تعبئة الفيديو
+    function loadSavedVideo() {
       const savedVid = localStorage.getItem('elaf_saved_video');
-      if (savedVid && !savedVid.startsWith('data:')) document.getElementById('videoUrlInput').value = savedVid;
+      if (savedVid) updateVideoContainerSrc(savedVid);
     }
 
-    function renderAdminUnassigned() {
-      const searchVal = (document.getElementById('adminSearchInput')?.value || '').toLowerCase().trim();
-      const pendingTbody = document.getElementById('pendingRequestsTable');
-      const approvedTbody = document.getElementById('approvedStudentsTable');
-
-      if (!pendingTbody || !approvedTbody) return;
-
-      pendingTbody.innerHTML = '';
-      approvedTbody.innerHTML = '';
-
-      let filteredStudents = studentsDB;
-      if (searchVal) {
-        filteredStudents = studentsDB.filter(s => 
-          (s.name && s.name.toLowerCase().includes(searchVal)) || 
-          (s.phone && s.phone.toLowerCase().includes(searchVal))
-        );
-      }
-
-      const pendingList = filteredStudents.filter(s => s.status === 'pending');
-      const approvedList = filteredStudents.filter(s => s.status === 'approved');
-
-      document.getElementById('pendingCountBadge').innerText = pendingList.length + ' طلبات';
-
-      if (pendingList.length === 0) {
-        pendingTbody.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-gray-500">لا توجد طلبات معلقة حالياً.</td></tr>`;
+    function updateVideoContainerSrc(src) {
+      const videoContainer = document.getElementById('videoContainer');
+      if (!videoContainer) return;
+      const formattedUrl = formatYouTubeEmbedUrl(src);
+      if (formattedUrl.includes('youtube.com/embed/')) {
+        videoContainer.innerHTML = `<iframe width="100%" height="500" src="${formattedUrl}" title="فيديو إيلاف" frameborder="0" allowfullscreen class="w-full h-full"></iframe>`;
       } else {
-        pendingList.forEach((std, idx) => {
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-amber-100/50";
-          tr.innerHTML = `
-            <td class="p-2.5 border border-amber-200 text-center font-bold">${idx + 1}</td>
-            <td class="p-2.5 border border-amber-200 font-bold text-primary">${std.name || '-'}</td>
-            <td class="p-2.5 border border-amber-200 dir-ltr text-right">${std.phone || '-'}</td>
-            <td class="p-2.5 border border-amber-200 text-[11px]">${std.track || '-'}</td>
-            <td class="p-2.5 border border-amber-200 text-center"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">بانتظار الموافقة</span></td>
-            <td class="p-2.5 border border-amber-200 text-center space-x-1 space-x-reverse">
-              <button onclick="approveStudent('${std.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded text-[11px]">موافقة</button>
-              <button onclick="rejectStudent('${std.id}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1 rounded text-[11px]">رفض</button>
-            </td>`;
-          pendingTbody.appendChild(tr);
-        });
-      }
-
-      if (approvedList.length === 0) {
-        approvedTbody.innerHTML = `<tr><td colspan="8" class="text-center p-4 text-gray-500">لا يوجد طلاب مقبولون حالياً.</td></tr>`;
-      } else {
-        approvedList.forEach((std, idx) => {
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-sand/60";
-
-          let teacherOptions = `<option value="">اختر المعلم...</option>`;
-          teachersDB.forEach(t => {
-            teacherOptions += `<option value="${t.id}" ${std.teacherId === t.id ? 'selected' : ''}>${t.name}</option>`;
-          });
-
-          tr.innerHTML = `
-            <td class="p-2.5 border text-center font-bold">${idx + 1}</td>
-            <td class="p-2.5 border font-bold text-primary">${std.name || '-'}</td>
-            <td class="p-2.5 border dir-ltr text-right">${std.phone || '-'}</td>
-            <td class="p-2.5 border text-[11px]">${std.track || '-'}</td>
-            <td class="p-2.5 border text-center">
-              <select id="payStatus_${std.id}" class="border rounded p-1 text-[11px] font-bold bg-white">
-                <option value="تم الدفع" ${std.paymentStatus === 'تم الدفع' ? 'selected' : ''}>تم الدفع</option>
-                <option value="لم يدفع" ${std.paymentStatus === 'لم يدفع' ? 'selected' : ''}>لم يدفع</option>
-              </select>
-            </td>
-            <td class="p-2.5 border text-center">
-              <input type="number" id="payCount_${std.id}" value="${std.paymentsCount || 0}" class="w-12 border text-center rounded p-1 text-xs font-bold bg-white">
-            </td>
-            <td class="p-2.5 border">
-              <select id="teacherSelect_${std.id}" class="w-full border rounded p-1 text-[11px] bg-white">${teacherOptions}</select>
-            </td>
-            <td class="p-2.5 border text-center space-y-1">
-              <button onclick="saveStudentApprovalData('${std.id}')" class="bg-gold hover:bg-gold-dark text-primary font-bold px-3 py-1 rounded text-[11px] w-full">حفظ وتحديث</button>
-              <button onclick="deleteStudent('${std.id}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1 rounded text-[11px] w-full">حذف الطالب</button>
-            </td>`;
-          approvedTbody.appendChild(tr);
-        });
+        videoContainer.innerHTML = `<video controls class="w-full h-full object-cover rounded-2xl"><source src="${src}" type="video/mp4"></video>`;
       }
     }
 
-    function approveStudent(id) {
-      const std = studentsDB.find(s => s.id === id);
-      if (std) {
-        std.status = 'approved';
-        saveToStorage('elaf_students_db', studentsDB);
-        renderAdminUnassigned();
+    function loadSavedLogo() {
+      const savedLogo = localStorage.getItem('elaf_saved_logo');
+      if (savedLogo) {
+        const headerImg = document.getElementById('logoImg');
+        const headerText = document.getElementById('logoText');
+        if (headerImg && headerText) {
+          headerImg.src = savedLogo;
+          headerImg.classList.remove('hidden');
+          headerText.classList.add('hidden');
+        }
+
+        const footerImg = document.getElementById('footerLogoImg');
+        const footerText = document.getElementById('footerLogoText');
+        if (footerImg && footerText) {
+          footerImg.src = savedLogo;
+          footerImg.classList.remove('hidden');
+          footerText.classList.add('hidden');
+        }
       }
     }
 
-    function rejectStudent(id) {
-      if (confirm('هل أنت متأكد من رفض وتجاهل هذا الطلب؟')) {
-        studentsDB = studentsDB.filter(s => s.id !== id);
-        saveToStorage('elaf_students_db', studentsDB);
-        renderAdminUnassigned();
+    function loadSavedFounder() {
+      const savedFounder = JSON.parse(localStorage.getItem('elaf_saved_founder') || '{}');
+      if (savedFounder.name && document.getElementById('founderName')) document.getElementById('founderName').innerText = savedFounder.name;
+      if (savedFounder.role && document.getElementById('founderRole')) document.getElementById('founderRole').innerText = savedFounder.role;
+      if (savedFounder.img && document.getElementById('founderImg')) document.getElementById('founderImg').src = savedFounder.img;
+    }
+
+    function renderThreeImages() {
+      const data = threeImgsDB;
+      const section = document.getElementById('threeImagesSection');
+      if (!section) return;
+      let hasContent = false;
+
+      [1, 2, 3].forEach(num => {
+        const imgVal = data[`img${num}`];
+        const nameVal = data[`name${num}`];
+        const card = document.getElementById(`cardImg${num}`);
+        const imgElem = document.getElementById(`displayImg${num}`);
+        const nameElem = document.getElementById(`displayName${num}`);
+
+        if (card && (imgVal || nameVal)) {
+          hasContent = true;
+          card.classList.remove('hidden');
+          if (imgVal && imgElem) imgElem.src = imgVal;
+          if (nameVal && nameElem) { nameElem.innerText = nameVal; nameElem.classList.remove('hidden'); }
+        } else if (card) { card.classList.add('hidden'); }
+      });
+
+      if (hasContent) section.classList.remove('hidden');
+      else section.classList.add('hidden');
+    }
+
+    function renderTestimonials() {
+      const grid = document.getElementById('testimonials-grid');
+      if (!grid) return;
+      const isAdminLoggedIn = localStorage.getItem('elaf_is_admin_logged_in') === 'true';
+      grid.innerHTML = '';
+
+      reviewsDB.forEach(rev => {
+        const card = document.createElement('div');
+        card.className = "bg-white p-6 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between relative";
+        
+        let deleteBtnHTML = '';
+        if (isAdminLoggedIn) {
+          deleteBtnHTML = `
+            <button onclick="deleteReview('${rev.id}')" class="mt-3 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-1.5 rounded-xl text-[11px] transition flex items-center justify-center gap-1 shadow-sm">
+              <i class="fas fa-trash-alt"></i> حذف الرأي (للإدارة فقط)
+            </button>
+          `;
+        }
+
+        if (rev.isImageReview) {
+          card.innerHTML = `
+            <div>
+              <div class="w-full h-48 rounded-2xl overflow-hidden mb-3 border border-gray-100 shadow-inner">
+                <img src="${rev.imgUrl}" alt="${rev.author}" class="w-full h-full object-cover">
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-extrabold text-primary decorated-title">${rev.author}</span>
+                <span class="text-[10px] text-gold-dark font-medium">${rev.date || 'رأي مصور'}</span>
+              </div>
+              ${deleteBtnHTML}
+            </div>`;
+        } else {
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center text-gold text-xs mb-3">${'⭐'.repeat(Number(rev.rating || 5))}</div>
+              <div class="text-xs text-gray-600 leading-relaxed mb-4">${rev.text}</div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-extrabold text-primary decorated-title">${rev.author}</span>
+                <span class="text-[10px] text-gold-dark font-medium">${rev.date || 'طالب بالأكاديمية'}</span>
+              </div>
+              ${deleteBtnHTML}
+            </div>`;
+        }
+        grid.appendChild(card);
+      });
+    }
+
+    function deleteReview(id) {
+      if (confirm('هل أنت متأكد من حذف هذا الرأي كلياً؟')) {
+        reviewsDB = reviewsDB.filter(r => String(r.id) !== String(id));
+        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+        renderTestimonials();
       }
     }
 
-    function saveStudentApprovalData(id) {
-      const std = studentsDB.find(s => s.id === id);
-      if (std) {
-        std.paymentStatus = document.getElementById(`payStatus_${id}`).value;
-        std.paymentsCount = Number(document.getElementById(`payCount_${id}`).value);
-        std.teacherId = document.getElementById(`teacherSelect_${id}`).value;
-        saveToStorage('elaf_students_db', studentsDB);
-        alert('تم حفظ البيانات وترحيل الطالب بنجاح!');
-        renderAdminUnassigned();
-      }
-    }
-
-    function deleteStudent(id) {
-      if (confirm('هل أنت متأكد من حذف الطالب كلياً من النظام؟')) {
-        studentsDB = studentsDB.filter(s => s.id !== id);
-        saveToStorage('elaf_students_db', studentsDB);
-        renderAdminUnassigned();
-      }
-    }
-
-    async function handleAddTeacher(e) {
+    function handlePublicAddReview(e) {
       e.preventDefault();
-      const name = document.getElementById('teacherNameInput').value;
-      const role = document.getElementById('teacherRoleInput').value;
-      const userAuth = document.getElementById('teacherUserAuthInput').value;
-      const passAuth = document.getElementById('teacherPassAuthInput').value;
-      const file = document.getElementById('teacherFileInput').files[0];
-      let imgUrl = document.getElementById('teacherUrlInput').value;
+      const author = document.getElementById('publicReviewAuthor').value;
+      const rating = document.getElementById('publicReviewRating').value;
+      const text = document.getElementById('publicReviewText').value;
 
-      try {
-        if (file) {
-          imgUrl = await fileToBase64(file);
-        }
+      const newReview = { 
+        id: Date.now(), 
+        author: author, 
+        rating: rating, 
+        text: text, 
+        date: new Date().toLocaleDateString('ar-EG'), 
+        isImageReview: false 
+      };
 
-        if (!imgUrl) {
-          imgUrl = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400';
-        }
+      reviewsDB.unshift(newReview);
+      localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+      
+      renderTestimonials();
+      alert('شكراً لك! تم نشر رأيك فوراً.');
+      e.target.reset();
+    }
 
-        teachersDB.push({ id: 'tech-' + Date.now(), name, role, userAuth, passAuth, img: imgUrl, isBlocked: false });
-        if (saveToStorage('elaf_teachers_db', teachersDB)) {
-          alert('تمت إضافة المعلم بنجاح!');
-          e.target.reset();
-          renderAdminTeachersTable();
-        }
-      } catch (err) {
-        alert('حدث خطأ أثناء معالجة الصورة، يرجى المحاولة باستخدام صورة أصغر حجماً.');
+    function handleStudentSelfRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regStudentName').value;
+      const phone = document.getElementById('regStudentPhone').value;
+      const pass = document.getElementById('regStudentPass').value;
+      const track = document.getElementById('regStudentTrack').value;
+
+      studentsDB.push({
+        id: 'std-' + Date.now(), name, phone, pass, track, status: 'pending',
+        teacherId: '', paymentStatus: 'لم يدفع', paymentsCount: 0, totalClasses: 8,
+        givenDates: [], classTime: '', notes: '', achievement: ''
+      });
+
+      localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+      alert('تم إرسال طلبك للإدارة بنجاح!');
+      e.target.reset();
+    }
+
+    function refreshTeachersMainGrid() {
+      const grid = document.getElementById('teachers-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      teachersDB.filter(t => !t.isBlocked).forEach(tech => {
+        const card = document.createElement('div');
+        card.className = "bg-sand rounded-3xl border border-gold/30 p-6 text-center card-hover flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="w-28 h-28 mx-auto rounded-full border-2 border-gold p-1 mb-4 overflow-hidden shadow-md bg-white">
+              <img src="${tech.img}" alt="${tech.name}" class="w-full h-full object-cover rounded-full">
+            </div>
+            <h4 class="font-extrabold text-base text-primary mb-1 decorated-title">${tech.name}</h4>
+            <p class="text-xs text-gold-dark font-medium">${tech.role}</p>
+          </div>
+          <button onclick="openPortalModal('student')" class="mt-6 w-full bg-primary hover:bg-primary-light text-white font-bold py-2.5 rounded-xl text-xs transition">سجل بالحصة</button>`;
+        grid.appendChild(card);
+      });
+    }
+
+    function openPortalModal(role) {
+      activePortalRole = role;
+      document.getElementById('portalModal').classList.remove('hidden');
+      document.getElementById('portalLoginSection').classList.remove('hidden');
+      document.getElementById('teacherDashboard').classList.add('hidden');
+      document.getElementById('studentDashboard').classList.add('hidden');
+      document.getElementById('portalTitle').innerText = role === 'teacher' ? 'دخول بوابة المعلم' : 'دخول بوابة الطالب';
+    }
+
+    function closePortalModal() {
+      document.getElementById('portalModal').classList.add('hidden');
+    }
+
+    function handleLogin() {
+      const user = document.getElementById('portalUserAuth').value;
+      const pass = document.getElementById('portalPassAuth').value;
+
+      if (activePortalRole === 'teacher') {
+        const teacher = teachersDB.find(t => t.userAuth === user && t.passAuth === pass && !t.isBlocked);
+        if (teacher) {
+          currentLoggedInUser = teacher;
+          document.getElementById('portalLoginSection').classList.add('hidden');
+          document.getElementById('teacherDashboard').classList.remove('hidden');
+          renderTeacherStudents();
+        } else { alert('بيانات المعلم غير صحيحة أو الحساب موقف.'); }
+      } else if (activePortalRole === 'student') {
+        const student = studentsDB.find(s => (s.phone === user || s.name === user) && s.pass === pass);
+        if (student) {
+          currentLoggedInUser = student;
+          document.getElementById('portalLoginSection').classList.add('hidden');
+          document.getElementById('studentDashboard').classList.remove('hidden');
+          renderStudentDashboard();
+        } else { alert('بيانات الطالب غير صحيحة.'); }
       }
     }
 
-    function renderAdminTeachersTable() {
-      const tbody = document.getElementById('adminTeachersTable');
+    function renderTeacherStudents() {
+      const tbody = document.getElementById('teacherStudentsTable');
       if (!tbody) return;
-
-      const searchVal = (document.getElementById('teacherSearchInput')?.value || '').toLowerCase().trim();
       tbody.innerHTML = '';
+      const myStudents = studentsDB.filter(s => s.teacherId === currentLoggedInUser.id && s.status === 'approved');
 
-      let filteredTeachers = teachersDB;
-      if (searchVal) {
-        filteredTeachers = teachersDB.filter(t => 
-          (t.name && t.name.toLowerCase().includes(searchVal)) || 
-          (t.userAuth && t.userAuth.toLowerCase().includes(searchVal))
-        );
-      }
-
-      if (filteredTeachers.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-gray-500">لا يوجد معلمون بهذه البيانات.</td></tr>`;
+      if (myStudents.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center p-6 text-gray-500">لا يوجد طلاب مرحلين لك حالياً.</td></tr>`;
         return;
       }
 
-      filteredTeachers.forEach((t, idx) => {
+      myStudents.forEach((std, idx) => {
         const tr = document.createElement('tr');
-        tr.className = "hover:bg-sand/60";
+        tr.className = idx % 2 === 0 ? "bg-white" : "bg-sand/50";
         tr.innerHTML = `
-          <td class="p-2.5 border text-center font-bold">${idx + 1}</td>
-          <td class="p-2.5 border font-bold text-primary flex items-center gap-2">
-            <img src="${t.img}" class="w-8 h-8 rounded-full object-cover border" onerror="this.src='https://via.placeholder.com/150'">
-            <div>
-              <span>${t.name}</span>
-              <br><span class="text-[10px] text-gold-dark font-normal">${t.role}</span>
-            </div>
-          </td>
-          <td class="p-2.5 border font-mono text-xs">${t.userAuth}</td>
-          <td class="p-2.5 border text-center">
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${t.isBlocked ? 'bg-red-100 text-red-800' : 'bg-emerald-100 text-emerald-800'}">
-              ${t.isBlocked ? 'موقف' : 'نشط'}
-            </span>
-          </td>
-          <td class="p-2.5 border text-center space-x-1 space-x-reverse">
-            <button onclick="toggleBlockTeacher('${t.id}')" class="${t.isBlocked ? 'bg-emerald-600' : 'bg-amber-600'} text-white px-2.5 py-1 rounded text-[11px] font-bold">
-              ${t.isBlocked ? 'تفعيل' : 'إيقاف'}
-            </button>
-            <button onclick="deleteTeacher('${t.id}')" class="bg-red-500 hover:bg-red-600 text-white px-2.5 py-1 rounded text-[11px] font-bold">حذف</button>
+          <td class="p-2 border text-center font-bold">${idx + 1}</td>
+          <td class="p-2 border font-bold text-primary">${std.name}<br><span class="text-[10px] text-gray-500 dir-ltr inline-block">${std.phone}</span></td>
+          <td class="p-2 border text-[10px]">${std.track}</td>
+          <td class="p-2 border text-center font-bold"><input type="number" id="tot_${std.id}" value="${std.totalClasses || 8}" class="w-12 border text-center rounded p-1 text-xs"></td>
+          <td class="p-2 border text-center"><span class="px-2 py-1 rounded text-[10px] font-bold ${std.paymentStatus === 'تم الدفع' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${std.paymentStatus}</span></td>
+          <td class="p-2 border text-center font-bold">${std.paymentsCount || 0}</td>
+          <td class="p-2 border"><textarea id="notes_${std.id}" class="w-full border rounded p-1 text-xs resize-none">${std.notes || ''}</textarea></td>
+          <td class="p-2 border"><textarea id="achieve_${std.id}" class="w-full border rounded p-1 text-xs resize-none">${std.achievement || ''}</textarea></td>
+          <td class="p-2 border"><input type="text" id="time_${std.id}" value="${std.classTime || ''}" class="w-full border rounded p-1 text-xs"></td>
+          <td class="p-2 border text-[10px]">${std.givenDates ? std.givenDates.join(', ') : 'لا يوجد'}</td>
+          <td class="p-2 border text-center space-y-1">
+            <button onclick="markClassGiven('${std.id}')" class="bg-emerald-600 text-white px-2 py-1 rounded text-[10px] font-bold w-full">توثيق حصة</button>
+            <button onclick="saveTeacherStudentData('${std.id}')" class="bg-gold text-primary px-2 py-1 rounded text-[10px] font-bold w-full">حفظ</button>
           </td>`;
         tbody.appendChild(tr);
       });
     }
 
-    function toggleBlockTeacher(id) {
-      const teacher = teachersDB.find(t => t.id === id);
-      if (teacher) {
-        teacher.isBlocked = !teacher.isBlocked;
-        saveToStorage('elaf_teachers_db', teachersDB);
-        renderAdminTeachersTable();
+    function saveTeacherStudentData(stdId) {
+      const student = studentsDB.find(s => s.id === stdId);
+      if (student) {
+        student.totalClasses = Number(document.getElementById(`tot_${stdId}`).value);
+        student.notes = document.getElementById(`notes_${stdId}`).value;
+        student.achievement = document.getElementById(`achieve_${stdId}`).value;
+        student.classTime = document.getElementById(`time_${stdId}`).value;
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        alert('تم حفظ البيانات وتحديثها للطالب!');
+        renderTeacherStudents();
       }
     }
 
-    function deleteTeacher(id) {
-      if (confirm('هل أنت متأكد من حذف حساب المعلم بالكامل؟')) {
-        teachersDB = teachersDB.filter(t => t.id !== id);
-        saveToStorage('elaf_teachers_db', teachersDB);
-        renderAdminTeachersTable();
+    function markClassGiven(stdId) {
+      const student = studentsDB.find(s => s.id === stdId);
+      if (student) {
+        if (!student.givenDates) student.givenDates = [];
+        const today = new Date().toLocaleDateString('ar-EG');
+        student.givenDates.push(today);
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        alert(`تم توثيق حصة بتاريخ ${today}`);
+        renderTeacherStudents();
       }
     }
 
-    async function handleSaveThreeImages(e) {
-      e.preventDefault();
-      let currentData = JSON.parse(localStorage.getItem('elaf_three_images') || '{}');
+    function renderStudentDashboard() {
+      const std = currentLoggedInUser;
+      if (!std) return;
+      document.getElementById('studentWelcome').innerText = `أهلاً بك يا طالبنا: ${std.name}`;
+      const assignedTeacher = teachersDB.find(t => t.id === std.teacherId);
+      const givenCount = std.givenDates ? std.givenDates.length : 0;
+      const total = std.totalClasses || 8;
+      const remaining = total - givenCount;
 
-      try {
-        for (let i = 1; i <= 3; i++) {
-          const nameVal = document.getElementById(`threeImgName${i}`).value;
-          const file = document.getElementById(`threeImgFile${i}`).files[0];
-          let urlVal = document.getElementById(`threeImgUrl${i}`).value;
-
-          if (nameVal) currentData[`name${i}`] = nameVal;
-          if (file) {
-            currentData[`img${i}`] = await fileToBase64(file);
-          } else if (urlVal) {
-            currentData[`img${i}`] = urlVal;
-          }
-        }
-
-        if (saveToStorage('elaf_three_images', currentData)) {
-          alert('تم تحديث بيانات منصة التتويج بنجاح!');
-        }
-      } catch (err) {
-        alert('حجم الصور كبير جداً، يرجى اختيار صور أقل حجماً أو استخدام روابط مباشرة.');
-      }
+      document.getElementById('studentDetailsCard').innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-sand p-4 rounded-2xl border space-y-2">
+            <p><strong>المسار:</strong> ${std.track}</p>
+            <p><strong>المعلم الموكل:</strong> ${assignedTeacher ? assignedTeacher.name : 'لم يتم الترحيل بعد'}</p>
+            <p><strong>موعد الحصة:</strong> ${std.classTime || 'غير محدد'}</p>
+            <p><strong>حالة الدفع:</strong> <span class="${std.paymentStatus === 'تم الدفع' ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${std.paymentStatus}</span></p>
+          </div>
+          <div class="bg-sand p-4 rounded-2xl border space-y-2">
+            <p><strong>العدد الكلي للحصص:</strong> ${total}</p>
+            <p><strong>الحصص المعطاة:</strong> <span class="text-green-600 font-bold">${givenCount}</span></p>
+            <p><strong>الحصص المتبقية:</strong> <span class="text-gold-dark font-bold">${remaining > 0 ? remaining : 0}</span></p>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-gold/30 space-y-3">
+          <div><h5 class="font-bold text-primary">إنجاز الطالب بالحصة:</h5><p class="text-gray-600">${std.achievement || 'لا توجد ملاحظات مدونة حالياً.'}</p></div>
+          <div class="border-t pt-2"><h5 class="font-bold text-primary">ملاحظات المعلم:</h5><p class="text-gray-600">${std.notes || 'لا توجد ملاحظات عامة.'}</p></div>
+        </div>`;
     }
+  </script>
 
-    async function handleUpdateLogo(e) {
-      e.preventDefault();
-      const file = document.getElementById('logoFileInput').files[0];
-      let url = document.getElementById('logoUrlInput').value;
+  <!-- Firebase Setup -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
 
-      try {
-        if (file) url = await fileToBase64(file);
-        if (url) {
-          if (saveToStorage('elaf_saved_logo', url)) {
-            alert('تم تحديث اللوجو بنجاح!');
-            e.target.reset();
-          }
-        }
-      } catch (err) {
-        alert('حدث خطأ في حفظ صورة اللوجو.');
-      }
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWG6LUvXrx8IDKMQoTUWRVNhRiLhDEIY8",
+      authDomain: "elaf-academy.firebaseapp.com",
+      projectId: "elaf-academy",
+      storageBucket: "elaf-academy.firebasestorage.app",
+      messagingSenderId: "577219194497",
+      appId: "1:577219194497:web:de693b30933b577799a780",
+      measurementId: "G-YY8Y9VDYGQ"
+    };
 
-    async function handleUpdateFounder(e) {
-      e.preventDefault();
-      const name = document.getElementById('founderNameInput').value;
-      const role = document.getElementById('founderRoleInput').value;
-      const file = document.getElementById('founderFileInput').files[0];
-      let img = document.getElementById('founderUrlInput').value;
-
-      try {
-        if (file) img = await fileToBase64(file);
-        const founderData = { name, role, img };
-        if (saveToStorage('elaf_saved_founder', founderData)) {
-          alert('تم تحديث بيانات المؤسس بنجاح!');
-        }
-      } catch (err) {
-        alert('حدث خطأ في حفظ بيانات المؤسس.');
-      }
-    }
-
-    async function handleChangeVideo(e) {
-      e.preventDefault();
-      const file = document.getElementById('videoFileInput').files[0];
-      let url = document.getElementById('videoUrlInput').value;
-
-      try {
-        if (file) url = await fileToBase64(file);
-        if (url) {
-          if (saveToStorage('elaf_saved_video', url)) {
-            alert('تم تحديث الفيديو بنجاح!');
-            e.target.reset();
-          }
-        }
-      } catch (err) {
-        alert('عذراً، حجم الفيديو كبير جداً للتخزين المحلي. ينصح باستعمال رابط فيديو مباشر (مثل y2u.be أو MP4 خارجي).');
-      }
-    }
-
-    async function handleAddImgReview(e) {
-      e.preventDefault();
-      const author = document.getElementById('imgAuthor').value;
-      const file = document.getElementById('imgFileInput').files[0];
-      let imgUrl = document.getElementById('imgUrlInput').value;
-
-      try {
-        if (file) imgUrl = await fileToBase64(file);
-
-        if (imgUrl) {
-          reviewsDB.unshift({ id: Date.now(), author, imgUrl, date: new Date().toLocaleDateString('ar-EG'), isImageReview: true });
-          if (saveToStorage('elaf_reviews_db', reviewsDB)) {
-            alert('تمت إضافة رأي الصورة بنجاح!');
-            e.target.reset();
-          }
-        }
-      } catch (err) {
-        alert('حدث خطأ في رفع الصورة.');
-      }
-    }
-
-    function saveToStorage(key, value) {
-      try {
-        const valToSave = typeof value === 'string' ? value : JSON.stringify(value);
-        localStorage.setItem(key, valToSave);
-        return true;
-      } catch (e) {
-        alert('تنبيه: مساحة التخزين الخاصة بالمتصفح امتلات، يرجى تقليل أحجام الصور المرفوعة أو استخدام روابط خارجية.');
-        return false;
-      }
-    }
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
   </script>
 </body>
 </html>
