@@ -331,7 +331,7 @@
     </div>
   </section>
 
-  <!-- ================= FEATURES SECTION (لماذا إيلاف؟) ================= -->
+  <!-- ================= FEATURES SECTION ================= -->
   <section id="features" class="py-20 bg-sand relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16">
@@ -575,7 +575,6 @@
         <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
       </div>
 
-      <!-- شبكة عرض الآراء النصية وصور الآراء مع زر الحذف السري للإدارة -->
       <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
       <div class="mt-16 bg-white p-6 sm:p-8 rounded-3xl border border-gold/30 shadow-lg max-w-2xl mx-auto">
@@ -693,7 +692,7 @@
     </div>
   </footer>
 
-  <!-- ================= PORTAL MODAL (طلاب ومعلمين فقط) ================= -->
+  <!-- ================= PORTAL MODAL ================= -->
   <div id="portalModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-3xl w-full max-w-6xl overflow-hidden shadow-2xl border border-gray-100 relative p-6 sm:p-8">
       <div class="flex justify-between items-center border-b pb-4 mb-6">
@@ -765,12 +764,11 @@
       { id: 'tech-2', name: 'الأستاذة فاطمة الزهراء', role: 'معلمة القاعدة النورانية', userAuth: 'fatima', passAuth: '123456', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400', isBlocked: false }
     ];
 
-    if(teachersDB.length === 0) {
+    if (teachersDB.length === 0) {
       teachersDB = initialTeachers;
       localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
     }
 
-    // إنشاء قناة للبث المباشر بين التبويبات للزوار
     const updateChannel = new BroadcastChannel('elaf_live_updates');
 
     function refreshAllUI() {
@@ -796,12 +794,10 @@
       refreshAllUI();
     });
 
-    // التحديث الفوري عند استقبال إشعار من القناة
     updateChannel.onmessage = (event) => {
       refreshAllUI();
     };
 
-    // استماع للتحديثات المباشرة والتغيرات من تبويبات أو نوافذ أخرى
     window.addEventListener('storage', (e) => {
       refreshAllUI();
     });
@@ -900,7 +896,6 @@
       else section.classList.add('hidden');
     }
 
-    // دالة عرض الآراء والصور مع التحديث المباشر
     function renderTestimonials() {
       const grid = document.getElementById('testimonials-grid');
       const isAdminLoggedIn = localStorage.getItem('elaf_is_admin_logged_in') === 'true';
@@ -959,7 +954,6 @@
       }
     }
 
-    // إضافة وإدراج التعليق الجديد فوراً للزائر وفي الواجهة المباشرة
     function handlePublicAddReview(e) {
       e.preventDefault();
       const author = document.getElementById('publicReviewAuthor').value;
@@ -979,7 +973,6 @@
       localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
       
       notifyDataChanged();
-      
       alert('شكراً لك! تم نشر رأيك فوراً.');
       e.target.reset();
     }
