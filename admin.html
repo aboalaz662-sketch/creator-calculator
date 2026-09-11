@@ -279,21 +279,18 @@
     </div>
   </div>
 
-  <!-- JavaScript Logic -->
-  <script>
+  <!-- JavaScript Logic with Firebase Firestore -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const db = getFirestore(app);
     const SECRET_PIN = "Elaf0123";
-    let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
-    let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
-    let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
 
-    // قناة البث للبث المباشر بين لوحة التحكم والصفحة الرئيسية
-    const liveChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('elaf_updates_channel') : null;
-
-    function notifyHomeDataChanged(type) {
-      if (liveChannel) {
-        liveChannel.postMessage({ type: type, timestamp: Date.now() });
-      }
-    }
+    let studentsDB = [];
+    let teachersDB = [];
+    let reviewsDB = [];
 
     document.addEventListener('DOMContentLoaded', () => {
       checkAuthStatus();
@@ -303,10 +300,69 @@
       if (localStorage.getItem('elaf_is_admin_logged_in') === 'true') {
         document.getElementById('adminLoginView').classList.add('hidden');
         document.getElementById('adminContentView').classList.remove('hidden');
-        renderAdminUnassigned();
-        renderAdminTeachersTable();
-        loadExistingFormData();
+        initFirebaseListeners();
       }
+    }
+
+    window.verifyPassword = function() {
+      const input = document.getElementById('adminPassword').value;
+      if (input === SECRET_PIN) {
+        localStorage.setItem('elaf_is_admin_logged_in', 'true');
+        document.getElementById('adminLoginView').classList.add('hidden');
+        document.getElementById('adminContentView').classList.remove('hidden');
+        document.getElementById('passwordError').classList.add('hidden');
+        initFirebaseListeners();
+      } else {
+        document.getElementById('passwordError').classList.remove('hidden');
+      }
+    };
+
+    window.logoutAdmin = function() {
+      localStorage.removeItem('elaf_is_admin_logged_in');
+      document.getElementById('adminContentView').classList.add('hidden');
+      document.getElementById('adminLoginView').classList.remove('hidden');
+      document.getElementById('adminPassword').value = '';
+    };
+
+    function initFirebaseListeners() {
+      // 1. الاستماع لطلبات التسجيل للطلاب
+      onSnapshot(collection(db, "students"), (snapshot) => {
+        studentsDB = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderAdminUnassigned();
+      });
+
+      // 2. الاستماع لمعلمي الأكاديمية
+      onSnapshot(collection(db, "teachers"), (snapshot) => {
+        teachersDB = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderAdminTeachersTable();
+      });
+
+      // 3. الاستماع لمنصة التتويج
+      onSnapshot(doc(db, "settings", "three_images"), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          for (let i = 1; i <= 3; i++) {
+            if (data[`name${i}`] && document.getElementById(`threeImgName${i}`)) {
+              document.getElementById(`threeImgName${i}`).value = data[`name${i}`];
+            }
+            if (data[`img${i}`] && document.getElementById(`threeImgUrl${i}`) && !data[`img${i}`].startsWith('data:')) {
+              document.getElementById(`threeImgUrl${i}`).value = data[`img${i}`];
+            }
+          }
+        }
+      });
+
+      // 4. الاستماع لبيانات المؤسس واللوجو والفيديو
+      onSnapshot(doc(db, "settings", "general"), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.founderName && document.getElementById('founderNameInput')) document.getElementById('founderNameInput').value = data.founderName;
+          if (data.founderRole && document.getElementById('founderRoleInput')) document.getElementById('founderRoleInput').value = data.founderRole;
+          if (data.founderImg && document.getElementById('founderUrlInput') && !data.founderImg.startsWith('data:')) document.getElementById('founderUrlInput').value = data.founderImg;
+          if (data.logo && document.getElementById('logoUrlInput') && !data.logo.startsWith('data:')) document.getElementById('logoUrlInput').value = data.logo;
+          if (data.video && document.getElementById('videoUrlInput') && !data.video.startsWith('data:')) document.getElementById('videoUrlInput').value = data.video;
+        }
+      });
     }
 
     const fileToBase64 = file => new Promise((resolve, reject) => {
@@ -317,29 +373,7 @@
       reader.readAsDataURL(file);
     });
 
-    function verifyPassword() {
-      const input = document.getElementById('adminPassword').value;
-      if (input === SECRET_PIN) {
-        localStorage.setItem('elaf_is_admin_logged_in', 'true');
-        document.getElementById('adminLoginView').classList.add('hidden');
-        document.getElementById('adminContentView').classList.remove('hidden');
-        document.getElementById('passwordError').classList.add('hidden');
-        renderAdminUnassigned();
-        renderAdminTeachersTable();
-        loadExistingFormData();
-      } else {
-        document.getElementById('passwordError').classList.remove('hidden');
-      }
-    }
-
-    function logoutAdmin() {
-      localStorage.removeItem('elaf_is_admin_logged_in');
-      document.getElementById('adminContentView').classList.add('hidden');
-      document.getElementById('adminLoginView').classList.remove('hidden');
-      document.getElementById('adminPassword').value = '';
-    }
-
-    function switchAdminTab(tab) {
+    window.switchAdminTab = function(tab) {
       const sections = {
         requests: document.getElementById('requestsSection'),
         teacher: document.getElementById('addTeacherForm'),
@@ -373,34 +407,9 @@
           else buttons[key].className = "py-2.5 px-3 text-gray-400 border-b-2 border-transparent font-bold whitespace-nowrap";
         }
       });
-    }
+    };
 
-    function loadExistingFormData() {
-      const threeImgs = JSON.parse(localStorage.getItem('elaf_three_images') || '{}');
-      for (let i = 1; i <= 3; i++) {
-        if (threeImgs[`name${i}`]) {
-          const el = document.getElementById(`threeImgName${i}`);
-          if (el) el.value = threeImgs[`name${i}`];
-        }
-        if (threeImgs[`img${i}`] && !threeImgs[`img${i}`].startsWith('data:')) {
-          const elUrl = document.getElementById(`threeImgUrl${i}`);
-          if (elUrl) elUrl.value = threeImgs[`img${i}`];
-        }
-      }
-
-      const founder = JSON.parse(localStorage.getItem('elaf_saved_founder') || '{}');
-      if (founder.name) document.getElementById('founderNameInput').value = founder.name;
-      if (founder.role) document.getElementById('founderRoleInput').value = founder.role;
-      if (founder.img && !founder.img.startsWith('data:')) document.getElementById('founderUrlInput').value = founder.img;
-
-      const savedLogo = localStorage.getItem('elaf_saved_logo');
-      if (savedLogo && !savedLogo.startsWith('data:')) document.getElementById('logoUrlInput').value = savedLogo;
-
-      const savedVid = localStorage.getItem('elaf_saved_video');
-      if (savedVid && !savedVid.startsWith('data:')) document.getElementById('videoUrlInput').value = savedVid;
-    }
-
-    function renderAdminUnassigned() {
+    window.renderAdminUnassigned = function() {
       const searchVal = (document.getElementById('adminSearchInput')?.value || '').toLowerCase().trim();
       const pendingTbody = document.getElementById('pendingRequestsTable');
       const approvedTbody = document.getElementById('approvedStudentsTable');
@@ -418,7 +427,7 @@
         );
       }
 
-      const pendingList = filteredStudents.filter(s => s.status === 'pending');
+      const pendingList = filteredStudents.filter(s => s.status === 'pending' || !s.status);
       const approvedList = filteredStudents.filter(s => s.status === 'approved');
 
       document.getElementById('pendingCountBadge').innerText = pendingList.length + ' طلبات';
@@ -479,55 +488,38 @@
           approvedTbody.appendChild(tr);
         });
       }
-    }
+    };
 
-    function approveStudent(id) {
-      const student = studentsDB.find(s => s.id === id);
-      if (student) {
-        student.status = 'approved';
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-        notifyHomeDataChanged('students');
-        renderAdminUnassigned();
-      }
-    }
+    window.approveStudent = async function(id) {
+      await updateDoc(doc(db, "students", id), { status: 'approved' });
+    };
 
-    function rejectStudent(id) {
+    window.rejectStudent = async function(id) {
       if (confirm('هل أنت متأكد من رفض هذا الطلب وتجاهله؟')) {
-        studentsDB = studentsDB.filter(s => s.id !== id);
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-        notifyHomeDataChanged('students');
-        renderAdminUnassigned();
+        await deleteDoc(doc(db, "students", id));
       }
-    }
+    };
 
-    function saveStudentAssignment(id) {
-      const student = studentsDB.find(s => s.id === id);
-      if (student) {
-        const selectedTeacher = document.getElementById(`techSelect_${id}`).value;
-        const paymentStatus = document.getElementById(`payState_${id}`).value;
-        const paymentsCount = Number(document.getElementById(`payCount_${id}`).value);
+    window.saveStudentAssignment = async function(id) {
+      const selectedTeacher = document.getElementById(`techSelect_${id}`).value;
+      const paymentStatus = document.getElementById(`payState_${id}`).value;
+      const paymentsCount = Number(document.getElementById(`payCount_${id}`).value);
 
-        student.teacherId = selectedTeacher;
-        student.paymentStatus = paymentStatus;
-        student.paymentsCount = paymentsCount;
+      await updateDoc(doc(db, "students", id), {
+        teacherId: selectedTeacher,
+        paymentStatus: paymentStatus,
+        paymentsCount: paymentsCount
+      });
+      alert('تم حفظ البيانات وتحديث الترحيل بنجاح في السيرفر!');
+    };
 
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-        notifyHomeDataChanged('students');
-        alert('تم حفظ البيانات وتحديث الترحيل بنجاح!');
-        renderAdminUnassigned();
-      }
-    }
-
-    function deleteStudent(id) {
+    window.deleteStudent = async function(id) {
       if (confirm('هل أنت متأكد من حذف هذا الطالب كلياً من السجل؟')) {
-        studentsDB = studentsDB.filter(s => s.id !== id);
-        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-        notifyHomeDataChanged('students');
-        renderAdminUnassigned();
+        await deleteDoc(doc(db, "students", id));
       }
-    }
+    };
 
-    async function handleAddTeacher(e) {
+    window.handleAddTeacher = async function(e) {
       e.preventDefault();
       const name = document.getElementById('teacherNameInput').value;
       const role = document.getElementById('teacherRoleInput').value;
@@ -537,20 +529,17 @@
       const fileInput = document.getElementById('teacherFileInput').files[0];
 
       let img = urlInput || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400';
-      if (fileInput) {
-        img = await fileToBase64(fileInput);
-      }
+      if (fileInput) img = await fileToBase64(fileInput);
 
-      teachersDB.push({ id: 'tech-' + Date.now(), name, role, userAuth, passAuth, img, isBlocked: false });
-      localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
-      notifyHomeDataChanged('teachers');
+      await addDoc(collection(db, "teachers"), {
+        name, role, userAuth, passAuth, img, isBlocked: false
+      });
       
-      alert('تمت إضافة المعلم بنجاح وتوليد حسابه!');
+      alert('تمت إضافة المعلم بنجاح وتوليد حسابه في السيرفر!');
       e.target.reset();
-      renderAdminTeachersTable();
-    }
+    };
 
-    function renderAdminTeachersTable() {
+    window.renderAdminTeachersTable = function() {
       const tbody = document.getElementById('adminTeachersTable');
       const searchVal = (document.getElementById('teacherSearchInput')?.value || '').toLowerCase().trim();
       if (!tbody) return;
@@ -577,35 +566,26 @@
           <td class="p-2 border font-mono text-[11px]">${t.userAuth}</td>
           <td class="p-2 border text-center"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${t.isBlocked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}">${t.isBlocked ? 'محظور' : 'نشط'}</span></td>
           <td class="p-2 border text-center space-x-1 space-x-reverse">
-            <button onclick="toggleBlockTeacher('${t.id}')" class="${t.isBlocked ? 'bg-emerald-600' : 'bg-amber-600'} text-white font-bold px-2 py-1 rounded text-[10px]">${t.isBlocked ? 'إلغاء الحظر' : 'حظر'}</button>
+            <button onclick="toggleBlockTeacher('${t.id}', ${t.isBlocked})" class="${t.isBlocked ? 'bg-emerald-600' : 'bg-amber-600'} text-white font-bold px-2 py-1 rounded text-[10px]">${t.isBlocked ? 'إلغاء الحظر' : 'حظر'}</button>
             <button onclick="deleteTeacher('${t.id}')" class="bg-red-500 text-white font-bold px-2 py-1 rounded text-[10px]"><i class="fas fa-trash-alt"></i></button>
           </td>`;
         tbody.appendChild(tr);
       });
-    }
+    };
 
-    function toggleBlockTeacher(id) {
-      const tech = teachersDB.find(t => t.id === id);
-      if (tech) {
-        tech.isBlocked = !tech.isBlocked;
-        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
-        notifyHomeDataChanged('teachers');
-        renderAdminTeachersTable();
-      }
-    }
+    window.toggleBlockTeacher = async function(id, currentStatus) {
+      await updateDoc(doc(db, "teachers", id), { isBlocked: !currentStatus });
+    };
 
-    function deleteTeacher(id) {
+    window.deleteTeacher = async function(id) {
       if (confirm('هل أنت متأكد من حذف حساب المعلم هذا كلياً؟')) {
-        teachersDB = teachersDB.filter(t => t.id !== id);
-        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
-        notifyHomeDataChanged('teachers');
-        renderAdminTeachersTable();
+        await deleteDoc(doc(db, "teachers", id));
       }
-    }
+    };
 
-    async function handleSaveThreeImages(e) {
+    window.handleSaveThreeImages = async function(e) {
       e.preventDefault();
-      const data = JSON.parse(localStorage.getItem('elaf_three_images') || '{}');
+      const data = {};
 
       for (let i = 1; i <= 3; i++) {
         const nameVal = document.getElementById(`threeImgName${i}`).value;
@@ -617,12 +597,11 @@
         if (fileInput) data[`img${i}`] = await fileToBase64(fileInput);
       }
 
-      localStorage.setItem('elaf_three_images', JSON.stringify(data));
-      notifyHomeDataChanged('three_images');
-      alert('تم حفظ وتحديث منصة تتويج الحافظين بنجاح!');
-    }
+      await setDoc(doc(db, "settings", "three_images"), data, { merge: true });
+      alert('تم حفظ وتحديث منصة تتويج الحافظين في السيرفر بنجاح!');
+    };
 
-    async function handleUpdateLogo(e) {
+    window.handleUpdateLogo = async function(e) {
       e.preventDefault();
       const urlInput = document.getElementById('logoUrlInput').value;
       const fileInput = document.getElementById('logoFileInput').files[0];
@@ -630,13 +609,12 @@
       if (fileInput) logo = await fileToBase64(fileInput);
 
       if (logo) {
-        localStorage.setItem('elaf_saved_logo', logo);
-        notifyHomeDataChanged('logo');
-        alert('تم تحديث اللوجو بنجاح!');
+        await setDoc(doc(db, "settings", "general"), { logo }, { merge: true });
+        alert('تم تحديث اللوجو بنجاح في السيرفر!');
       }
-    }
+    };
 
-    async function handleUpdateFounder(e) {
+    window.handleUpdateFounder = async function(e) {
       e.preventDefault();
       const name = document.getElementById('founderNameInput').value;
       const role = document.getElementById('founderRoleInput').value;
@@ -646,13 +624,16 @@
       let img = urlInput;
       if (fileInput) img = await fileToBase64(fileInput);
 
-      const founderData = { name, role, img };
-      localStorage.setItem('elaf_saved_founder', JSON.stringify(founderData));
-      notifyHomeDataChanged('founder');
-      alert('تم تحديث بيانات وصورة المؤسس بنجاح!');
-    }
+      await setDoc(doc(db, "settings", "general"), {
+        founderName: name,
+        founderRole: role,
+        founderImg: img
+      }, { merge: true });
 
-    async function handleChangeVideo(e) {
+      alert('تم تحديث بيانات وصورة المؤسس بنجاح في السيرفر!');
+    };
+
+    window.handleChangeVideo = async function(e) {
       e.preventDefault();
       const urlInput = document.getElementById('videoUrlInput').value;
       const fileInput = document.getElementById('videoFileInput').files[0];
@@ -661,13 +642,12 @@
       if (fileInput) video = await fileToBase64(fileInput);
 
       if (video) {
-        localStorage.setItem('elaf_saved_video', video);
-        notifyHomeDataChanged('video');
-        alert('تم تحديث الفيديو الرئيسي للموقع بنجاح!');
+        await setDoc(doc(db, "settings", "general"), { video }, { merge: true });
+        alert('تم تحديث الفيديو الرئيسي بنجاح في السيرفر!');
       }
-    }
+    };
 
-    async function handleAddImgReview(e) {
+    window.handleAddImgReview = async function(e) {
       e.preventDefault();
       const author = document.getElementById('imgAuthor').value;
       const urlInput = document.getElementById('imgUrlInput').value;
@@ -677,19 +657,17 @@
       if (fileInput) imgUrl = await fileToBase64(fileInput);
 
       if (imgUrl) {
-        reviewsDB.unshift({
-          id: Date.now(),
+        await addDoc(collection(db, "reviews"), {
           author,
           imgUrl,
           date: new Date().toLocaleDateString('ar-EG'),
-          isImageReview: true
+          isImageReview: true,
+          createdAt: Date.now()
         });
-        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
-        notifyHomeDataChanged('reviews');
-        alert('تمت إضافة صورة الرأي بنجاح!');
+        alert('تمت إضافة صورة الرأي بنجاح إلى السيرفر!');
         e.target.reset();
       }
-    }
+    };
   </script>
 </body>
 </html>
