@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // تعطيل الزر مؤقتا لمنع التكرار
     if (submitBtn) submitBtn.disabled = true;
 
     try {
@@ -59,12 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// العرض اللحظي لجميع الزوار
+// إظهار التغييرات المبدئية والتحديثات اللحظية بدون تجاهل التعليقات الجديدة
 const q = query(reviewsRef, orderBy("createdAt", "desc"));
 
-onSnapshot(q, (snapshot) => {
+onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
   const container = document.getElementById("reviews-container") || document.querySelector(".reviews-grid") || document.querySelector(".cards-container");
-  if (!container) return;
+  
+  if (!container) {
+    console.error("لم يتم العثور على عنصر التغليف في صفحة الـ HTML! تأكد من وجود id='reviews-container'");
+    return;
+  }
 
   container.innerHTML = "";
 
@@ -76,8 +79,8 @@ onSnapshot(q, (snapshot) => {
   snapshot.forEach((doc) => {
     const data = doc.data();
 
-    let formattedDate = "مؤخراً";
-    if (data.createdAt && data.createdAt.toDate) {
+    let formattedDate = "الآن";
+    if (data.createdAt && typeof data.createdAt.toDate === "function") {
       const dateObj = data.createdAt.toDate();
       formattedDate = `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
     }
