@@ -4,93 +4,100 @@ import { app } from "./firebase.js";
 const db = getFirestore(app);
 const reviewsRef = collection(db, "reviews");
 
-// 1. الاستماع لنموذج إضافة الرأي في الصفحة عند الضغط على زر "نشر الرأي فوراً"
+// 1. ربط زر نشر الرأي والحقول مع Firebase
 document.addEventListener("DOMContentLoaded", () => {
-  const reviewForm = document.querySelector("form") || document.getElementById("review-form");
-  const submitBtn = document.querySelector("button[type='submit']") || document.querySelector(".btn-submit");
-
-  // معالجة الضغط على الزر أو تقديم النموذج
-  const handleReviewSubmission = async (e) => {
-    if (e) e.preventDefault();
-
-    // جلب قيم المدخلات من الصفحة
-    const nameInput = document.querySelector("input[placeholder*='اسمك']") || document.getElementById("reviewer-name");
-    const ratingSelect = document.querySelector("select") || document.getElementById("reviewer-rating");
-    const textInput = document.querySelector("textarea") || document.getElementById("reviewer-text");
-
-    const name = nameInput ? nameInput.value.trim() : "";
-    const text = textInput ? textInput.value.trim() : "";
-    let rating = 5;
-
-    if (ratingSelect) {
-      const parsedRating = parseInt(ratingSelect.value);
-      if (!isNaN(parsedRating)) rating = parsedRating;
+  // البحث عن الحقول والزر مباشرة
+  const inputs = document.querySelectorAll("input");
+  const nameInput = inputs.length > 0 ? inputs[0] : null; // حقل الاسم
+  const selectRating = document.querySelector("select");  // حقل التقييم
+  const textareaInput = document.querySelector("textarea"); // حقل التعليق
+  
+  // البحث عن زر النشر بالاسم الموجود في الصورة "نشر الرأي فوراً"
+  const buttons = document.querySelectorAll("button, div, a");
+  let submitBtn = null;
+  buttons.forEach(btn => {
+    if (btn.innerText && btn.innerText.includes("نشر الرأي")) {
+      submitBtn = btn;
     }
+  });
 
-    if (!name || !text) {
-      alert("يرجى كتابة الاسم والتعليق قبل النشر!");
-      return;
-    }
+  if (submitBtn) {
+    submitBtn.style.cursor = "pointer";
+    submitBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
 
-    try {
-      // إرسال البيانات إلى Firebase Firestore
-      await addDoc(reviewsRef, {
-        name: name,
-        rating: rating,
-        text: text,
-        createdAt: serverTimestamp()
-      });
+      const name = nameInput ? nameInput.value.trim() : "";
+      const text = textareaInput ? textareaInput.value.trim() : "";
+      let rating = 5;
 
-      console.log("تم حفظ الرأي بنجاح في Firebase!");
+      if (selectRating && selectRating.value) {
+        const match = selectRating.value.match(/\d+/);
+        if (match) rating = parseInt(match[0]);
+      }
 
-      // تفريغ الخانات بعد النشر
-      if (nameInput) nameInput.value = "";
-      if (textInput) textInput.value = "";
-      
-      alert("شكراً لك! تم نشر رأيك بنجاح وظهر لجميع الزوار.");
-    } catch (error) {
-      console.error("خطأ في حفظ الرأي:", error);
-      alert("حدث خطأ أثناء نشر الرأي، يرجى المحاولة لاحقاً.");
-    }
-  };
+      if (!name || !text) {
+        alert("يرجى كتابة الاسم والتعليق أولاً!");
+        return;
+      }
 
-  if (reviewForm) {
-    reviewForm.addEventListener("submit", handleReviewSubmission);
-  } else if (submitBtn) {
-    submitBtn.addEventListener("click", handleReviewSubmission);
+      try {
+        await addDoc(reviewsRef, {
+          name: name,
+          rating: rating,
+          text: text,
+          createdAt: serverTimestamp()
+        });
+
+        if (nameInput) nameInput.value = "";
+        if (textareaInput) textareaInput.value = "";
+        alert("تم نشر رأيك بنجاح وظهر للجميع!");
+      } catch (err) {
+        console.error("خطأ أثناء الحفظ:", err);
+        alert("حدث خطأ في الاتصال، يرجى المحاولة لاحقاً.");
+      }
+    });
   }
 });
 
-// 2. الاستماع التلقائي اللحظي (Real-time) لعرض الآراء لجميع الزوار وفي المتصفح الخفي
+// 2. الاستماع التلقائي وعرض الآراء فوراً للزائر وفي المتصفح الخفي
 const q = query(reviewsRef, orderBy("createdAt", "desc"));
 
 onSnapshot(q, (snapshot) => {
-  // البحث عن الحاوية المسؤولة عن عرض الآراء في الواجهة
-  const container = document.getElementById("reviews-container") || document.querySelector(".reviews-grid") || document.querySelector(".cards-container");
+  // البحث عن شبكة البطاقات العلوية
+  const allDivs = document.querySelectorAll("div");
+  let container = null;
+
+  // البحث عن الحاوية التي تحتوي على الكروت الثلاثة
+  allDivs.forEach(div => {
+    if (div.children.length >= 2 && div.innerHTML.includes("★")) {
+      container = div;
+    }
+  });
+
+  if (!container) {
+    container = document.getElementById("reviews-container") || document.querySelector(".grid");
+  }
+
   if (!container) return;
 
-  container.innerHTML = ""; // تفريغ القائمة قبل الطباعة لمنع التكرار
+  container.innerHTML = ""; // مسح العناصر لتحديثها بالبيانات الحية
 
   snapshot.forEach((doc) => {
     const data = doc.data();
+    
+    // إعداد التقييم بالنجوم
+    const starsCount = data.rating || 5;
+    const starsHtml = "★".repeat(starsCount) + "☆".repeat(5 - starsCount);
 
-    // تنسيق التاريخ
-    let formattedDate = "مؤخراً";
-    if (data.createdAt && data.createdAt.toDate) {
-      const dateObj = data.createdAt.toDate();
-      formattedDate = `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
-    }
-
-    // إنشاء كارت الرأي بحسب تصميم الموقع
-    const reviewCard = `
-      <div class="post-card" style="border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <div style="color: #f59e0b; margin-bottom: 8px; font-size: 18px;">${"★".repeat(data.rating || 5)}</div>
-        <h4 style="font-weight: bold; margin-bottom: 5px; color: #111827;">${data.name || "زائر"}</h4>
-        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">${data.text || ""}</p>
-        <small style="color: #9ca3af; font-size: 12px;">${formattedDate}</small>
-      </div>
+    const card = document.createElement("div");
+    card.style.cssText = "background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center; margin-bottom: 15px;";
+    
+    card.innerHTML = `
+      <div style="color: #d97706; font-size: 16px; margin-bottom: 8px;">${starsHtml}</div>
+      <p style="color: #374151; font-size: 14px; margin-bottom: 10px; word-break: break-word;">${data.text || ""}</p>
+      <h5 style="color: #111827; font-weight: bold; font-size: 13px; margin: 0;">${data.name || "زائر"}</h5>
     `;
 
-    container.insertAdjacentHTML("beforeend", reviewCard);
+    container.appendChild(card);
   });
 });
