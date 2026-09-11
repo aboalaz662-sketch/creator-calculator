@@ -3,23 +3,50 @@ import { app } from "./firebase.js";
 
 const db = getFirestore(app);
 
+// إعداد قناة البث المباشر للاستماع للتحديثات اللحظية من لوحة التحكم
+const liveChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('elaf_updates_channel') : null;
+
+if (liveChannel) {
+  liveChannel.onmessage = (event) => {
+    console.log("استلام إشعار تحديث من لوحة التحكم:", event.data);
+    // عند استقبال تحديث، يمكن تحديث الواجهة أو إعادة قراءة البيانات المحلية
+    handleLiveUpdate(event.data);
+  };
+}
+
+// الاستماع للتغييرات في LocalStorage بين التبويبات والمناقذ المختلفة
+window.addEventListener('storage', (e) => {
+  if (e.key && e.key.startsWith('elaf_')) {
+    console.log("تحديث في بيانات LocalStorage:", e.key);
+    handleLiveUpdate({ type: e.key.replace('elaf_', '') });
+  }
+});
+
+// دالة لمعالجة التحديثات اللحظية وتنعكس على الصفحة الرئيسية مباشرة
+function handleLiveUpdate(updateData) {
+  // يمكنك استدعاء الدوال المسؤولة عن تحديث العناصر في الواجهة هنا
+  if (typeof window.loadMainPageData === 'function') {
+    window.loadMainPageData();
+  }
+}
+
 // استعلام لجلب المنشورات مرتبة حسب الأحدث
 const q = query(collection(db, "posts"));
 
-// الاستماع للتحديثات فورياً (Real-time)
+// الاستماع للتحديثات فورياً من Firestore (Real-time)
 onSnapshot(q, (snapshot) => {
   snapshot.docChanges().forEach((change) => {
     if (change.type === "added") {
       const postData = change.doc.data();
       console.log("منشور جديد للزائر:", postData);
       
-      // هنا يتم طباعة البيانات على الشاشة (مثال: إضافة عنصر لقائمة المنشورات)
+      // طباعة البيانات على الشاشة
       displayPost(postData);
     }
   });
 });
 
-// دالة بسيطة لعرض المنشور والصورة والتعليق في HTML
+// دالة لعرض المنشور والصورة والتعليق في HTML
 function displayPost(data) {
   const container = document.getElementById("posts-container"); // تأكد من وجود عنصر بهذا ID في HTML
   if (!container) return;
