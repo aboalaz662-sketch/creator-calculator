@@ -770,40 +770,46 @@
       localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    // إنشاء قناة للبث المباشر بين التبويبات للزوار
+    const updateChannel = new BroadcastChannel('elaf_live_updates');
+
+    function refreshAllUI() {
+      studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
+      teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
+      reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
+      threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
+
       loadSavedLogo();
       loadSavedVideo();
       renderThreeImages();
       refreshTeachersMainGrid();
       loadSavedFounder();
       renderTestimonials();
+
+      if (currentLoggedInUser) {
+        if (activePortalRole === 'teacher') renderTeacherStudents();
+        if (activePortalRole === 'student') renderStudentDashboard();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      refreshAllUI();
     });
+
+    // التحديث الفوري عند استقبال إشعار من القناة
+    updateChannel.onmessage = (event) => {
+      refreshAllUI();
+    };
 
     // استماع للتحديثات المباشرة والتغيرات من تبويبات أو نوافذ أخرى
     window.addEventListener('storage', (e) => {
-      if (e.key === 'elaf_saved_logo') loadSavedLogo();
-      if (e.key === 'elaf_saved_founder') loadSavedFounder();
-      if (e.key === 'elaf_saved_video') loadSavedVideo();
-      if (e.key === 'elaf_three_images') {
-        threeImgsDB = JSON.parse(e.newValue || '{}');
-        renderThreeImages();
-      }
-      if (e.key === 'elaf_teachers_db') {
-        teachersDB = JSON.parse(e.newValue || '[]');
-        refreshTeachersMainGrid();
-      }
-      if (e.key === 'elaf_reviews_db') {
-        reviewsDB = JSON.parse(e.newValue || '[]');
-        renderTestimonials();
-      }
-      if (e.key === 'elaf_students_db') {
-        studentsDB = JSON.parse(e.newValue || '[]');
-        if (currentLoggedInUser) {
-          if (activePortalRole === 'teacher') renderTeacherStudents();
-          if (activePortalRole === 'student') renderStudentDashboard();
-        }
-      }
+      refreshAllUI();
     });
+
+    function notifyDataChanged() {
+      updateChannel.postMessage('update');
+      refreshAllUI();
+    }
 
     function toggleSidebarNav() {
       const sidebar = document.getElementById('sidebarNav');
@@ -949,7 +955,7 @@
       if (confirm('هل أنت متأكد من حذف هذا الرأي كلياً؟')) {
         reviewsDB = reviewsDB.filter(r => String(r.id) !== String(id));
         localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
-        renderTestimonials();
+        notifyDataChanged();
       }
     }
 
@@ -972,8 +978,7 @@
       reviewsDB.unshift(newReview);
       localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
       
-      // التحديث الفوري للواجهة
-      renderTestimonials();
+      notifyDataChanged();
       
       alert('شكراً لك! تم نشر رأيك فوراً.');
       e.target.reset();
@@ -993,6 +998,7 @@
       });
 
       localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+      notifyDataChanged();
       alert('تم إرسال طلبك للإدارة بنجاح!');
       e.target.reset();
     }
@@ -1092,8 +1098,8 @@
         student.achievement = document.getElementById(`achieve_${stdId}`).value;
         student.classTime = document.getElementById(`time_${stdId}`).value;
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        notifyDataChanged();
         alert('تم حفظ البيانات وتحديثها للطالب!');
-        renderTeacherStudents();
       }
     }
 
@@ -1104,8 +1110,8 @@
         const today = new Date().toLocaleDateString('ar-EG');
         student.givenDates.push(today);
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        notifyDataChanged();
         alert(`تم توثيق حصة بتاريخ ${today}`);
-        renderTeacherStudents();
       }
     }
 
