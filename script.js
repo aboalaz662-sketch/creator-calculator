@@ -4,16 +4,13 @@ import { app } from "./firebase.js";
 const db = getFirestore(app);
 const reviewsRef = collection(db, "reviews");
 
-// 1. الاستماع لنموذج إضافة الرأي في الصفحة عند الضغط على زر "نشر الرأي فوراً"
 document.addEventListener("DOMContentLoaded", () => {
   const reviewForm = document.querySelector("form") || document.getElementById("review-form");
   const submitBtn = document.querySelector("button[type='submit']") || document.querySelector(".btn-submit");
 
-  // معالجة الضغط على الزر أو تقديم النموذج
   const handleReviewSubmission = async (e) => {
     if (e) e.preventDefault();
 
-    // جلب قيم المدخلات من الصفحة
     const nameInput = document.querySelector("input[placeholder*='اسمك']") || document.getElementById("reviewer-name");
     const ratingSelect = document.querySelector("select") || document.getElementById("reviewer-rating");
     const textInput = document.querySelector("textarea") || document.getElementById("reviewer-text");
@@ -32,8 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // تعطيل الزر مؤقتا لمنع التكرار
+    if (submitBtn) submitBtn.disabled = true;
+
     try {
-      // إرسال البيانات إلى Firebase Firestore
       await addDoc(reviewsRef, {
         name: name,
         rating: rating,
@@ -41,16 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
         createdAt: serverTimestamp()
       });
 
-      console.log("تم حفظ الرأي بنجاح في Firebase!");
-
-      // تفريغ الخانات بعد النشر
       if (nameInput) nameInput.value = "";
       if (textInput) textInput.value = "";
       
       alert("شكراً لك! تم نشر رأيك بنجاح وظهر لجميع الزوار.");
     } catch (error) {
       console.error("خطأ في حفظ الرأي:", error);
-      alert("حدث خطأ أثناء نشر الرأي، يرجى المحاولة لاحقاً.");
+      alert("حدث خطأ أثناء نشر الرأي. يرجى التأكد من إعدادات Firestore Rules في لوحة Firebase.");
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
     }
   };
 
@@ -61,27 +59,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// 2. الاستماع التلقائي اللحظي (Real-time) لعرض الآراء لجميع الزوار وفي المتصفح الخفي
+// العرض اللحظي لجميع الزوار
 const q = query(reviewsRef, orderBy("createdAt", "desc"));
 
 onSnapshot(q, (snapshot) => {
-  // البحث عن الحاوية المسؤولة عن عرض الآراء في الواجهة
   const container = document.getElementById("reviews-container") || document.querySelector(".reviews-grid") || document.querySelector(".cards-container");
   if (!container) return;
 
-  container.innerHTML = ""; // تفريغ القائمة قبل الطباعة لمنع التكرار
+  container.innerHTML = "";
+
+  if (snapshot.empty) {
+    container.innerHTML = "<p style='text-align: center; color: #6b7280;'>لا توجد آراء بعد. كن أول من يشارك رأيه!</p>";
+    return;
+  }
 
   snapshot.forEach((doc) => {
     const data = doc.data();
 
-    // تنسيق التاريخ
     let formattedDate = "مؤخراً";
     if (data.createdAt && data.createdAt.toDate) {
       const dateObj = data.createdAt.toDate();
       formattedDate = `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
     }
 
-    // إنشاء كارت الرأي بحسب تصميم الموقع
     const reviewCard = `
       <div class="post-card" style="border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
         <div style="color: #f59e0b; margin-bottom: 8px; font-size: 18px;">${"★".repeat(data.rating || 5)}</div>
@@ -93,4 +93,6 @@ onSnapshot(q, (snapshot) => {
 
     container.insertAdjacentHTML("beforeend", reviewCard);
   });
+}, (error) => {
+  console.error("خطأ في جلب الآراء:", error);
 });
