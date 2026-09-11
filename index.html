@@ -575,20 +575,22 @@
         <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
       </div>
 
-      <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <!-- الحاوية المجهزة لعرض الآراء المباشرة من الفايربيس -->
+      <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
       <div class="mt-16 bg-white p-6 sm:p-8 rounded-3xl border border-gold/30 shadow-lg max-w-2xl mx-auto">
         <h4 class="font-black text-lg text-primary mb-2 text-center decorated-title"><i class="fas fa-comment-dots text-gold ml-2"></i>أضف رأيك وانطباعك بالأكاديمية</h4>
         
-        <form onsubmit="handlePublicAddReview(event)" class="space-y-4">
+        <!-- النموذج المربوط تلقائياً مع Firebase Firestore عبر script.js -->
+        <form id="review-form" class="space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold text-gray-700 mb-1">الاسم / ولي الأمر</label>
-              <input type="text" id="publicReviewAuthor" required placeholder="أدخل اسمك أو صفتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
+              <input type="text" id="reviewer-name" required placeholder="أدخل اسمك أو صفتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
             </div>
             <div>
               <label class="block text-xs font-bold text-gray-700 mb-1">التقييم</label>
-              <select id="publicReviewRating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
+              <select id="reviewer-rating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none">
                 <option value="5">⭐⭐⭐⭐⭐ (5/5 ممتاز)</option>
                 <option value="4">⭐⭐⭐⭐ (4/5 جيد جداً)</option>
                 <option value="3">⭐⭐⭐ (3/5 جيد)</option>
@@ -597,9 +599,9 @@
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-700 mb-1">انطباعك أو تعليقك</label>
-            <textarea id="publicReviewText" rows="3" required placeholder="اكتب رأيك وتجربتك مع أكاديمية إيلاف التعليمية..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none resize-none"></textarea>
+            <textarea id="reviewer-text" rows="3" required placeholder="اكتب رأيك وتجربتك مع أكاديمية إيلاف التعليمية..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs outline-none resize-none"></textarea>
           </div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">نشر الرأي فوراً</button>
+          <button type="submit" class="btn-submit w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">نشر الرأي فوراً</button>
         </form>
       </div>
     </div>
@@ -749,14 +751,16 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- Script الخاص بـ Firebase والمزامنة اللحظية -->
+  <script type="module" src="./script.js"></script>
+
+  <!-- JavaScript المباشر الخاص بالواجهات الأخرى -->
   <script>
     let activePortalRole = 'student';
     let currentLoggedInUser = null;
 
     let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
     let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
-    let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
     let threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
 
     const initialTeachers = [
@@ -769,13 +773,11 @@
       localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
     }
 
-    // قناة بث للتحديثات المباشرة والتزامن اللحظي بين الصفحات المفتوحة
     const updateChannel = new BroadcastChannel('elaf_live_updates');
 
     function refreshAllUI() {
       studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
       teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
-      reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
       threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
 
       loadSavedLogo();
@@ -783,7 +785,6 @@
       renderThreeImages();
       refreshTeachersMainGrid();
       loadSavedFounder();
-      renderTestimonials();
 
       if (currentLoggedInUser) {
         if (activePortalRole === 'teacher') renderTeacherStudents();
@@ -795,12 +796,10 @@
       refreshAllUI();
     });
 
-    // استقبال التحديث المباشر من التبويبات الأخرى
     updateChannel.onmessage = (event) => {
       refreshAllUI();
     };
 
-    // الاستماع لأي تغيير في التخزين المحلي
     window.addEventListener('storage', (e) => {
       refreshAllUI();
     });
@@ -897,87 +896,6 @@
 
       if (hasContent) section.classList.remove('hidden');
       else section.classList.add('hidden');
-    }
-
-    function renderTestimonials() {
-      const grid = document.getElementById('testimonials-grid');
-      const isAdminLoggedIn = localStorage.getItem('elaf_is_admin_logged_in') === 'true';
-      grid.innerHTML = '';
-
-      reviewsDB.forEach(rev => {
-        const card = document.createElement('div');
-        card.className = "bg-white p-6 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between relative";
-        
-        let deleteBtnHTML = '';
-        if (isAdminLoggedIn) {
-          deleteBtnHTML = `
-            <button onclick="deleteReview('${rev.id}')" class="mt-3 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-1.5 rounded-xl text-[11px] transition flex items-center justify-center gap-1 shadow-sm">
-              <i class="fas fa-trash-alt"></i> حذف الرأي (للإدارة فقط)
-            </button>
-          `;
-        }
-
-        if (rev.isImageReview) {
-          card.innerHTML = `
-            <div>
-              <div class="w-full h-48 rounded-2xl overflow-hidden mb-3 border border-gray-100 shadow-inner">
-                <img src="${rev.imgUrl}" alt="${rev.author}" class="w-full h-full object-cover">
-              </div>
-            </div>
-            <div class="border-t border-gray-100 pt-3 flex flex-col gap-2">
-              <div class="flex items-center justify-between text-xs">
-                <span class="font-extrabold text-primary decorated-title">${rev.author}</span>
-                <span class="text-[10px] text-gold-dark font-medium">${rev.date || 'رأي مصور'}</span>
-              </div>
-              ${deleteBtnHTML}
-            </div>`;
-        } else {
-          card.innerHTML = `
-            <div>
-              <div class="flex items-center text-gold text-xs mb-3">${'⭐'.repeat(Number(rev.rating || 5))}</div>
-              <div class="text-xs text-gray-600 leading-relaxed mb-4">${rev.text}</div>
-            </div>
-            <div class="border-t border-gray-100 pt-3 flex flex-col gap-2">
-              <div class="flex items-center justify-between text-xs">
-                <span class="font-extrabold text-primary decorated-title">${rev.author}</span>
-                <span class="text-[10px] text-gold-dark font-medium">${rev.date || 'طالب بالأكاديمية'}</span>
-              </div>
-              ${deleteBtnHTML}
-            </div>`;
-        }
-        grid.appendChild(card);
-      });
-    }
-
-    function deleteReview(id) {
-      if (confirm('هل أنت متأكد من حذف هذا الرأي كلياً؟')) {
-        reviewsDB = reviewsDB.filter(r => String(r.id) !== String(id));
-        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
-        notifyDataChanged();
-      }
-    }
-
-    function handlePublicAddReview(e) {
-      e.preventDefault();
-      const author = document.getElementById('publicReviewAuthor').value;
-      const rating = document.getElementById('publicReviewRating').value;
-      const text = document.getElementById('publicReviewText').value;
-
-      const newReview = { 
-        id: Date.now(), 
-        author: author, 
-        rating: rating, 
-        text: text, 
-        date: new Date().toLocaleDateString('ar-EG'), 
-        isImageReview: false 
-      };
-
-      reviewsDB.unshift(newReview);
-      localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
-      
-      notifyDataChanged();
-      alert('شكراً لك! تم نشر رأيك وتحديثه فوراً لجميع الزوار.');
-      e.target.reset();
     }
 
     function handleStudentSelfRegister(e) {
