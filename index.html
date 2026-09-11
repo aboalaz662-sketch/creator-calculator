@@ -769,6 +769,7 @@
       localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
     }
 
+    // قناة بث للتحديثات المباشرة والتزامن اللحظي بين الصفحات المفتوحة
     const updateChannel = new BroadcastChannel('elaf_live_updates');
 
     function refreshAllUI() {
@@ -794,10 +795,12 @@
       refreshAllUI();
     });
 
+    // استقبال التحديث المباشر من التبويبات الأخرى
     updateChannel.onmessage = (event) => {
       refreshAllUI();
     };
 
+    // الاستماع لأي تغيير في التخزين المحلي
     window.addEventListener('storage', (e) => {
       refreshAllUI();
     });
@@ -973,7 +976,7 @@
       localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
       
       notifyDataChanged();
-      alert('شكراً لك! تم نشر رأيك فوراً.');
+      alert('شكراً لك! تم نشر رأيك وتحديثه فوراً لجميع الزوار.');
       e.target.reset();
     }
 
