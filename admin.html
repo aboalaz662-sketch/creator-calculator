@@ -148,6 +148,9 @@
         <button id="tabRequestsBtn" onclick="switchAdminTab('requests')" class="py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2">
           <i class="fas fa-tasks text-gold"></i> إدارة الطلبات والترحيل
         </button>
+        <button id="tabReviewsBtn" onclick="switchAdminTab('reviews')" class="py-2.5 px-4 rounded-xl text-gray-500 hover:text-primary whitespace-nowrap flex items-center gap-2">
+          <i class="fas fa-comments text-gold"></i> إدارة وآراء التعليقات
+        </button>
         <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-4 rounded-xl text-gray-500 hover:text-primary whitespace-nowrap flex items-center gap-2">
           <i class="fas fa-chalkboard-teacher text-gold"></i> إدارة وتوليد المعلمين
         </button>
@@ -237,7 +240,34 @@
 
       </div>
 
-      <!-- TAB 2: إدارة المعلمين -->
+      <!-- TAB 2: إدارة التعليقات والآراء -->
+      <div id="reviewsSection" class="space-y-6 hidden">
+        <div class="bg-white p-6 rounded-2xl border border-gold/30 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b pb-4">
+            <h4 class="font-bold text-sm text-primary flex items-center gap-2">
+              <i class="fas fa-comments text-gold"></i> إدارة تعليقات وآراء الطلاب المعروضة على الصفحة الرئيسية
+            </h4>
+            <span id="reviewsCountBadge" class="bg-gold/10 text-primary font-black text-xs px-3 py-1 rounded-full border border-gold/30">0 تعليقات</span>
+          </div>
+
+          <div class="overflow-x-auto border rounded-xl">
+            <table class="w-full text-right text-xs border-collapse">
+              <thead>
+                <tr class="bg-primary text-white">
+                  <th class="p-3 border text-center w-10">م</th>
+                  <th class="p-3 border">اسم صاحب التعليق</th>
+                  <th class="p-3 border">نوع التعليق</th>
+                  <th class="p-3 border">المحتوى / الصورة</th>
+                  <th class="p-3 border text-center">حذف التعليق</th>
+                </tr>
+              </thead>
+              <tbody id="adminReviewsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: إدارة المعلمين -->
       <div id="addTeacherForm" class="space-y-6 hidden">
         <form onsubmit="handleAddTeacher(event)" class="space-y-4 bg-white p-6 rounded-2xl border border-gold/30 shadow-sm">
           <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-user-plus text-gold"></i> إضافة معلم جديد</h4>
@@ -277,7 +307,7 @@
         </div>
       </div>
 
-      <!-- TAB 3: منصة الحافظين -->
+      <!-- TAB 4: منصة الحافظين -->
       <div id="threeImagesForm" class="space-y-6 hidden">
         <form onsubmit="handleSaveThreeImages(event)" class="bg-white p-6 rounded-2xl border border-gold/30 shadow-sm space-y-6">
           <div class="bg-sand p-4 rounded-xl border border-gold/20">
@@ -316,7 +346,7 @@
         </form>
       </div>
 
-      <!-- TAB 4: صورة PAYPAL -->
+      <!-- TAB 5: صورة PAYPAL -->
       <form id="addPaypalForm" onsubmit="handleUpdatePaypal(event)" class="bg-white p-6 rounded-2xl border border-gold/30 shadow-sm space-y-4 hidden">
         <div class="bg-sand p-4 rounded-xl border border-gold/20">
           <h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fab fa-paypal text-gold"></i> تحديث صورة رمز الدفع لـ PayPal</h4>
@@ -327,7 +357,7 @@
         <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ صورة PayPal</button>
       </form>
 
-      <!-- TAB 5: اللوجو -->
+      <!-- TAB 6: اللوجو -->
       <form id="addLogoForm" onsubmit="handleUpdateLogo(event)" class="bg-white p-6 rounded-2xl border border-gold/30 shadow-sm space-y-4 hidden">
         <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-image text-gold"></i> تعديل شعار الأكاديمية (Logo)</h4>
         <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة اللوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
@@ -335,7 +365,7 @@
         <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ اللوجو</button>
       </form>
 
-      <!-- TAB 6: المؤسس -->
+      <!-- TAB 7: المؤسس -->
       <form id="addFounderForm" onsubmit="handleUpdateFounder(event)" class="bg-white p-6 rounded-2xl border border-gold/30 shadow-sm space-y-4 hidden">
         <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-user-tie text-gold"></i> بيانات المؤسس</h4>
         <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المؤسس</label><input type="text" id="founderNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
@@ -345,7 +375,7 @@
         <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ والتعديل</button>
       </form>
 
-      <!-- TAB 7: الفيديو (مباشر أو يوتيوب) -->
+      <!-- TAB 8: الفيديو (مباشر أو يوتيوب) -->
       <form id="addVidForm" onsubmit="handleChangeVideo(event)" class="bg-white p-6 rounded-2xl border border-gold/30 shadow-sm space-y-4 hidden">
         <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-video text-gold"></i> تحديث فيديو الواجهة الرئيسية</h4>
         
@@ -371,7 +401,7 @@
         <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3.5 rounded-xl transition text-xs shadow-md">حفظ وتحديث الفيديو</button>
       </form>
 
-      <!-- TAB 8: رأي صورة -->
+      <!-- TAB 9: رأي صورة -->
       <form id="addImgForm" onsubmit="handleAddImgReview(event)" class="bg-white p-6 rounded-2xl border border-gold/30 shadow-sm space-y-4 hidden">
         <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-image text-gold"></i> إضافة شهادة أو رأي كصورة</h4>
         <div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم / الوصف</label><input type="text" id="imgAuthor" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
@@ -418,6 +448,7 @@
       document.getElementById('adminContentView').classList.remove('hidden');
       document.getElementById('logoutBtn').classList.remove('hidden');
       renderAdminUnassigned();
+      renderAdminReviews();
       renderAdminTeachers();
       loadFounderInputs();
       loadThreeImagesInputs();
@@ -435,6 +466,7 @@
     function switchAdminTab(tabName) {
       const sections = {
         'requests': document.getElementById('requestsSection'),
+        'reviews': document.getElementById('reviewsSection'),
         'teacher': document.getElementById('addTeacherForm'),
         'threeImgs': document.getElementById('threeImagesForm'),
         'paypal': document.getElementById('addPaypalForm'),
@@ -446,6 +478,7 @@
 
       const buttons = {
         'requests': document.getElementById('tabRequestsBtn'),
+        'reviews': document.getElementById('tabReviewsBtn'),
         'teacher': document.getElementById('tabTeacherBtn'),
         'threeImgs': document.getElementById('tabThreeImgsBtn'),
         'paypal': document.getElementById('tabPaypalBtn'),
@@ -563,6 +596,58 @@
       }
     }
 
+    // render Tab 2: Reviews Management
+    function renderAdminReviews() {
+      const tbody = document.getElementById('adminReviewsTable');
+      tbody.innerHTML = '';
+
+      document.getElementById('reviewsCountBadge').innerText = `${reviewsDB.length} تعليقات`;
+
+      if (reviewsDB.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500 font-bold">لا توجد تعليقات أو آراء مسجلة حالياً</td></tr>`;
+        return;
+      }
+
+      reviewsDB.forEach((rev, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b hover:bg-gray-50 transition';
+
+        let contentCell = '';
+        if (rev.type === 'image') {
+          contentCell = `<img src="${rev.img}" class="h-12 w-20 object-cover rounded border">`;
+        } else {
+          contentCell = `<p class="max-w-xs truncate text-gray-700">${rev.text || 'لا يوجد نص'}</p>`;
+        }
+
+        tr.innerHTML = `
+          <td class="p-3 border text-center font-bold">${idx + 1}</td>
+          <td class="p-3 border font-extrabold text-primary">${rev.author || 'غير معروف'}</td>
+          <td class="p-3 border"><span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full">${rev.type === 'image' ? 'صورة' : 'نص'}</span></td>
+          <td class="p-3 border">${contentCell}</td>
+          <td class="p-3 border text-center">
+            <button onclick="deleteReview('${rev.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs transition inline-flex items-center gap-1 shadow">
+              <i class="fas fa-trash-alt"></i> حذف
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deleteReview(id) {
+      if (!sessionStorage.getItem('elaf_admin_session')) {
+        alert('غير مصرح لك بإجراء هذه العملية!');
+        return;
+      }
+
+      if (confirm('هل أنت تأكد من حذف هذا التعليق؟ سيتم إزالته فوراً من الصفحة الرئيسية.')) {
+        reviewsDB = reviewsDB.filter(r => r.id !== id);
+        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+        renderAdminReviews();
+        alert('تم حذف التعليق بنجاح!');
+      }
+    }
+
     function approveStudent(id) {
       studentsDB = studentsDB.map(s => s.id === id ? { ...s, status: 'approved', accountStatus: 'نشط / مدفوع' } : s);
       localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
@@ -601,7 +686,7 @@
       }
     }
 
-    // render Tab 2: Teachers Management
+    // render Teachers Management
     function renderAdminTeachers() {
       const tbody = document.getElementById('adminTeachersTable');
       const searchVal = document.getElementById('teacherSearchInput').value.toLowerCase().trim();
@@ -873,6 +958,7 @@
         };
         reviewsDB.unshift(newRev);
         localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+        renderAdminReviews();
         alert('تمت إضافة صورة الرأي بنجاح!');
       };
 
