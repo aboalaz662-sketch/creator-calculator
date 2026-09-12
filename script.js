@@ -4,6 +4,19 @@ import { app } from "./firebase.js";
 const db = getFirestore(app);
 const reviewsRef = collection(db, "reviews");
 
+// دالة حماية لمنع هجمات XSS وتنظيف المدخلات
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, function (m) {
+    return {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }[m];
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const reviewForm = document.querySelector("form") || document.getElementById("review-form");
   const submitBtn = document.querySelector("button[type='submit']") || document.querySelector(".btn-submit");
@@ -58,15 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// إظهار التغييرات المبدئية والتحديثات اللحظية بدون تجاهل التعليقات الجديدة
+// الاستماع للآراء بالتحديث اللحظي مع الحماية ومعالجة الوقت المحلي أثناء الرفع
 const q = query(reviewsRef, orderBy("createdAt", "desc"));
 
 onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
   const container = document.getElementById("reviews-container") || document.querySelector(".reviews-grid") || document.querySelector(".cards-container");
   
   if (!container) {
-    console.error("لم يتم العثور على عنصر التغليف في صفحة الـ HTML! تأكد من وجود id='reviews-container'");
-    return;
+    return; // تجنب إظهار error في الكنسول إذا كانت الصفحة لا تحتوي على قسم آراء
   }
 
   container.innerHTML = "";
@@ -79,17 +91,23 @@ onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
   snapshot.forEach((doc) => {
     const data = doc.data();
 
+    // معالجة التاريخ بشكل آمن لتجنب مشكلة التأخير اللحظي
     let formattedDate = "الآن";
     if (data.createdAt && typeof data.createdAt.toDate === "function") {
       const dateObj = data.createdAt.toDate();
       formattedDate = `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
     }
 
+    // تنظيف البيانات الحماية من XSS
+    const safeName = escapeHTML(data.name || "زائر");
+    const safeText = escapeHTML(data.text || "");
+    const safeRating = Math.min(Math.max(parseInt(data.rating) || 5, 1), 5);
+
     const reviewCard = `
       <div class="post-card" style="border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <div style="color: #f59e0b; margin-bottom: 8px; font-size: 18px;">${"★".repeat(data.rating || 5)}</div>
-        <h4 style="font-weight: bold; margin-bottom: 5px; color: #111827;">${data.name || "زائر"}</h4>
-        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">${data.text || ""}</p>
+        <div style="color: #f59e0b; margin-bottom: 8px; font-size: 18px;">${"★".repeat(safeRating)}</div>
+        <h4 style="font-weight: bold; margin-bottom: 5px; color: #111827;">${safeName}</h4>
+        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">${safeText}</p>
         <small style="color: #9ca3af; font-size: 12px;">${formattedDate}</small>
       </div>
     `;
