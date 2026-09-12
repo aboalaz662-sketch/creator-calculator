@@ -722,15 +722,15 @@
         <h4 class="font-black text-lg text-primary mb-2 text-center decorated-title"><i class="fas fa-comment-dots text-gold ml-2"></i>أضف رأيك وانطباعك بالأكاديمية</h4>
         <p class="text-xs text-gray-500 text-center mb-6">نعتز برأيكم ويسعدنا مشاركة تجربتكم معنا لتشجيع الطلاب الجدد</p>
         
-        <form onsubmit="handlePublicAddReview(event)" class="space-y-4">
+        <form id="publicReviewForm" class="space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold text-gray-700 mb-1">الاسم / ولي الأمر</label>
-              <input type="text" id="publicReviewAuthor" required placeholder="أدخل اسمك أو صفتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
+              <input type="text" id="reviewer-name" required placeholder="أدخل اسمك أو صفتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
             </div>
             <div>
               <label class="block text-xs font-bold text-gray-700 mb-1">التقييم</label>
-              <select id="publicReviewRating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
+              <select id="reviewer-rating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
                 <option value="5">⭐⭐⭐⭐⭐ (5/5 ممتاز)</option>
                 <option value="4">⭐⭐⭐⭐ (4/5 جيد جداً)</option>
                 <option value="3">⭐⭐⭐ (3/5 جيد)</option>
@@ -739,9 +739,9 @@
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-700 mb-1">انطباعك أو تعليقك</label>
-            <textarea id="publicReviewText" rows="3" required placeholder="اكتب رأيك وتجربتك مع أكاديمية إيلاف التعليمية..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none resize-none"></textarea>
+            <textarea id="reviewer-text" rows="3" required placeholder="اكتب رأيك وتجربتك مع أكاديمية إيلاف التعليمية..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none resize-none"></textarea>
           </div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md btn-submit">
             نشر الرأي فوراً
           </button>
         </form>
@@ -933,6 +933,105 @@
     </div>
   </div>
 
+  <!-- ================= FIREBASE REALTIME SCRIPT ================= -->
+  <script type="module">
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const db = getFirestore(app);
+    const reviewsRef = collection(db, "reviews");
+
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, function (m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[m];
+      });
+    }
+
+    // نشر رأي جديد وإرساله مباشرة إلى Firebase
+    const reviewForm = document.getElementById("publicReviewForm");
+    if (reviewForm) {
+      reviewForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById("reviewer-name");
+        const ratingSelect = document.getElementById("reviewer-rating");
+        const textInput = document.getElementById("reviewer-text");
+        const submitBtn = reviewForm.querySelector("button[type='submit']");
+
+        const name = nameInput.value.trim();
+        const text = textInput.value.trim();
+        const rating = parseInt(ratingSelect.value) || 5;
+
+        if (!name || !text) return;
+
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+          await addDoc(reviewsRef, {
+            name: name,
+            rating: rating,
+            text: text,
+            createdAt: serverTimestamp()
+          });
+
+          nameInput.value = "";
+          textInput.value = "";
+          alert("شكراً لك! تم نشر رأيك بنجاح وظهر لجميع الزوار.");
+        } catch (error) {
+          console.error("خطأ في حفظ الرأي:", error);
+          alert("حدث خطأ أثناء نشر الرأي. يرجى التأكد من إعدادات الفايربيس.");
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    }
+
+    // جلب واستماع الآراء لحظياً من Firebase Firestore
+    const q = query(reviewsRef, orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const grid = document.getElementById("testimonials-grid");
+      if (!grid) return;
+
+      grid.innerHTML = "";
+
+      if (snapshot.empty) {
+        grid.innerHTML = '<p class="col-span-full text-center text-gray-400 text-xs py-8">لا توجد آراء حالياً. كن أول من يشارك رأيه!</p>';
+        return;
+      }
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        const safeName = escapeHTML(data.name || "زائر");
+        const safeText = escapeHTML(data.text || "");
+        const safeRating = Math.min(Math.max(parseInt(data.rating) || 5, 1), 5);
+        const stars = '⭐'.repeat(safeRating);
+
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-3xl border border-gold/30 shadow-sm card-hover flex flex-col justify-between relative';
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-gold text-xs">${stars}</span>
+              <span class="text-[10px] text-gray-400"><i class="fas fa-check-circle text-green-500 ml-1"></i>رأي موثق</span>
+            </div>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">"${safeText}"</p>
+          </div>
+          <div class="border-t border-gray-100 pt-3 mt-2 flex justify-between items-center">
+            <h5 class="font-bold text-xs text-primary decorated-title">${safeName}</h5>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }, (error) => {
+      console.error("خطأ في جلب الآراء من الفايربيس:", error);
+    });
+  </script>
+
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
     let activePortalRole = 'student';
@@ -940,7 +1039,6 @@
 
     let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
     let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
-    let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
     let threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
 
     const initialTeachers = [
@@ -953,11 +1051,9 @@
       localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
     }
 
-    // تحديث وتنشيط البيانات تلقائياً من localStorage عند حدوث أي تعديل
     function reloadAllData() {
       studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
       teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
-      reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
       threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
 
       loadSavedLogo();
@@ -966,19 +1062,16 @@
       renderThreeImages();
       refreshTeachersMainGrid();
       loadSavedFounder();
-      renderTestimonials();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       reloadAllData();
     });
 
-    // استماع للتغييرات في الـ localStorage لربط التعديل فوريًا بين أدمن والصفحة الرئيسية
     window.addEventListener('storage', () => {
       reloadAllData();
     });
 
-    // القائمة الجانبية
     function toggleSidebarNav() {
       const sidebar = document.getElementById('sidebarNav');
       const overlay = document.getElementById('sidebarNavOverlay');
@@ -991,7 +1084,6 @@
       openPortalModal(role);
     }
 
-    // نسخ النصوص
     function copyText(text, btnElement) {
       navigator.clipboard.writeText(text).then(() => {
         const originalHTML = btnElement.innerHTML;
@@ -1006,7 +1098,6 @@
       });
     }
 
-    // نافذة بايبال
     function openPaypalModal() {
       document.getElementById('paypalModal').classList.remove('hidden');
     }
@@ -1022,7 +1113,6 @@
       }
     }
 
-    // الفيديو ودعم تشغيل اليوتيوب بالكامل
     function getYoutubeEmbedUrl(url) {
       if (!url) return null;
       let videoId = null;
@@ -1062,7 +1152,6 @@
       }
     }
 
-    // اللوجو والمؤسس
     function loadSavedLogo() {
       const savedLogo = localStorage.getItem('elaf_saved_logo');
       if (savedLogo) {
@@ -1079,7 +1168,6 @@
       if (savedFounder.img) document.getElementById('founderImg').src = savedFounder.img;
     }
 
-    // منصة التتويج
     function renderThreeImages() {
       const section = document.getElementById('threeImagesSection');
       let hasData = false;
@@ -1124,72 +1212,6 @@
       }
     }
 
-    // الآراء والشهادات
-    function renderTestimonials() {
-      const grid = document.getElementById('testimonials-grid');
-      if(!grid) return;
-      grid.innerHTML = '';
-
-      if (reviewsDB.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-gray-400 text-xs py-8">لا توجد آراء حالياً. يمكنك إضافة رأيك الأول من النموذج أدناه.</p>';
-        return;
-      }
-
-      reviewsDB.forEach(rev => {
-        const card = document.createElement('div');
-        card.className = 'bg-white p-6 rounded-3xl border border-gold/30 shadow-sm card-hover flex flex-col justify-between relative';
-        
-        let contentHtml = '';
-        if(rev.type === 'image') {
-          contentHtml = `<img src="${rev.img}" class="w-full h-48 object-cover rounded-2xl mb-3 border">`;
-        } else {
-          contentHtml = `<p class="text-xs text-gray-600 leading-relaxed mb-4">"${rev.text}"</p>`;
-        }
-
-        let stars = '⭐'.repeat(rev.rating || 5);
-
-        card.innerHTML = `
-          <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-gold text-xs">${stars}</span>
-              <span class="text-[10px] text-gray-400"><i class="fas fa-check-circle text-green-500 ml-1"></i>رأي موثق</span>
-            </div>
-            ${contentHtml}
-          </div>
-          <div class="border-t border-gray-100 pt-3 mt-2 flex justify-between items-center">
-            <h5 class="font-bold text-xs text-primary decorated-title">${rev.author}</h5>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function handlePublicAddReview(e) {
-      e.preventDefault();
-      const author = document.getElementById('publicReviewAuthor').value.trim();
-      const rating = parseInt(document.getElementById('publicReviewRating').value);
-      const text = document.getElementById('publicReviewText').value.trim();
-
-      if(!author || !text) return;
-
-      const newRev = {
-        id: 'rev-' + Date.now(),
-        author: author,
-        rating: rating,
-        text: text,
-        type: 'text'
-      };
-
-      reviewsDB.unshift(newRev);
-      localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
-      renderTestimonials();
-
-      document.getElementById('publicReviewAuthor').value = '';
-      document.getElementById('publicReviewText').value = '';
-      alert('شكراً لك! تم نشر رأيك بنجاح.');
-    }
-
-    // الكادر التعليمي
     function refreshTeachersMainGrid() {
       const grid = document.getElementById('teachers-grid');
       if(!grid) return;
@@ -1214,7 +1236,6 @@
       });
     }
 
-    // تسجيل الطالب بنفسه
     function handleStudentSelfRegister(e) {
       e.preventDefault();
       const name = document.getElementById('regStudentName').value.trim();
@@ -1230,7 +1251,7 @@
         phone: phone,
         pass: pass,
         track: track,
-        status: 'pending', // معلق في انتظار موافقة الإدارة
+        status: 'pending',
         assignedTeacherId: '',
         totalSessions: 8,
         completedSessions: 0,
@@ -1249,7 +1270,6 @@
       e.target.reset();
     }
 
-    // إدارة بوابات الطالب والمعلم
     function openPortalModal(role) {
       activePortalRole = role;
       document.getElementById('portalModal').classList.remove('hidden');
