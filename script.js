@@ -18,15 +18,15 @@ function escapeHTML(str) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const reviewForm = document.querySelector("form") || document.getElementById("review-form");
+  const reviewForm = document.getElementById("publicReviewForm") || document.querySelector("form") || document.getElementById("review-form");
   const submitBtn = document.querySelector("button[type='submit']") || document.querySelector(".btn-submit");
 
   const handleReviewSubmission = async (e) => {
     if (e) e.preventDefault();
 
-    const nameInput = document.querySelector("input[placeholder*='اسمك']") || document.getElementById("reviewer-name");
-    const ratingSelect = document.querySelector("select") || document.getElementById("reviewer-rating");
-    const textInput = document.querySelector("textarea") || document.getElementById("reviewer-text");
+    const nameInput = document.getElementById("reviewer-name") || document.querySelector("input[placeholder*='اسمك']");
+    const ratingSelect = document.getElementById("reviewer-rating") || document.querySelector("select");
+    const textInput = document.getElementById("reviewer-text") || document.querySelector("textarea");
 
     const name = nameInput ? nameInput.value.trim() : "";
     const text = textInput ? textInput.value.trim() : "";
@@ -46,9 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       await addDoc(reviewsRef, {
+        author: name,
         name: name,
         rating: rating,
         text: text,
+        type: 'text',
         createdAt: serverTimestamp()
       });
 
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const q = query(reviewsRef, orderBy("createdAt", "desc"));
 
 onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
-  const container = document.getElementById("reviews-container") || document.querySelector(".reviews-grid") || document.querySelector(".cards-container");
+  const container = document.getElementById("testimonials-grid") || document.getElementById("reviews-container") || document.querySelector(".reviews-grid") || document.querySelector(".cards-container");
   
   if (!container) {
     return; // تجنب إظهار error في الكنسول إذا كانت الصفحة لا تحتوي على قسم آراء
@@ -84,7 +86,7 @@ onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
   container.innerHTML = "";
 
   if (snapshot.empty) {
-    container.innerHTML = "<p style='text-align: center; color: #6b7280;'>لا توجد آراء بعد. كن أول من يشارك رأيه!</p>";
+    container.innerHTML = "<p style='text-align: center; color: #6b7280; grid-column: 1 / -1;'>لا توجد آراء بعد. كن أول من يشارك رأيه!</p>";
     return;
   }
 
@@ -98,17 +100,24 @@ onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
       formattedDate = `${dateObj.getFullYear()}/${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
     }
 
-    // تنظيف البيانات الحماية من XSS
-    const safeName = escapeHTML(data.name || "زائر");
+    // تنظيف البيانات والحماية من XSS
+    const safeName = escapeHTML(data.author || data.name || "زائر");
     const safeText = escapeHTML(data.text || "");
     const safeRating = Math.min(Math.max(parseInt(data.rating) || 5, 1), 5);
 
+    let contentHtml = '';
+    if (data.type === 'image' && data.img) {
+      contentHtml = `<img src="${escapeHTML(data.img)}" alt="رأي صورة" class="w-full h-48 object-cover rounded-xl my-2 border border-gold/30">`;
+    } else {
+      contentHtml = `<p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px; font-size: 13px;">${safeText}</p>`;
+    }
+
     const reviewCard = `
-      <div class="post-card" style="border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-        <div style="color: #f59e0b; margin-bottom: 8px; font-size: 18px;">${"★".repeat(safeRating)}</div>
-        <h4 style="font-weight: bold; margin-bottom: 5px; color: #111827;">${safeName}</h4>
-        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">${safeText}</p>
-        <small style="color: #9ca3af; font-size: 12px;">${formattedDate}</small>
+      <div class="post-card" style="border: 1px solid #e5e7eb; padding: 20px; border-radius: 16px; margin-bottom: 15px; background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+        <div style="color: #C5A059; margin-bottom: 8px; font-size: 16px;">${"★".repeat(safeRating)}</div>
+        <h4 style="font-weight: bold; margin-bottom: 5px; color: #0D3B2E; font-size: 15px;">${safeName}</h4>
+        ${contentHtml}
+        <small style="color: #9ca3af; font-size: 11px; display: block; margin-top: 8px;">${formattedDate}</small>
       </div>
     `;
 
