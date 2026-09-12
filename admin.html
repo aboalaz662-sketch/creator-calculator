@@ -91,7 +91,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-          <a href="index.html" class="bg-white/10 hover:bg-gold hover:text-primary text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 border border-white/10">
+          <a href="index_5.html" class="bg-white/10 hover:bg-gold hover:text-primary text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 border border-white/10">
             <i class="fas fa-home"></i>
             <span>العودة للرئيسية</span>
           </a>
@@ -400,12 +400,12 @@
   <script>
     // 1. إعدادات Firebase 
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyDWG6LUvXrx8IDKMQoTUWRVNhRiLhDEIY8",
+      authDomain: "elaf-academy.firebaseapp.com",
+      projectId: "elaf-academy",
+      storageBucket: "elaf-academy.firebasestorage.app",
+      messagingSenderId: "577219194497",
+      appId: "1:577219194497:web:de693b30933b577799a780"
     };
 
     // تهيئة الفايربيس
@@ -661,7 +661,7 @@
 
         tr.innerHTML = `
           <td class="p-3 border text-center font-bold">${idx + 1}</td>
-          <td class="p-3 border font-bold text-primary">${rev.author || ''}</td>
+          <td class="p-3 border font-bold text-primary">${rev.author || rev.name || ''}</td>
           <td class="p-3 border"><span class="bg-gold/20 text-primary font-bold px-2 py-0.5 rounded text-[10px]">${rev.type === 'image' ? 'رأي صورة' : 'تعليق نصي'}</span></td>
           <td class="p-3 border">${content}</td>
           <td class="p-3 border text-center">
@@ -689,6 +689,7 @@
 
       db.collection('reviews').add({
         author: author,
+        name: author,
         img: imgUrl,
         type: 'image',
         rating: 5,
