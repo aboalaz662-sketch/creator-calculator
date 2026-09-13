@@ -16,10 +16,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Firebase Compat SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
   <script>
     tailwind.config = {
       theme: {
@@ -189,14 +185,6 @@
       <p class="text-xs text-gray-300 mb-4 font-normal">اختر الشاشة أو اللوحة التي ترغب بالانتقال إليها:</p>
 
       <div class="space-y-3">
-        <a href="admin_6.html" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5 block">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-user-shield text-gold"></i>
-            <span>لوحة الإدارة للتحكم</span>
-          </div>
-          <i class="fas fa-chevron-left text-[10px] opacity-60"></i>
-        </a>
-
         <button onclick="openSystemPanel('teacher')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5">
           <div class="flex items-center gap-3">
             <i class="fas fa-chalkboard-teacher text-gold"></i>
@@ -275,7 +263,6 @@
                 <source id="mainVideoSource" src="assets/video.mp4" type="video/mp4">
                 متصفحك لا يدعم تشغيل الفيديو.
               </video>
-              <iframe id="mainYoutubePlayer" class="w-full h-full min-h-[250px] sm:min-h-[300px] rounded-2xl hidden" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
         </div>
@@ -807,203 +794,448 @@
     </div>
   </section>
 
-  <!-- ================= PAYPAL MODAL ================= -->
-  <div id="paypalModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
-    <div class="bg-white rounded-3xl p-6 max-w-sm w-full border-2 border-gold text-center relative shadow-2xl">
-      <button onclick="closePaypalModal()" class="absolute top-4 left-4 text-gray-400 hover:text-primary text-xl"><i class="fas fa-times"></i></button>
-      <h4 class="font-black text-lg text-primary mb-3 decorated-title"><i class="fab fa-paypal text-gold ml-2"></i>رمز QR للدفع عبر PayPal</h4>
-      <img id="modalPaypalImg" src="https://i.ibb.co/L5B7P4z/paypal-qr.jpg" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300/0D3B2E/C5A059?text=PayPal+QR+Code';" class="w-full h-auto rounded-2xl border border-gray-200 shadow-sm mx-auto my-2">
-      <button onclick="closePaypalModal()" class="mt-4 w-full bg-primary hover:bg-primary-light text-white font-extrabold py-2.5 rounded-xl text-xs transition">إغلاق النافذة</button>
-    </div>
-  </div>
-
   <!-- ================= CONTACT / FOOTER SECTION ================= -->
-  <footer id="contact" class="bg-primary text-white pt-16 pb-12 border-t-4 border-gold">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 border-b border-gold/20 pb-12">
-        <div class="space-y-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gold/10 border border-gold/40 rounded-xl flex items-center justify-center">
-              <span class="text-gold font-black text-xl decorated-title">إ</span>
-            </div>
-            <h2 class="font-black text-lg text-gold decorated-title">أكاديمية إيلاف التعليمية</h2>
-          </div>
-          <p class="text-xs text-gray-300 leading-relaxed font-normal">
-            صرح تعليمي متخصص في تقديم علوم القرآن والتجويد والقراءات أونلاين تحت إشراف نخبة من المعلمين المتقنين والمجازين بالسند المتصل.
-          </p>
+  <footer id="contact" class="bg-primary text-white pt-16 pb-12 border-t-4 border-gold relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-white/10">
+      
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gold rounded-xl flex items-center justify-center text-primary font-black text-xl logo-glow decorated-title">إ</div>
+          <span class="font-extrabold text-xl text-gold decorated-title"> أكاديمية إيلاف التعليمية</span>
         </div>
-
-        <div class="space-y-3">
-          <h4 class="font-extrabold text-sm text-gold decorated-title mb-2">روابط سريعة</h4>
-          <ul class="space-y-2 text-xs text-gray-300">
-            <li><a href="#hero" class="hover:text-gold transition">الرئيسية</a></li>
-            <li><a href="#founder" class="hover:text-gold transition">المؤسس</a></li>
-            <li><a href="#about" class="hover:text-gold transition">عن الأكاديمية</a></li>
-            <li><a href="#courses" class="hover:text-gold transition">المسارات التعليمية</a></li>
-            <li><a href="#payment-methods" class="hover:text-gold transition">طرق السداد</a></li>
-          </ul>
-        </div>
-
-        <div class="space-y-3">
-          <h4 class="font-extrabold text-sm text-gold decorated-title mb-2">تواصل معنا</h4>
-          <div class="space-y-2 text-xs text-gray-300">
-            <p class="flex items-center gap-2 dir-ltr justify-end"><span class="select-all">+962 7 8028 5762</span><i class="fab fa-whatsapp text-gold text-sm"></i></p>
-            <p class="flex items-center gap-2"><i class="fas fa-envelope text-gold"></i><span>info@elaf-academy.com</span></p>
-            <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-gold"></i><span>عمان - المملكة الأردنية الهاشمية</span></p>
-          </div>
-        </div>
+        <p class="text-xs text-gray-300 leading-relaxed">أكاديمية تعليمية متخصصة في تعلم القرآن الكريم وتلاوته وتجويده بأحدث الأساليب التفاعلية.</p>
       </div>
 
-      <div class="mt-8 text-center text-xs text-gray-400">
-        <p>جميع الحقوق محفوظة © 2026 أكاديمية إيلاف التعليمية</p>
+      <div class="space-y-3">
+        <h4 class="font-bold text-gold text-sm decorated-title">روابط سريعة</h4>
+        <ul class="space-y-2 text-xs text-gray-300 font-medium">
+          <li><a href="#founder" class="hover:text-gold transition">المؤسس</a></li>
+          <li><a href="#threeImagesSection" class="hover:text-gold transition">حافظين كتاب الله</a></li>
+          <li><a href="#about" class="hover:text-gold transition">عن الأكاديمية</a></li>
+          <li><a href="#courses" class="hover:text-gold transition">المسارات الدراسية</a></li>
+          <li><a href="#teachers" class="hover:text-gold transition">الكادر التعليمي</a></li>
+        </ul>
       </div>
+
+      <div class="space-y-4">
+        <h4 class="font-bold text-gold text-sm decorated-title">التواصل والدعم</h4>
+        
+        <div class="space-y-2">
+          <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-envelope text-gold ml-2"></i> info@elaf-platform.com</p>
+          <p class="text-xs text-gray-300 flex items-center"><i class="fas fa-phone text-gold ml-2"></i> <span class="dir-ltr">00962780285762</span></p>
+        </div>
+
+        <div class="pt-1">
+          <a href="https://linktr.ee/elafacademic?fbclid=IwVERDUAUFboRwZG9mBWV4dG4DYWVtAjEwAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHjsQ6tpc5_0fKROP1X1yJOeVndVvomiKjtoWx2mtiEblZlKYTcpTn5QCIIem_aem_mB34RdGhDt92MV5uAMH-mQ" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-lg social-link-btn border border-emerald-400/30">
+            <i class="fas fa-tree text-sm"></i>
+            <span>روابط التواصل والأكاديمية (Linktree)</span>
+            <i class="fas fa-external-link-alt text-[10px] opacity-75 mr-1"></i>
+          </a>
+        </div>
+
+        <div class="flex gap-2.5 text-gold text-sm pt-1">
+          <a href="https://wa.me/962780285762" target="_blank" class="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center hover:bg-gold hover:text-primary transition social-link-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp text-base"></i></a>
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center hover:bg-gold hover:text-primary transition social-link-btn" aria-label="Telegram"><i class="fab fa-telegram-plane text-base"></i></a>
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center hover:bg-gold hover:text-primary transition social-link-btn" aria-label="YouTube"><i class="fab fa-youtube text-base"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-4">
+      <p>© جميع الحقوق محفوظة لـ <strong class="text-gold decorated-title"> أكاديمية إيلاف التعليمية</strong> 2026</p>
+      
+      <a href="https://wa.me/962796094582" target="_blank" class="bg-white/5 border border-gold/30 px-3.5 py-1.5 rounded-xl text-gold font-bold flex items-center gap-2 shadow-inner hover:bg-white/10 transition cursor-pointer">
+        <i class="fas fa-code text-xs"></i>
+        <span>م. أحمد أبو العسل</span>
+        <span class="underline font-black dir-ltr text-white hover:text-gold transition">00962796094582</span>
+      </a>
     </div>
   </footer>
 
-  <!-- SCRIPT LOGIC FOR HOME PAGE -->
-  <script>
-    // 1. Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyDWG6LUvXrx8IDKMQoTUWRVNhRiLhDEIY8",
-      authDomain: "elaf-academy.firebaseapp.com",
-      projectId: "elaf-academy",
-      storageBucket: "elaf-academy.firebasestorage.app",
-      messagingSenderId: "577219194497",
-      appId: "1:577219194497:web:de693b30933b577799a780"
-    };
+  <!-- ================= PAYPAL MODAL ================= -->
+  <div id="paypalModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl border border-gray-100 p-6 text-center relative">
+      <button onclick="closePaypalModal()" class="absolute top-4 left-4 text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+      <div class="w-12 h-12 bg-gold/20 text-gold-dark rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 border border-gold/40">
+        <i class="fab fa-paypal"></i>
+      </div>
+      <h3 class="font-extrabold text-lg text-primary decorated-title mb-1">دفع إلكتروني عبر PayPal</h3>
+      <p class="text-xs text-gray-500 mb-4">امسح الكود التالي عبر تطبيق PayPal المباشر لإكمال عملية التحويل</p>
+      
+      <div class="bg-sand p-4 rounded-2xl border border-gold/30 inline-block mb-4">
+        <img id="paypalModalImg" src="https://i.ibb.co/L5B7P4z/paypal-qr.jpg" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x300/0D3B2E/C5A059?text=PayPal+QR+Code';" alt="PayPal QR Code" class="w-64 h-64 object-contain rounded-xl mx-auto">
+      </div>
 
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
+      <p class="text-[11px] text-gray-400 font-medium">أكاديمية إيلاف التعليمية - قنوات السداد المعتمدة</p>
+    </div>
+  </div>
+
+  <!-- ================= PORTAL MODAL ================= -->
+  <div id="portalModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl w-full max-w-6xl overflow-hidden shadow-2xl border border-gray-100 relative p-6 sm:p-8">
+      <div class="flex justify-between items-center border-b pb-4 mb-6">
+        <h3 id="portalTitle" class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-user-circle text-gold"></i> دخول الحساب</h3>
+        <button onclick="closePortalModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div id="portalLoginSection" class="space-y-4 max-w-md mx-auto">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">رقم الهاتف / اسم المستخدم</label>
+          <input type="text" id="portalUserAuth" placeholder="أدخل بياناتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label>
+          <input type="password" id="portalPassAuth" placeholder="••••••••" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
+        </div>
+        <button onclick="handleLogin()" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">دخول الشاشة</button>
+      </div>
+
+      <!-- بوابة المعلم -->
+      <div id="teacherDashboard" class="hidden space-y-6 max-h-[80vh] overflow-y-auto">
+        <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+          <h4 class="font-bold text-primary text-sm decorated-title">مرحباً بك في لوحة إدخال وتعديل بيانات الطلاب الموكلين إليك</h4>
+          <p class="text-[11px] text-gray-500">يمكنك كتابة وتعديل بيانات الطالب مباشرةً، وتحديث تفاصيل حِصصه، كتابة الملاحظات والإنجازات وتوثيق إعطائها ثم الضغط على حفظ لتظهر فوراً في بوابة الطالب.</p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs border-collapse min-w-[1100px]">
+            <thead>
+              <tr class="bg-primary text-white text-[11px]">
+                <th class="p-2 border text-center w-10">م</th>
+                <th class="p-2 border">اسم الطالب ورقم الهاتف</th>
+                <th class="p-2 border">المسار ونظام الحصة</th>
+                <th class="p-2 border text-center w-20">العدد الكلي للحصص</th>
+                <th class="p-2 border text-center min-w-[120px]">حالة الحساب / الدفع</th>
+                <th class="p-2 border text-center min-w-[100px]">عدد الدفعات</th>
+                <th class="p-2 border min-w-[150px]">ملاحظات الطالب</th>
+                <th class="p-2 border min-w-[150px]">إنجاز الطالب بالحصة</th>
+                <th class="p-2 border">تاريخ ووقت الحصة</th>
+                <th class="p-2 border min-w-[130px]">تاريخ إعطاء الحصص</th>
+                <th class="p-2 border text-center">الإجراءات والعمليات</th>
+              </tr>
+            </thead>
+            <tbody id="teacherStudentsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- بوابة الطالب -->
+      <div id="studentDashboard" class="hidden space-y-6 max-h-[80vh] overflow-y-auto">
+        <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+          <h4 class="font-bold text-primary text-sm decorated-title" id="studentWelcome">أهلاً بك يا طالبنا</h4>
+          <p class="text-[11px] text-gray-500">جدول حصصك وسجل المتابعة الشخصي وإنجازاتك</p>
+        </div>
+        <div id="studentDetailsCard" class="space-y-3 text-xs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FIREBASE REALTIME SCRIPT ================= -->
+  <script type="module">
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { app } from "./firebase.js";
+
+    const db = getFirestore(app);
+    const reviewsRef = collection(db, "reviews");
+
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, function (m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[m];
+      });
     }
-    const db = firebase.firestore();
+
+    // نشر رأي جديد وإرساله مباشرة إلى Firebase
+    const reviewForm = document.getElementById("publicReviewForm");
+    if (reviewForm) {
+      reviewForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById("reviewer-name");
+        const ratingSelect = document.getElementById("reviewer-rating");
+        const textInput = document.getElementById("reviewer-text");
+        const submitBtn = reviewForm.querySelector("button[type='submit']");
+
+        const name = nameInput.value.trim();
+        const text = textInput.value.trim();
+        const rating = parseInt(ratingSelect.value) || 5;
+
+        if (!name || !text) return;
+
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+          await addDoc(reviewsRef, {
+            name: name,
+            rating: rating,
+            text: text,
+            createdAt: serverTimestamp()
+          });
+
+          nameInput.value = "";
+          textInput.value = "";
+          alert("شكراً لك! تم نشر رأيك بنجاح وظهر لجميع الزوار.");
+        } catch (error) {
+          console.error("خطأ في حفظ الرأي:", error);
+          alert("حدث خطأ أثناء نشر الرأي. يرجى التأكد من إعدادات الفايربيس.");
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    }
+
+    // جلب واستماع الآراء لحظياً من Firebase Firestore
+    const q = query(reviewsRef, orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const grid = document.getElementById("testimonials-grid");
+      if (!grid) return;
+
+      grid.innerHTML = "";
+
+      if (snapshot.empty) {
+        grid.innerHTML = '<p class="col-span-full text-center text-gray-400 text-xs py-8">لا توجد آراء حالياً. كن أول من يشارك رأيه!</p>';
+        return;
+      }
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        const safeName = escapeHTML(data.name || "زائر");
+        const safeText = escapeHTML(data.text || "");
+        const safeRating = Math.min(Math.max(parseInt(data.rating) || 5, 1), 5);
+        const stars = '⭐'.repeat(safeRating);
+
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-3xl border border-gold/30 shadow-sm card-hover flex flex-col justify-between relative';
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-gold text-xs">${stars}</span>
+              <span class="text-[10px] text-gray-400"><i class="fas fa-check-circle text-green-500 ml-1"></i>رأي موثق</span>
+            </div>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">"${safeText}"</p>
+          </div>
+          <div class="border-t border-gray-100 pt-3 mt-2 flex justify-between items-center">
+            <h5 class="font-bold text-xs text-primary decorated-title">${safeName}</h5>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }, (error) => {
+      console.error("خطأ في جلب الآراء من الفايربيس:", error);
+    });
+  </script>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    let activePortalRole = 'student';
+    let loggedInTeacher = null;
+
+    let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
+    let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
+    let threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
+
+    const initialTeachers = [
+      { id: 'tech-1', name: 'الشيخ محمد علي', role: 'معلم القراءات العشر', userAuth: 'mohamed', passAuth: '123456', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400', isBlocked: false },
+      { id: 'tech-2', name: 'الأستاذة فاطمة الزهراء', role: 'معلمة القاعدة النورانية', userAuth: 'fatima', passAuth: '123456', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400', isBlocked: false }
+    ];
+
+    if(teachersDB.length === 0) {
+      teachersDB = initialTeachers;
+      localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+    }
+
+    function reloadAllData() {
+      studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
+      teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
+      threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
+
+      loadSavedLogo();
+      loadSavedVideo();
+      loadSavedPaypal();
+      renderThreeImages();
+      refreshTeachersMainGrid();
+      loadSavedFounder();
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
-      listenToFirebaseHome();
+      reloadAllData();
     });
 
-    function listenToFirebaseHome() {
-      // 1. الاستماع لإعدادات الموقع العامة
-      db.collection('site_settings').doc('general').onSnapshot(doc => {
-        if (doc.exists) {
-          const data = doc.data();
-          
-          // اللوجو
-          if (data.logoUrl) {
-            document.getElementById('logoImg').src = data.logoUrl;
-            document.getElementById('logoImg').classList.remove('hidden');
-            document.getElementById('logoText').classList.add('hidden');
-          }
+    window.addEventListener('storage', () => {
+      reloadAllData();
+    });
 
-          // صورة بايبال
-          if (data.paypalImg) {
-            document.getElementById('paypalDisplayImg').src = data.paypalImg;
-            document.getElementById('modalPaypalImg').src = data.paypalImg;
-          }
+    function toggleSidebarNav() {
+      const sidebar = document.getElementById('sidebarNav');
+      const overlay = document.getElementById('sidebarNavOverlay');
+      sidebar.classList.toggle('translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
 
-          // المؤسس
-          if (data.founder) {
-            if(data.founder.name) document.getElementById('founderName').innerText = data.founder.name;
-            if(data.founder.role) document.getElementById('founderRole').innerText = data.founder.role;
-            if(data.founder.img) document.getElementById('founderImg').src = data.founder.img;
-          }
+    function openSystemPanel(role) {
+      toggleSidebarNav();
+      openPortalModal(role);
+    }
 
-          // الفيديو
-          if (data.videoUrl) {
-            setupVideo(data.videoUrl);
-          }
-
-          // منصة الحافظين (المراكز الثلاثة)
-          if (data.threeImages) {
-            setupThreeImages(data.threeImages);
-          }
-        }
-      });
-
-      // 2. الاستماع للمعلمين
-      db.collection('teachers').onSnapshot(snapshot => {
-        const grid = document.getElementById('teachers-grid');
-        if (!grid) return;
-        grid.innerHTML = '';
-
-        let activeTeachers = [];
-        snapshot.forEach(doc => {
-          const t = doc.data();
-          if (!t.isBlocked) activeTeachers.push(t);
-        });
-
-        if (activeTeachers.length === 0) {
-          grid.innerHTML = '<p class="text-center text-gray-500 col-span-full">سيتم عرض الكادر التعليمي قريباً.</p>';
-          return;
-        }
-
-        activeTeachers.forEach(t => {
-          const card = `
-            <div class="bg-sand rounded-3xl p-6 border border-gold/30 text-center card-hover flex flex-col items-center">
-              <img src="${t.img || 'https://via.placeholder.com/150'}" alt="${t.name}" class="w-28 h-28 rounded-full object-cover border-2 border-gold mb-4 shadow">
-              <h4 class="font-extrabold text-base text-primary decorated-title">${t.name}</h4>
-              <p class="text-xs text-gold-dark font-semibold mt-1">${t.role}</p>
-            </div>
-          `;
-          grid.insertAdjacentHTML('beforeend', card);
-        });
+    function copyText(text, btnElement) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHTML = btnElement.innerHTML;
+        btnElement.innerHTML = `<i class="fas fa-check"></i> <span>تم النسخ بنجاح!</span>`;
+        btnElement.classList.add('bg-green-600', 'text-white');
+        setTimeout(() => {
+          btnElement.innerHTML = originalHTML;
+          btnElement.classList.remove('bg-green-600', 'text-white');
+        }, 2000);
+      }).catch(err => {
+        alert('تعذر النسخ التلقائي: ' + text);
       });
     }
 
-    function setupVideo(url) {
-      const mainVideoPlayer = document.getElementById('mainVideoPlayer');
-      const mainVideoSource = document.getElementById('mainVideoSource');
-      const mainYoutubePlayer = document.getElementById('mainYoutubePlayer');
+    function openPaypalModal() {
+      document.getElementById('paypalModal').classList.remove('hidden');
+    }
+    function closePaypalModal() {
+      document.getElementById('paypalModal').classList.add('hidden');
+    }
 
-      if (url.includes('youtube.com') || url.includes('youtu.be')) {
-        let embedUrl = url;
-        if (url.includes('watch?v=')) {
-          embedUrl = url.replace('watch?v=', 'embed/');
-        } else if (url.includes('youtu.be/')) {
-          embedUrl = url.replace('youtu.be/', 'youtube.com/embed/');
-        }
-        mainVideoPlayer.classList.add('hidden');
-        mainYoutubePlayer.src = embedUrl;
-        mainYoutubePlayer.classList.remove('hidden');
-      } else {
-        mainYoutubePlayer.classList.add('hidden');
-        mainVideoSource.src = url;
-        mainVideoPlayer.load();
-        mainVideoPlayer.classList.remove('hidden');
+    function loadSavedPaypal() {
+      const savedPaypal = localStorage.getItem('elaf_saved_paypal');
+      if (savedPaypal) {
+        document.getElementById('paypalDisplayImg').src = savedPaypal;
+        document.getElementById('paypalModalImg').src = savedPaypal;
       }
     }
 
-    function setupThreeImages(data) {
+    function getYoutubeEmbedUrl(url) {
+      if (!url) return null;
+      let videoId = null;
+      if (url.includes('youtu.be/')) {
+        videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0];
+      } else if (url.includes('youtube.com/watch')) {
+        const urlParams = new URLSearchParams(url.split('?')[1]);
+        videoId = urlParams.get('v');
+      } else if (url.includes('youtube.com/embed/')) {
+        videoId = url.split('youtube.com/embed/')[1].split('?')[0];
+      }
+      return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0` : null;
+    }
+
+    function loadSavedVideo() {
+      const savedVideoUrl = localStorage.getItem('elaf_saved_video_url');
+      const videoContainer = document.getElementById('videoContainer');
+      if (!videoContainer) return;
+
+      if (savedVideoUrl) {
+        const ytEmbedUrl = getYoutubeEmbedUrl(savedVideoUrl);
+        if (ytEmbedUrl) {
+          videoContainer.innerHTML = `<iframe class="w-full h-full min-h-[250px] sm:min-h-[300px] rounded-2xl" src="${ytEmbedUrl}" title="فيديو أكاديمية إيلاف" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+        } else {
+          videoContainer.innerHTML = `
+            <video id="mainVideoPlayer" controls class="w-full h-full min-h-[250px] sm:min-h-[300px] object-cover rounded-2xl">
+              <source id="mainVideoSource" src="${savedVideoUrl}" type="video/mp4">
+              متصفحك لا يدعم تشغيل الفيديو.
+            </video>`;
+        }
+      } else {
+        videoContainer.innerHTML = `
+          <video id="mainVideoPlayer" controls class="w-full h-full min-h-[250px] sm:min-h-[300px] object-cover rounded-2xl">
+            <source id="mainVideoSource" src="assets/video.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>`;
+      }
+    }
+
+    function loadSavedLogo() {
+      const savedLogo = localStorage.getItem('elaf_saved_logo');
+      if (savedLogo) {
+        document.getElementById('logoImg').src = savedLogo;
+        document.getElementById('logoImg').classList.remove('hidden');
+        document.getElementById('logoText').classList.add('hidden');
+      }
+    }
+
+    function loadSavedFounder() {
+      const savedFounder = JSON.parse(localStorage.getItem('elaf_saved_founder') || '{}');
+      if (savedFounder.name) document.getElementById('founderName').innerText = savedFounder.name;
+      if (savedFounder.role) document.getElementById('founderRole').innerText = savedFounder.role;
+      if (savedFounder.img) document.getElementById('founderImg').src = savedFounder.img;
+    }
+
+    function renderThreeImages() {
       const section = document.getElementById('threeImagesSection');
       let hasData = false;
 
-      if (data.name1 && data.img1) {
-        document.getElementById('displayImg1').src = data.img1;
-        document.getElementById('displayName1').innerText = data.name1;
-        document.getElementById('displayName1').classList.remove('hidden');
+      if (threeImgsDB.img1) {
+        document.getElementById('displayImg1').src = threeImgsDB.img1;
         document.getElementById('cardImg1').classList.remove('hidden');
         hasData = true;
       }
-      if (data.name2 && data.img2) {
-        document.getElementById('displayImg2').src = data.img2;
-        document.getElementById('displayName2').innerText = data.name2;
-        document.getElementById('displayName2').classList.remove('hidden');
+      if (threeImgsDB.name1 && threeImgsDB.name1.trim() !== '') {
+        const name1Elem = document.getElementById('displayName1');
+        name1Elem.innerText = threeImgsDB.name1;
+        name1Elem.classList.remove('hidden');
+      }
+
+      if (threeImgsDB.img2) {
+        document.getElementById('displayImg2').src = threeImgsDB.img2;
         document.getElementById('cardImg2').classList.remove('hidden');
         hasData = true;
       }
-      if (data.name3 && data.img3) {
-        document.getElementById('displayImg3').src = data.img3;
-        document.getElementById('displayName3').innerText = data.name3;
-        document.getElementById('displayName3').classList.remove('hidden');
+      if (threeImgsDB.name2 && threeImgsDB.name2.trim() !== '') {
+        const name2Elem = document.getElementById('displayName2');
+        name2Elem.innerText = threeImgsDB.name2;
+        name2Elem.classList.remove('hidden');
+      }
+
+      if (threeImgsDB.img3) {
+        document.getElementById('displayImg3').src = threeImgsDB.img3;
         document.getElementById('cardImg3').classList.remove('hidden');
         hasData = true;
+      }
+      if (threeImgsDB.name3 && threeImgsDB.name3.trim() !== '') {
+        const name3Elem = document.getElementById('displayName3');
+        name3Elem.innerText = threeImgsDB.name3;
+        name3Elem.classList.remove('hidden');
       }
 
       if (hasData) {
         section.classList.remove('hidden');
+      } else {
+        section.classList.add('hidden');
       }
     }
 
-    // تسكيل الطالب الذاتي
+    function refreshTeachersMainGrid() {
+      const grid = document.getElementById('teachers-grid');
+      if(!grid) return;
+      grid.innerHTML = '';
+
+      const activeTeachers = teachersDB.filter(t => !t.isBlocked);
+
+      activeTeachers.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'bg-sand rounded-3xl border border-gold/30 p-6 shadow-sm card-hover text-center flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="w-28 h-28 rounded-full border-2 border-gold p-1 mx-auto overflow-hidden mb-4 shadow">
+              <img src="${t.img || 'https://via.placeholder.com/150'}" alt="${t.name}" class="w-full h-full object-cover rounded-full">
+            </div>
+            <h4 class="font-extrabold text-base text-primary decorated-title mb-1">${t.name}</h4>
+            <p class="text-xs text-gold-dark font-semibold mb-3">${t.role}</p>
+          </div>
+          <a href="https://wa.me/962780285762" target="_blank" class="w-full bg-primary hover:bg-primary-light text-white font-bold py-2.5 rounded-xl text-xs transition block">سجل مع المعلم</a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
     function handleStudentSelfRegister(e) {
       e.preventDefault();
       const name = document.getElementById('regStudentName').value.trim();
@@ -1011,67 +1243,175 @@
       const pass = document.getElementById('regStudentPass').value.trim();
       const track = document.getElementById('regStudentTrack').value;
 
-      if (!name || !phone || !pass || !track) {
-        alert('يرجى ملء جميع الحقول المطلوب!');
+      if(!name || !phone || !pass || !track) return;
+
+      const newStudent = {
+        id: 'std-' + Date.now(),
+        name: name,
+        phone: phone,
+        pass: pass,
+        track: track,
+        status: 'pending',
+        assignedTeacherId: '',
+        totalSessions: 8,
+        completedSessions: 0,
+        accountStatus: 'قيد المراجعة',
+        paymentsCount: 0,
+        studentNotes: '',
+        achievement: '',
+        sessionTime: '',
+        givenSessionsDates: ''
+      };
+
+      studentsDB.push(newStudent);
+      localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+
+      alert('تم إرسال طلب تسجيلك بنجاح! سيتم مراجعته وتفعيله من قبل الإدارة في أقرب وقت.');
+      e.target.reset();
+    }
+
+    function openPortalModal(role) {
+      activePortalRole = role;
+      document.getElementById('portalModal').classList.remove('hidden');
+      document.getElementById('portalLoginSection').classList.remove('hidden');
+      document.getElementById('teacherDashboard').classList.add('hidden');
+      document.getElementById('studentDashboard').classList.add('hidden');
+      
+      const titleElem = document.getElementById('portalTitle');
+      if(role === 'teacher') {
+        titleElem.innerHTML = `<i class="fas fa-chalkboard-teacher text-gold"></i> تسجيل دخول بوابة المعلم`;
+      } else {
+        titleElem.innerHTML = `<i class="fas fa-user-graduate text-gold"></i> تسجيل دخول بوابة الطالب`;
+      }
+    }
+
+    function closePortalModal() {
+      document.getElementById('portalModal').classList.add('hidden');
+      document.getElementById('portalUserAuth').value = '';
+      document.getElementById('portalPassAuth').value = '';
+    }
+
+    function handleLogin() {
+      const userInput = document.getElementById('portalUserAuth').value.trim();
+      const passInput = document.getElementById('portalPassAuth').value.trim();
+
+      if(activePortalRole === 'teacher') {
+        const foundTeacher = teachersDB.find(t => (t.userAuth === userInput || t.name === userInput) && t.passAuth === passInput && !t.isBlocked);
+        if(foundTeacher) {
+          loggedInTeacher = foundTeacher;
+          document.getElementById('portalLoginSection').classList.add('hidden');
+          document.getElementById('teacherDashboard').classList.remove('hidden');
+          renderTeacherStudents();
+        } else {
+          alert('اسم المستخدم أو كلمة المرور غير صحيحة، أو الحساب معطل.');
+        }
+      } else {
+        const foundStudent = studentsDB.find(s => (s.phone === userInput || s.name === userInput) && s.pass === passInput);
+        if(foundStudent) {
+          document.getElementById('portalLoginSection').classList.add('hidden');
+          document.getElementById('studentDashboard').classList.remove('hidden');
+          renderStudentDashboard(foundStudent);
+        } else {
+          alert('بيانات الدخول غير صحيحة أو أن الحساب لا يزال قيد الموافقة.');
+        }
+      }
+    }
+
+    function renderTeacherStudents() {
+      const tbody = document.getElementById('teacherStudentsTable');
+      tbody.innerHTML = '';
+
+      if(!loggedInTeacher) return;
+
+      const myStudents = studentsDB.filter(s => s.assignedTeacherId === loggedInTeacher.id && s.status === 'approved');
+
+      if(myStudents.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center p-6 text-gray-400">لا يوجد طلاب موكلين لك حالياً.</td></tr>`;
         return;
       }
 
-      db.collection('students').add({
-        name,
-        phone,
-        pass,
-        track,
-        status: 'pending',
-        accountStatus: 'قيد المراجعة',
-        paymentsCount: 0,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        alert('تم إرسال طلب تسجيلك بنجاح إلى الإدارة. سيتم التواصل معك وتفعيل الحساب فور المراجعة!');
-        e.target.reset();
-      }).catch(err => {
-        console.error("خطأ بالتسجيل:", err);
-        alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.');
+      myStudents.forEach((std, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b hover:bg-gray-50';
+        tr.innerHTML = `
+          <td class="p-2 border text-center font-bold">${idx + 1}</td>
+          <td class="p-2 border">
+            <div class="font-bold text-primary">${std.name}</div>
+            <div class="text-[10px] text-gray-500 dir-ltr text-right">${std.phone}</div>
+          </td>
+          <td class="p-2 border text-[11px]">${std.track}</td>
+          <td class="p-2 border text-center">
+            <input type="number" id="totalSess_${std.id}" value="${std.totalSessions || 8}" class="w-12 border text-center rounded py-1">
+          </td>
+          <td class="p-2 border text-center">
+            <input type="text" id="accStatus_${std.id}" value="${std.accountStatus || ''}" placeholder="مدفوع / غير مدفوع" class="w-full border rounded px-1.5 py-1 text-[11px]">
+          </td>
+          <td class="p-2 border text-center">
+            <input type="number" id="payCount_${std.id}" value="${std.paymentsCount || 0}" class="w-12 border text-center rounded py-1">
+          </td>
+          <td class="p-2 border">
+            <textarea id="notes_${std.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none">${std.studentNotes || ''}</textarea>
+          </td>
+          <td class="p-2 border">
+            <textarea id="achieve_${std.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none">${std.achievement || ''}</textarea>
+          </td>
+          <td class="p-2 border">
+            <input type="text" id="sTime_${std.id}" value="${std.sessionTime || ''}" placeholder="الأحد 5 مساءً" class="w-full border rounded px-1.5 py-1 text-[11px]">
+          </td>
+          <td class="p-2 border">
+            <textarea id="sDates_${std.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none" placeholder="1/10, 3/10...">${std.givenSessionsDates || ''}</textarea>
+          </td>
+          <td class="p-2 border text-center">
+            <button onclick="saveTeacherStudentChanges('${std.id}')" class="bg-primary hover:bg-primary-light text-white font-bold px-3 py-1 rounded text-[11px] transition">حفظ</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
     }
 
-    // نسخ النصوص
-    function copyText(text, btnElement) {
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = btnElement.innerHTML;
-        btnElement.innerHTML = `<i class="fas fa-check text-green-700"></i> <span>تم النسخ بنجاح!</span>`;
-        setTimeout(() => {
-          btnElement.innerHTML = originalText;
-        }, 2000);
-      });
+    function saveTeacherStudentChanges(stdId) {
+      const std = studentsDB.find(s => s.id === stdId);
+      if(!std) return;
+
+      std.totalSessions = parseInt(document.getElementById(`totalSess_${stdId}`).value) || 0;
+      std.accountStatus = document.getElementById(`accStatus_${stdId}`).value;
+      std.paymentsCount = parseInt(document.getElementById(`payCount_${stdId}`).value) || 0;
+      std.studentNotes = document.getElementById(`notes_${stdId}`).value;
+      std.achievement = document.getElementById(`achieve_${stdId}`).value;
+      std.sessionTime = document.getElementById(`sTime_${stdId}`).value;
+      std.givenSessionsDates = document.getElementById(`sDates_${stdId}`).value;
+
+      localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+      alert('تم حفظ والتعديل بنجاح!');
     }
 
-    // القائمة الجانبية
-    function toggleSidebarNav() {
-      const sidebar = document.getElementById('sidebarNav');
-      const overlay = document.getElementById('sidebarNavOverlay');
-      if (sidebar.classList.contains('translate-x-full')) {
-        sidebar.classList.remove('translate-x-full');
-        overlay.classList.remove('hidden');
-      } else {
-        sidebar.classList.add('translate-x-full');
-        overlay.classList.add('hidden');
-      }
-    }
+    function renderStudentDashboard(student) {
+      const teacher = teachersDB.find(t => t.id === student.assignedTeacherId);
+      const card = document.getElementById('studentDetailsCard');
+      document.getElementById('studentWelcome').innerText = `أهلاً بك يا طالبنا: ${student.name}`;
 
-    function openPaypalModal() {
-      document.getElementById('paypalModal').classList.remove('hidden');
-    }
+      card.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
+            <p><strong class="text-primary">المسار الدراسي:</strong> ${student.track}</p>
+            <p><strong class="text-primary">المعلم الموكل:</strong> ${teacher ? teacher.name : 'لم يتم التعيين بعد'}</p>
+            <p><strong class="text-primary">مواعيد الحصص:</strong> ${student.sessionTime || 'غير محددة بعد'}</p>
+          </div>
 
-    function closePaypalModal() {
-      document.getElementById('paypalModal').classList.add('hidden');
-    }
+          <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
+            <p><strong class="text-primary">حالة الحساب والدفع:</strong> <span class="bg-gold/20 text-primary font-bold px-2 py-0.5 rounded">${student.accountStatus || 'قيد المراجعة'}</span></p>
+            <p><strong class="text-primary">إجمالي الحصص:</strong> ${student.totalSessions || 8}</p>
+            <p><strong class="text-primary">تاريخ الحصص المعطاة:</strong> ${student.givenSessionsDates || 'لا يوجد موثق حتى الآن'}</p>
+          </div>
+        </div>
 
-    function openSystemPanel(type) {
-      alert(`سيتم توجيهك إلى شاشة (${type === 'teacher' ? 'بوابة المعلم' : 'بوابة الطالب'})`);
+        <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
+          <h5 class="font-extrabold text-primary decorated-title">الإنجاز الأخير والملاحظات</h5>
+          <p><strong class="text-gold-dark">الإنجاز:</strong> ${student.achievement || 'لا توجد تفاصيل مضافة من المعلم'}</p>
+          <p><strong class="text-gold-dark">الملاحظات:</strong> ${student.studentNotes || 'لا توجد ملاحظات مضافة'}</p>
+        </div>
+      `;
     }
   </script>
-
-  <!-- Script 4 Import for Realtime Reviews -->
-  <script type="module" src="script_4.js"></script>
 </body>
 </html>
