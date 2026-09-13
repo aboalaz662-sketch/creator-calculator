@@ -1185,13 +1185,14 @@
     const SECRET_PIN = "Elaf0123";
     let activePortalRole = 'student';
     let isAdminLoggedIn = false; // تتبع حالة تسجيل دخول المدير
+    let loggedInTeacher = null; // تتبع بيانات المعلم المسجل دخوله
+    let loggedInStudent = null; // تتبع بيانات الطالب المسجل دخوله
 
     let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
     let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
     let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
     let threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
 
-    // تم إزالة التعليقات الأولية لتسهيل البدء من جديد
     if (!localStorage.getItem('elaf_reviews_db_initialized')) {
       reviewsDB = [];
       localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
@@ -1453,111 +1454,127 @@
       const name1 = document.getElementById('threeImgName1').value;
       const name2 = document.getElementById('threeImgName2').value;
       const name3 = document.getElementById('threeImgName3').value;
-      
-      const file1 = document.getElementById('threeImgFile1').files[0];
-      const url1 = document.getElementById('threeImgUrl1').value;
-      
-      const file2 = document.getElementById('threeImgFile2').files[0];
-      const url2 = document.getElementById('threeImgUrl2').value;
-      
-      const file3 = document.getElementById('threeImgFile3').files[0];
-      const url3 = document.getElementById('threeImgUrl3').value;
 
-      const processImg = (file, url, current) => {
+      const file1 = document.getElementById('threeImgFile1').files[0];
+      const url1 = document.getElementById('threeImgUrl1').value.trim();
+
+      const file2 = document.getElementById('threeImgFile2').files[0];
+      const url2 = document.getElementById('threeImgUrl2').value.trim();
+
+      const file3 = document.getElementById('threeImgFile3').files[0];
+      const url3 = document.getElementById('threeImgUrl3').value.trim();
+
+      const readAsDataURLAsync = (file) => {
         return new Promise((resolve) => {
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => resolve(ev.target.result);
-            reader.readAsDataURL(file);
-          } else if (url) {
-            resolve(url);
-          } else {
-            resolve(current);
-          }
+          if (!file) return resolve(null);
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.readAsDataURL(file);
         });
       };
 
       Promise.all([
-        processImg(file1, url1, threeImgsDB.img1),
-        processImg(file2, url2, threeImgsDB.img2),
-        processImg(file3, url3, threeImgsDB.img3)
+        readAsDataURLAsync(file1),
+        readAsDataURLAsync(file2),
+        readAsDataURLAsync(file3)
       ]).then(([res1, res2, res3]) => {
-        threeImgsDB = {
-          img1: res1, name1: name1,
-          img2: res2, name2: name2,
-          img3: res3, name3: name3
-        };
+        threeImgsDB.name1 = name1;
+        threeImgsDB.name2 = name2;
+        threeImgsDB.name3 = name3;
+
+        if (res1) threeImgsDB.img1 = res1;
+        else if (url1) threeImgsDB.img1 = url1;
+
+        if (res2) threeImgsDB.img2 = res2;
+        else if (url2) threeImgsDB.img2 = url2;
+
+        if (res3) threeImgsDB.img3 = res3;
+        else if (url3) threeImgsDB.img3 = url3;
+
         localStorage.setItem('elaf_three_images', JSON.stringify(threeImgsDB));
         renderThreeImages();
-        alert('تم حفظ وتحديث منصة الحافظين بنجاح!');
+        alert('تم حفظ وتحديث منصة التتويج بنجاح!');
         closeAdminModal();
       });
     }
 
-    // الآراء والشهادات
+    // إدارة وآراء العملاء العامة
     function renderTestimonials() {
       const grid = document.getElementById('testimonials-grid');
-      if(!grid) return;
+      const showMoreContainer = document.getElementById('show-more-container');
+      if (!grid) return;
+
       grid.innerHTML = '';
 
       if (reviewsDB.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-gray-400 text-xs py-8">لا توجد آراء حالياً. يمكنك إضافة رأيك الأول من النموذج أدناه.</p>';
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400 text-xs">لا توجد آراء مضافة حالياً. كن أول من يضيف رأيه!</div>`;
+        if (showMoreContainer) showMoreContainer.classList.add('hidden');
         return;
       }
 
-      reviewsDB.forEach(rev => {
+      // عرض كافة الآراء بشكل افتراضي
+      reviewsDB.forEach((rev) => {
         const card = document.createElement('div');
-        card.className = 'bg-white p-6 rounded-3xl border border-gold/30 shadow-sm card-hover flex flex-col justify-between relative';
+        card.className = 'bg-white p-6 rounded-3xl border border-gold/20 shadow-sm card-hover flex flex-col justify-between relative';
         
-        let contentHtml = '';
-        if(rev.type === 'image') {
-          contentHtml = `<img src="${rev.img}" class="w-full h-48 object-cover rounded-2xl mb-3 border">`;
-        } else {
-          contentHtml = `<p class="text-xs text-gray-600 leading-relaxed mb-4">"${rev.text}"</p>`;
-        }
+        let stars = '⭐⭐⭐⭐⭐';
+        if (rev.rating == 4) stars = '⭐⭐⭐⭐';
+        if (rev.rating == 3) stars = '⭐⭐⭐';
 
-        let stars = '⭐'.repeat(rev.rating || 5);
-
-        card.innerHTML = `
-          <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-gold text-xs">${stars}</span>
-              <span class="text-[10px] text-gray-400"><i class="fas fa-check-circle text-green-500 ml-1"></i>رأي موثق</span>
+        if (rev.type === 'image') {
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-extrabold text-sm text-primary decorated-title">${rev.author}</span>
+                <span class="text-xs text-gold">رأي موثق</span>
+              </div>
+              <div class="rounded-2xl overflow-hidden border border-gray-100 mb-3 bg-sand">
+                <img src="${rev.imgSrc}" alt="${rev.author}" class="w-full h-48 object-cover cursor-pointer" onclick="window.open('${rev.imgSrc}', '_blank')">
+              </div>
             </div>
-            ${contentHtml}
-          </div>
-          <div class="border-t border-gray-100 pt-3 mt-2 flex justify-between items-center">
-            <h5 class="font-bold text-xs text-primary decorated-title">${rev.author}</h5>
-            ${isAdminLoggedIn ? `<button onclick="deleteReview('${rev.id}')" class="text-red-500 hover:text-red-700 text-xs font-bold bg-red-50 px-2 py-1 rounded-lg"><i class="fas fa-trash ml-1"></i>حذف</button>` : ''}
-          </div>
-        `;
+          `;
+        } else {
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-extrabold text-sm text-primary decorated-title">${rev.author}</span>
+                <span class="text-xs">${stars}</span>
+              </div>
+              <p class="text-xs text-gray-600 leading-relaxed italic mb-4">"${rev.text}"</p>
+            </div>
+            <div class="text-[10px] text-gold-dark font-bold text-left pt-2 border-t border-gray-50">طالب في الأكاديمية</div>
+          `;
+        }
         grid.appendChild(card);
       });
+
+      if (showMoreContainer) showMoreContainer.classList.add('hidden');
     }
 
     function handlePublicAddReview(e) {
       e.preventDefault();
       const author = document.getElementById('publicReviewAuthor').value.trim();
-      const rating = parseInt(document.getElementById('publicReviewRating').value);
+      const rating = document.getElementById('publicReviewRating').value;
       const text = document.getElementById('publicReviewText').value.trim();
 
-      if(!author || !text) return;
+      if (!author || !text) return;
 
-      const newRev = {
+      const newReview = {
         id: 'rev-' + Date.now(),
+        type: 'text',
         author: author,
         rating: rating,
-        text: text,
-        type: 'text'
+        text: text
       };
 
-      reviewsDB.unshift(newRev);
+      reviewsDB.unshift(newReview);
       localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
       renderTestimonials();
 
       document.getElementById('publicReviewAuthor').value = '';
       document.getElementById('publicReviewText').value = '';
-      alert('شكراً لك! تم نشر رأيك بنجاح.');
+
+      alert('شكراً لك! تم نشر رأيك بنجاح وظهر الآن في قائمة الآراء.');
     }
 
     function handleAddImgReview(e) {
@@ -1567,18 +1584,17 @@
       const urlInput = document.getElementById('imgUrlInput').value.trim();
 
       const saveImgRev = (src) => {
-        if(!src) return;
+        if (!src) return;
         const newRev = {
-          id: 'rev-' + Date.now(),
-          author: author,
-          rating: 5,
-          img: src,
-          type: 'image'
+          id: 'rev-img-' + Date.now(),
+          type: 'image',
+          author: author || 'رأي طالب',
+          imgSrc: src
         };
         reviewsDB.unshift(newRev);
         localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
         renderTestimonials();
-        alert('تمت إضافة صورة الرأي بنجاح!');
+        alert('تم إضافة صورة الرأي بنجاح!');
         closeAdminModal();
       };
 
@@ -1588,147 +1604,12 @@
         reader.readAsDataURL(fileInput.files[0]);
       } else if (urlInput) {
         saveImgRev(urlInput);
-      }
-    }
-
-    function deleteReview(id) {
-      if(confirm('هل أنت تأكد من رغبتك بحذف هذا الرأي؟')) {
-        reviewsDB = reviewsDB.filter(r => r.id !== id);
-        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
-        renderTestimonials();
-      }
-    }
-
-    // الكادر التعليمي
-    function refreshTeachersMainGrid() {
-      const grid = document.getElementById('teachers-grid');
-      if(!grid) return;
-      grid.innerHTML = '';
-
-      const activeTeachers = teachersDB.filter(t => !t.isBlocked);
-
-      activeTeachers.forEach(t => {
-        const card = document.createElement('div');
-        card.className = 'bg-sand rounded-3xl border border-gold/30 p-6 shadow-sm card-hover text-center flex flex-col justify-between';
-        card.innerHTML = `
-          <div>
-            <div class="w-28 h-28 rounded-full border-2 border-gold p-1 mx-auto overflow-hidden mb-4 shadow">
-              <img src="${t.img || 'https://via.placeholder.com/150'}" alt="${t.name}" class="w-full h-full object-cover rounded-full">
-            </div>
-            <h4 class="font-extrabold text-base text-primary decorated-title mb-1">${t.name}</h4>
-            <p class="text-xs text-gold-dark font-semibold mb-3">${t.role}</p>
-          </div>
-          <a href="https://wa.me/962780285762" target="_blank" class="w-full bg-primary hover:bg-primary-light text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
-            <i class="fab fa-whatsapp"></i>
-            <span>طلب حجز حصة</span>
-          </a>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function renderAdminTeachers() {
-      const tbody = document.getElementById('adminTeachersTable');
-      if(!tbody) return;
-      tbody.innerHTML = '';
-
-      const searchQuery = (document.getElementById('teacherSearchInput')?.value || '').trim().toLowerCase();
-
-      const filteredTeachers = teachersDB.filter(t => {
-        if (!searchQuery) return true;
-        return (t.name && t.name.toLowerCase().includes(searchQuery)) ||
-               (t.userAuth && t.userAuth.toLowerCase().includes(searchQuery));
-      });
-
-      if (filteredTeachers.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 text-xs">لا توجد نتائج مطابقة للبحث</td></tr>`;
-        return;
-      }
-
-      filteredTeachers.forEach((t, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = 'border-b hover:bg-gray-50';
-        tr.innerHTML = `
-          <td class="p-2.5 text-center font-bold">${idx + 1}</td>
-          <td class="p-2.5 font-bold text-primary">${t.name} <span class="block text-[10px] text-gray-400">${t.role}</span></td>
-          <td class="p-2.5 font-mono text-xs">${t.userAuth}</td>
-          <td class="p-2.5">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${t.isBlocked ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}">
-              ${t.isBlocked ? 'موقوف' : 'نشط'}
-            </span>
-          </td>
-          <td class="p-2.5 text-center space-x-1 space-x-reverse">
-            <button onclick="toggleBlockTeacher('${t.id}')" class="px-2 py-1 text-[11px] rounded font-bold ${t.isBlocked ? 'bg-green-600 text-white' : 'bg-amber-500 text-white'}">
-              ${t.isBlocked ? 'تفعيل' : 'إيقاف'}
-            </button>
-            <button onclick="deleteTeacher('${t.id}')" class="px-2 py-1 text-[11px] bg-red-600 text-white rounded font-bold">حذف</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function handleAddTeacher(e) {
-      e.preventDefault();
-      const name = document.getElementById('teacherNameInput').value.trim();
-      const role = document.getElementById('teacherRoleInput').value.trim();
-      const userAuth = document.getElementById('teacherUserAuthInput').value.trim();
-      const passAuth = document.getElementById('teacherPassAuthInput').value.trim();
-      const fileInput = document.getElementById('teacherFileInput');
-      const urlInput = document.getElementById('teacherUrlInput').value.trim();
-
-      const saveTech = (imgSrc) => {
-        const newTeacher = {
-          id: 'tech-' + Date.now(),
-          name: name,
-          role: role,
-          userAuth: userAuth,
-          passAuth: passAuth,
-          img: imgSrc || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
-          isBlocked: false
-        };
-
-        teachersDB.push(newTeacher);
-        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
-        renderAdminTeachers();
-        refreshTeachersMainGrid();
-        alert('تمت إضافة المعلم بنجاح وتوليد الحساب!');
-        
-        document.getElementById('teacherNameInput').value = '';
-        document.getElementById('teacherRoleInput').value = '';
-        document.getElementById('teacherUserAuthInput').value = '';
-        document.getElementById('teacherPassAuthInput').value = '';
-      };
-
-      if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (event) => saveTech(event.target.result);
-        reader.readAsDataURL(fileInput.files[0]);
       } else {
-        saveTech(urlInput);
+        alert('يرجى رفع ملف صورة أو وضع رابط');
       }
     }
 
-    function toggleBlockTeacher(id) {
-      const t = teachersDB.find(x => x.id === id);
-      if(t) {
-        t.isBlocked = !t.isBlocked;
-        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
-        renderAdminTeachers();
-        refreshTeachersMainGrid();
-      }
-    }
-
-    function deleteTeacher(id) {
-      if(confirm('هل أنت تأكد من حذف حساب هذا المعلم؟')) {
-        teachersDB = teachersDB.filter(x => x.id !== id);
-        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
-        renderAdminTeachers();
-        refreshTeachersMainGrid();
-      }
-    }
-
-    // التسجيل الذاتي للطلاب
+    // إدارة التسجيل الذاتي والطلبات
     function handleStudentSelfRegister(e) {
       e.preventDefault();
       const name = document.getElementById('regStudentName').value.trim();
@@ -1742,23 +1623,27 @@
         phone: phone,
         pass: pass,
         track: track,
-        status: 'pending', // معلق حتى موافقة الإدارة
-        assignedTeacherId: null,
-        totalLessons: track.includes('8') ? 8 : track.includes('12') ? 12 : track.includes('16') ? 16 : 8,
-        accountStatus: 'قيد المراجعة',
+        status: 'pending', // pending, approved, rejected
+        assignedTeacherId: '',
+        paymentStatus: 'غير مدفوع',
         paymentsCount: 0,
+        totalSessions: 8,
         notes: '',
         progress: '',
-        lessonDate: '',
-        completedDates: ''
+        sessionTime: '',
+        sessionHistory: ''
       };
 
       studentsDB.push(newStudent);
       localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-      updatePendingBadges();
 
-      alert('تم إرسال طلبك بنجاح! سيتم التواصل معك ومراجعة حسابك من قبل إدارة الأكاديمية.');
-      e.target.reset();
+      document.getElementById('regStudentName').value = '';
+      document.getElementById('regStudentPhone').value = '';
+      document.getElementById('regStudentPass').value = '';
+      document.getElementById('regStudentTrack').value = '';
+
+      updatePendingBadges();
+      alert('تم إرسال طلب تسجيلك بنجاح! سيتم مراجعته من الإدارة والترحيل للمعلم.');
     }
 
     function updatePendingBadges() {
@@ -1766,208 +1651,381 @@
       
       const badgeHeader = document.getElementById('pendingBadgeHeader');
       const badgeSidebar = document.getElementById('pendingBadgeSidebar');
-      const badgeCount = document.getElementById('pendingCountBadge');
+      const badgeCountAdmin = document.getElementById('pendingCountBadge');
 
-      if(badgeHeader) {
+      if (badgeHeader) {
         badgeHeader.innerText = pendingCount;
-        if(pendingCount > 0) badgeHeader.classList.remove('hidden');
-        else badgeHeader.classList.add('hidden');
+        badgeHeader.classList.toggle('hidden', pendingCount === 0);
       }
-
-      if(badgeSidebar) {
+      if (badgeSidebar) {
         badgeSidebar.innerText = pendingCount;
-        if(pendingCount > 0) badgeSidebar.classList.remove('hidden');
-        else badgeSidebar.classList.add('hidden');
+        badgeSidebar.classList.toggle('hidden', pendingCount === 0);
       }
-
-      if(badgeCount) {
-        badgeCount.innerText = pendingCount + ' طلبات';
+      if (badgeCountAdmin) {
+        badgeCountAdmin.innerText = pendingCount + ' طلبات';
       }
     }
 
-    // إدارة الإدارة والترحيل
-    function verifyPassword() {
-      const pin = document.getElementById('adminPassword').value;
-      if(pin === SECRET_PIN) {
-        isAdminLoggedIn = true;
-        document.getElementById('adminLoginView').classList.add('hidden');
-        document.getElementById('adminContentView').classList.remove('hidden');
-        document.getElementById('passwordError').classList.add('hidden');
-        renderAdminUnassigned();
-        renderAdminTeachers();
-        renderTestimonials(); // إظهار أزرار الحذف بعد دخول الأدمن
-      } else {
-        document.getElementById('passwordError').classList.remove('hidden');
-      }
-    }
-
+    // لوحة التحكم - الإدارة
     function openAdminModal() {
       document.getElementById('adminModal').classList.remove('hidden');
+      if (!isAdminLoggedIn) {
+        document.getElementById('adminLoginView').classList.remove('hidden');
+        document.getElementById('adminContentView').classList.add('hidden');
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('passwordError').classList.add('hidden');
+      } else {
+        document.getElementById('adminLoginView').classList.add('hidden');
+        document.getElementById('adminContentView').classList.remove('hidden');
+        renderAdminUnassigned();
+        renderAdminTeachers();
+      }
     }
 
     function closeAdminModal() {
       document.getElementById('adminModal').classList.add('hidden');
     }
 
+    function verifyPassword() {
+      const input = document.getElementById('adminPassword').value;
+      if (input === SECRET_PIN) {
+        isAdminLoggedIn = true;
+        document.getElementById('adminLoginView').classList.add('hidden');
+        document.getElementById('adminContentView').classList.remove('hidden');
+        renderAdminUnassigned();
+        renderAdminTeachers();
+      } else {
+        document.getElementById('passwordError').classList.remove('hidden');
+      }
+    }
+
     function switchAdminTab(tab) {
-      const sections = ['requestsSection', 'addTeacherForm', 'threeImagesForm', 'addPaypalForm', 'addLogoForm', 'addFounderForm', 'addVidForm', 'addImgForm'];
-      sections.forEach(s => {
-        const elem = document.getElementById(s);
-        if(elem) elem.classList.add('hidden');
+      const tabs = ['requests', 'teacher', 'threeImgs', 'paypal', 'logo', 'founder', 'vid', 'img'];
+      
+      tabs.forEach(t => {
+        const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1) + 'Btn');
+        if (btn) {
+          btn.classList.remove('border-gold', 'text-primary');
+          btn.classList.add('text-gray-400', 'border-transparent');
+        }
       });
 
-      if(tab === 'requests') document.getElementById('requestsSection').classList.remove('hidden');
-      if(tab === 'teacher') {
+      document.getElementById('requestsSection').classList.add('hidden');
+      document.getElementById('addTeacherForm').classList.add('hidden');
+      document.getElementById('threeImagesForm').classList.add('hidden');
+      document.getElementById('addPaypalForm').classList.add('hidden');
+      document.getElementById('addLogoForm').classList.add('hidden');
+      document.getElementById('addFounderForm').classList.add('hidden');
+      document.getElementById('addVidForm').classList.add('hidden');
+      document.getElementById('addImgForm').classList.add('hidden');
+
+      if (tab === 'requests') {
+        document.getElementById('requestsSection').classList.remove('hidden');
+        document.getElementById('tabRequestsBtn').classList.add('border-gold', 'text-primary');
+        renderAdminUnassigned();
+      } else if (tab === 'teacher') {
         document.getElementById('addTeacherForm').classList.remove('hidden');
+        document.getElementById('tabTeacherBtn').classList.add('border-gold', 'text-primary');
         renderAdminTeachers();
+      } else if (tab === 'threeImgs') {
+        document.getElementById('threeImagesForm').classList.remove('hidden');
+        document.getElementById('tabThreeImgsBtn').classList.add('border-gold', 'text-primary');
+      } else if (tab === 'paypal') {
+        document.getElementById('addPaypalForm').classList.remove('hidden');
+        document.getElementById('tabPaypalBtn').classList.add('border-gold', 'text-primary');
+      } else if (tab === 'logo') {
+        document.getElementById('addLogoForm').classList.remove('hidden');
+        document.getElementById('tabLogoBtn').classList.add('border-gold', 'text-primary');
+      } else if (tab === 'founder') {
+        document.getElementById('addFounderForm').classList.remove('hidden');
+        document.getElementById('tabFounderBtn').classList.add('border-gold', 'text-primary');
+      } else if (tab === 'vid') {
+        document.getElementById('addVidForm').classList.remove('hidden');
+        document.getElementById('tabVidBtn').classList.add('border-gold', 'text-primary');
+      } else if (tab === 'img') {
+        document.getElementById('addImgForm').classList.remove('hidden');
+        document.getElementById('tabImgBtn').classList.add('border-gold', 'text-primary');
       }
-      if(tab === 'threeImgs') document.getElementById('threeImagesForm').classList.remove('hidden');
-      if(tab === 'paypal') document.getElementById('addPaypalForm').classList.remove('hidden');
-      if(tab === 'logo') document.getElementById('addLogoForm').classList.remove('hidden');
-      if(tab === 'founder') document.getElementById('addFounderForm').classList.remove('hidden');
-      if(tab === 'vid') document.getElementById('addVidForm').classList.remove('hidden');
-      if(tab === 'img') document.getElementById('addImgForm').classList.remove('hidden');
     }
 
     function renderAdminUnassigned() {
       const pendingTbody = document.getElementById('pendingRequestsTable');
       const approvedTbody = document.getElementById('approvedStudentsTable');
-      if(!pendingTbody || !approvedTbody) return;
+      const searchVal = (document.getElementById('adminSearchInput') ? document.getElementById('adminSearchInput').value.trim().toLowerCase() : '');
+
+      if (!pendingTbody || !approvedTbody) return;
 
       pendingTbody.innerHTML = '';
       approvedTbody.innerHTML = '';
 
-      const query = (document.getElementById('adminSearchInput')?.value || '').trim().toLowerCase();
+      const pendingList = studentsDB.filter(s => s.status === 'pending' && (s.name.toLowerCase().includes(searchVal) || s.phone.includes(searchVal)));
+      const approvedList = studentsDB.filter(s => s.status === 'approved' && (s.name.toLowerCase().includes(searchVal) || s.phone.includes(searchVal)));
 
-      const pendingList = studentsDB.filter(s => s.status === 'pending' && (s.name.toLowerCase().includes(query) || s.phone.includes(query)));
-      const approvedList = studentsDB.filter(s => s.status === 'approved' && (s.name.toLowerCase().includes(query) || s.phone.includes(query)));
-
-      // جدول الطلبات المعلقة
-      if(pendingList.length === 0) {
+      if (pendingList.length === 0) {
         pendingTbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400">لا توجد طلبات معلقة حالياً</td></tr>`;
       } else {
-        pendingList.forEach((s, idx) => {
+        pendingList.forEach((std, idx) => {
           const tr = document.createElement('tr');
-          tr.className = 'border-b hover:bg-amber-100/50';
+          tr.className = 'border-b hover:bg-amber-50/50';
           tr.innerHTML = `
-            <td class="p-2.5 text-center font-bold">${idx + 1}</td>
-            <td class="p-2.5 font-bold text-primary">${s.name}</td>
-            <td class="p-2.5 font-mono dir-ltr text-right">${s.phone}</td>
-            <td class="p-2.5 text-xs">${s.track}</td>
-            <td class="p-2.5"><span class="bg-amber-200 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-bold">معلق</span></td>
-            <td class="p-2.5 text-center space-x-1 space-x-reverse">
-              <button onclick="approveStudent('${s.id}')" class="bg-green-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-green-700">قبول الطلب</button>
-              <button onclick="rejectStudent('${s.id}')" class="bg-red-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-red-700">رفض</button>
+            <td class="p-2 border text-center font-bold">${idx + 1}</td>
+            <td class="p-2 border font-bold text-primary">${std.name}</td>
+            <td class="p-2 border font-mono dir-ltr">${std.phone}</td>
+            <td class="p-2 border text-[11px]">${std.track}</td>
+            <td class="p-2 border"><span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-bold">معلق</span></td>
+            <td class="p-2 border text-center">
+              <div class="flex items-center justify-center gap-1.5">
+                <button onclick="approveStudent('${std.id}')" class="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition">قبول</button>
+                <button onclick="rejectStudent('${std.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition">رفض</button>
+              </div>
             </td>
           `;
           pendingTbody.appendChild(tr);
         });
       }
 
-      // جدول الطلاب المقبولين
-      if(approvedList.length === 0) {
-        approvedTbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-400">لا يوجد طلاب مقبولون</td></tr>`;
+      if (approvedList.length === 0) {
+        approvedTbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-400">لا يوجد طلاب مقبولون حتى الآن</td></tr>`;
       } else {
-        approvedList.forEach((s, idx) => {
-          const tr = document.createElement('tr');
-          tr.className = 'border-b hover:bg-gray-50';
-
-          let teacherOptions = `<option value="">اختر المعلم للترحيل</option>`;
+        approvedList.forEach((std, idx) => {
+          let teacherOptions = `<option value="">اختر المعلم للترحيل...</option>`;
           teachersDB.filter(t => !t.isBlocked).forEach(t => {
-            const selected = s.assignedTeacherId === t.id ? 'selected' : '';
-            teacherOptions += `<option value="${t.id}" ${selected}>${t.name}</option>`;
+            const sel = std.assignedTeacherId === t.id ? 'selected' : '';
+            teacherOptions += `<option value="${t.id}" ${sel}>${t.name}</option>`;
           });
 
+          const tr = document.createElement('tr');
+          tr.className = 'border-b hover:bg-sand/50';
           tr.innerHTML = `
-            <td class="p-2.5 text-center font-bold">${idx + 1}</td>
-            <td class="p-2.5 font-bold text-primary">${s.name}</td>
-            <td class="p-2.5 font-mono dir-ltr text-right">${s.phone}</td>
-            <td class="p-2.5 text-xs">${s.track}</td>
-            <td class="p-2.5">
-              <input type="text" value="${s.accountStatus || 'مدفوع'}" onchange="updateStudentField('${s.id}', 'accountStatus', this.value)" class="w-full border rounded px-2 py-1 text-xs focus:border-gold outline-none">
+            <td class="p-2 border text-center font-bold">${idx + 1}</td>
+            <td class="p-2 border font-bold text-primary">${std.name}</td>
+            <td class="p-2 border font-mono dir-ltr text-[11px]">${std.phone}</td>
+            <td class="p-2 border text-[10px]">${std.track}</td>
+            <td class="p-2 border">
+              <select onchange="updateStudentPaymentStatus('${std.id}', this.value)" class="border rounded-lg p-1 text-[11px] bg-white w-full outline-none">
+                <option value="غير مدفوع" ${std.paymentStatus === 'غير مدفوع' ? 'selected' : ''}>غير مدفوع ❌</option>
+                <option value="مدفوع الجزئي" ${std.paymentStatus === 'مدفوع الجزئي' ? 'selected' : ''}>مدفوع جزئي ⏳</option>
+                <option value="مدفوع بالكامل" ${std.paymentStatus === 'مدفوع بالكامل' ? 'selected' : ''}>مدفوع بالكامل ✅</option>
+              </select>
             </td>
-            <td class="p-2.5 text-center">
-              <input type="number" value="${s.paymentsCount || 1}" onchange="updateStudentField('${s.id}', 'paymentsCount', parseInt(this.value))" class="w-16 border rounded text-center py-1 text-xs focus:border-gold outline-none">
+            <td class="p-2 border text-center">
+              <input type="number" min="0" value="${std.paymentsCount || 0}" onchange="updateStudentPaymentsCount('${std.id}', this.value)" class="border rounded-lg p-1 text-center w-16 bg-white outline-none">
             </td>
-            <td class="p-2.5">
-              <select onchange="assignTeacherToStudent('${s.id}', this.value)" class="w-full border rounded px-2 py-1 text-xs focus:border-gold outline-none bg-white">
+            <td class="p-2 border">
+              <select onchange="assignStudentToTeacher('${std.id}', this.value)" class="border rounded-lg p-1 text-[11px] bg-white w-full outline-none font-bold text-primary">
                 ${teacherOptions}
               </select>
             </td>
-            <td class="p-2.5 text-center">
-              <button onclick="deleteStudent('${s.id}')" class="text-red-600 hover:text-red-800 font-bold text-xs"><i class="fas fa-trash"></i></button>
+            <td class="p-2 border text-center">
+              <button onclick="deleteStudent('${std.id}')" class="text-red-600 hover:text-red-800 p-1"><i class="fas fa-trash"></i></button>
             </td>
           `;
           approvedTbody.appendChild(tr);
         });
       }
+
+      updatePendingBadges();
     }
 
     function approveStudent(id) {
-      const s = studentsDB.find(x => x.id === id);
-      if(s) {
-        s.status = 'approved';
-        s.accountStatus = 'تم القبول / مدفوع';
+      const std = studentsDB.find(s => s.id === id);
+      if (std) {
+        std.status = 'approved';
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
         renderAdminUnassigned();
-        updatePendingBadges();
       }
     }
 
     function rejectStudent(id) {
-      if(confirm('هل أنت تأكد من رفض هذا الطلب؟')) {
-        studentsDB = studentsDB.filter(x => x.id !== id);
+      if (confirm('هل أنت تأكد من رفض هذا الطلب؟')) {
+        studentsDB = studentsDB.filter(s => s.id !== id);
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
         renderAdminUnassigned();
-        updatePendingBadges();
       }
     }
 
-    function updateStudentField(id, field, val) {
-      const s = studentsDB.find(x => x.id === id);
-      if(s) {
-        s[field] = val;
+    function updateStudentPaymentStatus(id, val) {
+      const std = studentsDB.find(s => s.id === id);
+      if (std) {
+        std.paymentStatus = val;
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
       }
     }
 
-    function assignTeacherToStudent(studentId, teacherId) {
-      const s = studentsDB.find(x => x.id === studentId);
-      if(s) {
-        s.assignedTeacherId = teacherId || null;
+    function updateStudentPaymentsCount(id, val) {
+      const std = studentsDB.find(s => s.id === id);
+      if (std) {
+        std.paymentsCount = parseInt(val) || 0;
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-        alert('تم ترحيل الطالب للمعلم المحدد بنجاح!');
+      }
+    }
+
+    function assignStudentToTeacher(stdId, teacherId) {
+      const std = studentsDB.find(s => s.id === stdId);
+      if (std) {
+        std.assignedTeacherId = teacherId;
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        alert('تم ترحيل الطالب للمعلم بنجاح!');
       }
     }
 
     function deleteStudent(id) {
-      if(confirm('هل أنت تأكد من حذف بيانات هذا الطالب؟')) {
-        studentsDB = studentsDB.filter(x => x.id !== id);
+      if (confirm('هل أنت تأكد من حذف بيانات هذا الطالب نهائياً؟')) {
+        studentsDB = studentsDB.filter(s => s.id !== id);
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
         renderAdminUnassigned();
       }
     }
 
-    // البوابات والدخول
-    function openPortalModal(role) {
-      activePortalRole = role;
-      const modal = document.getElementById('portalModal');
-      const title = document.getElementById('portalTitle');
-      const loginSec = document.getElementById('portalLoginSection');
-      const teacherDash = document.getElementById('teacherDashboard');
-      const studentDash = document.getElementById('studentDashboard');
+    // إدارة المعلمين باللوحة
+    function handleAddTeacher(e) {
+      e.preventDefault();
+      const name = document.getElementById('teacherNameInput').value.trim();
+      const role = document.getElementById('teacherRoleInput').value.trim();
+      const userAuth = document.getElementById('teacherUserAuthInput').value.trim();
+      const passAuth = document.getElementById('teacherPassAuthInput').value.trim();
+      const fileInput = document.getElementById('teacherFileInput');
+      const urlInput = document.getElementById('teacherUrlInput').value.trim();
 
-      loginSec.classList.remove('hidden');
-      teacherDash.classList.add('hidden');
-      studentDash.classList.add('hidden');
+      const saveTeacher = (imgSrc) => {
+        const newTeacher = {
+          id: 'tech-' + Date.now(),
+          name: name,
+          role: role,
+          userAuth: userAuth,
+          passAuth: passAuth,
+          img: imgSrc || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
+          isBlocked: false
+        };
 
-      if(role === 'teacher') {
-        title.innerHTML = `<i class="fas fa-chalkboard-teacher text-gold"></i> بوابة المعلم - دخول`;
+        teachersDB.push(newTeacher);
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        
+        document.getElementById('teacherNameInput').value = '';
+        document.getElementById('teacherRoleInput').value = '';
+        document.getElementById('teacherUserAuthInput').value = '';
+        document.getElementById('teacherPassAuthInput').value = '';
+
+        renderAdminTeachers();
+        refreshTeachersMainGrid();
+        alert('تمت إضافة المعلم بنجاح وتوليد حسابه!');
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => saveTeacher(event.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
       } else {
-        title.innerHTML = `<i class="fas fa-user-graduate text-gold"></i> بوابة الطالب - دخول`;
+        saveTeacher(urlInput);
+      }
+    }
+
+    function renderAdminTeachers() {
+      const tbody = document.getElementById('adminTeachersTable');
+      const searchVal = (document.getElementById('teacherSearchInput') ? document.getElementById('teacherSearchInput').value.trim().toLowerCase() : '');
+
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const filteredTeachers = teachersDB.filter(t => t.name.toLowerCase().includes(searchVal) || t.userAuth.toLowerCase().includes(searchVal));
+
+      if (filteredTeachers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">لا يوجد معلمون مطابقون للبحث</td></tr>`;
+        return;
       }
 
-      modal.classList.remove('hidden');
+      filteredTeachers.forEach((tech, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b hover:bg-sand/50';
+        tr.innerHTML = `
+          <td class="p-2 border text-center font-bold">${idx + 1}</td>
+          <td class="p-2 border">
+            <div class="flex items-center gap-2">
+              <img src="${tech.img}" class="w-8 h-8 rounded-full object-cover">
+              <div>
+                <p class="font-bold text-primary">${tech.name}</p>
+                <p class="text-[10px] text-gray-500">${tech.role}</p>
+              </div>
+            </div>
+          </td>
+          <td class="p-2 border font-mono font-bold">${tech.userAuth}</td>
+          <td class="p-2 border">
+            ${tech.isBlocked ? 
+              '<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-[10px] font-bold">موقوف</span>' : 
+              '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-[10px] font-bold">نشط</span>'}
+          </td>
+          <td class="p-2 border text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="toggleBlockTeacher('${tech.id}')" class="px-2 py-1 rounded text-[10px] font-bold ${tech.isBlocked ? 'bg-green-600 text-white' : 'bg-amber-600 text-white'}">
+                ${tech.isBlocked ? 'تفعيل' : 'إيقاف'}
+              </button>
+              <button onclick="deleteTeacher('${tech.id}')" class="bg-red-600 text-white px-2 py-1 rounded text-[10px] font-bold"><i class="fas fa-trash"></i></button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleBlockTeacher(id) {
+      const tech = teachersDB.find(t => t.id === id);
+      if (tech) {
+        tech.isBlocked = !tech.isBlocked;
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        renderAdminTeachers();
+        refreshTeachersMainGrid();
+      }
+    }
+
+    function deleteTeacher(id) {
+      if (confirm('هل أنت تأكد من حذف هذا المعلم نهائياً؟')) {
+        teachersDB = teachersDB.filter(t => t.id !== id);
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        renderAdminTeachers();
+        refreshTeachersMainGrid();
+      }
+    }
+
+    function refreshTeachersMainGrid() {
+      const grid = document.getElementById('teachers-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const activeTeachers = teachersDB.filter(t => !t.isBlocked);
+
+      if (activeTeachers.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400">لا يوجد معلمون متاحون حالياً</div>`;
+        return;
+      }
+
+      activeTeachers.forEach(tech => {
+        const card = document.createElement('div');
+        card.className = 'bg-sand rounded-3xl p-6 border border-gold/20 shadow-sm card-hover text-center flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="w-28 h-28 mx-auto rounded-full overflow-hidden border-2 border-gold p-1 mb-4 gold-glow-circle">
+              <img src="${tech.img}" alt="${tech.name}" class="w-full h-full object-cover rounded-full">
+            </div>
+            <h4 class="font-extrabold text-base text-primary decorated-title">${tech.name}</h4>
+            <p class="text-xs text-gold-dark font-medium mt-1">${tech.role}</p>
+          </div>
+          <button onclick="openPortalModal('student')" class="mt-6 bg-primary hover:bg-primary-light text-white text-xs font-bold py-2.5 rounded-xl transition">حجز حصة مع المعلم</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // بوابات المعلم والطالب
+    function openPortalModal(role) {
+      activePortalRole = role;
+      document.getElementById('portalModal').classList.remove('hidden');
+      document.getElementById('portalTitle').innerText = role === 'teacher' ? 'دخول بوابة المعلم' : 'دخول بوابة الطالب';
+      
+      document.getElementById('portalLoginSection').classList.remove('hidden');
+      document.getElementById('teacherDashboard').classList.add('hidden');
+      document.getElementById('studentDashboard').classList.add('hidden');
+      document.getElementById('portalUserAuth').value = '';
+      document.getElementById('portalPassAuth').value = '';
     }
 
     function closePortalModal() {
@@ -1975,100 +2033,140 @@
     }
 
     function handleLogin() {
-      const user = document.getElementById('portalUserAuth').value.trim();
-      const pass = document.getElementById('portalPassAuth').value.trim();
+      const authUser = document.getElementById('portalUserAuth').value.trim();
+      const authPass = document.getElementById('portalPassAuth').value.trim();
 
-      if(activePortalRole === 'teacher') {
-        const teacher = teachersDB.find(t => t.userAuth === user && t.passAuth === pass && !t.isBlocked);
-        if(teacher) {
-          showTeacherDashboard(teacher);
+      if (!authUser || !authPass) {
+        alert('يرجى كتابة كافة البيانات للدخول');
+        return;
+      }
+
+      if (activePortalRole === 'teacher') {
+        const teacher = teachersDB.find(t => t.userAuth === authUser && t.passAuth === authPass && !t.isBlocked);
+        if (teacher) {
+          loggedInTeacher = teacher;
+          document.getElementById('portalLoginSection').classList.add('hidden');
+          document.getElementById('teacherDashboard').classList.remove('hidden');
+          renderTeacherStudents(teacher.id);
         } else {
-          alert('اسم المستخدم أو كلمة المرور غير صحيحة، أو تم إيقاف الحساب!');
+          alert('بيانات دخول المعلم غير صحيحة أو الحساب موقوف!');
         }
       } else {
-        const student = studentsDB.find(s => (s.phone === user || s.name === user) && s.pass === pass);
-        if(student) {
-          showStudentDashboard(student);
+        const student = studentsDB.find(s => (s.phone === authUser || s.name === authUser) && s.pass === authPass);
+        if (student) {
+          loggedInStudent = student;
+          document.getElementById('portalLoginSection').classList.add('hidden');
+          document.getElementById('studentDashboard').classList.remove('hidden');
+          renderStudentView(student);
         } else {
-          alert('بيانات الدخول غير صحيحة!');
+          alert('بيانات دخول الطالب غير صحيحة أو حسابك قيد المراجعة!');
         }
       }
     }
 
-    function showTeacherDashboard(teacher) {
-      document.getElementById('portalLoginSection').classList.add('hidden');
-      document.getElementById('teacherDashboard').classList.remove('hidden');
-      document.getElementById('portalTitle').innerHTML = `<i class="fas fa-chalkboard-teacher text-gold"></i> بوابة المعلم: ${teacher.name}`;
-
+    // عرض وتعديل المعلم لطلابه
+    function renderTeacherStudents(teacherId) {
       const tbody = document.getElementById('teacherStudentsTable');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
-      const myStudents = studentsDB.filter(s => s.assignedTeacherId === teacher.id);
+      const myStudents = studentsDB.filter(s => s.assignedTeacherId === teacherId && s.status === 'approved');
 
-      if(myStudents.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-gray-400">لا يوجد طلاب موكلين إليك حالياً.</td></tr>`;
+      if (myStudents.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="11" class="p-6 text-center text-gray-400 font-bold">لا يوجد طلاب موكلون إليك حتى الآن</td></tr>`;
         return;
       }
 
-      myStudents.forEach((s, idx) => {
+      myStudents.forEach((std, idx) => {
         const tr = document.createElement('tr');
-        tr.className = 'border-b hover:bg-gray-50';
+        tr.className = 'border-b hover:bg-sand/40';
         tr.innerHTML = `
-          <td class="p-2 text-center font-bold">${idx + 1}</td>
-          <td class="p-2 font-bold text-primary">${s.name}<span class="block text-[10px] font-mono dir-ltr text-right text-gray-500">${s.phone}</span></td>
-          <td class="p-2 text-xs">${s.track}</td>
-          <td class="p-2 text-center font-bold">${s.totalLessons || 8}</td>
-          <td class="p-2 text-center"><span class="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded-full font-bold">${s.accountStatus || 'مدفوع'}</span></td>
-          <td class="p-2 text-center font-bold">${s.paymentsCount || 1}</td>
-          <td class="p-2"><textarea id="note_${s.id}" class="w-full border rounded p-1 text-xs focus:border-gold outline-none resize-none" rows="2">${s.notes || ''}</textarea></td>
-          <td class="p-2"><textarea id="prog_${s.id}" class="w-full border rounded p-1 text-xs focus:border-gold outline-none resize-none" rows="2">${s.progress || ''}</textarea></td>
-          <td class="p-2"><input type="text" id="ldate_${s.id}" value="${s.lessonDate || ''}" placeholder="مثال: الأحد 4 عصراً" class="w-full border rounded p-1 text-xs focus:border-gold outline-none"></td>
-          <td class="p-2"><input type="text" id="cdates_${s.id}" value="${s.completedDates || ''}" placeholder="التواريخ المعطاة..." class="w-full border rounded p-1 text-xs focus:border-gold outline-none"></td>
-          <td class="p-2 text-center"><button onclick="saveTeacherStudentData('${s.id}')" class="bg-gold hover:bg-gold-dark text-primary font-black px-3 py-1.5 rounded text-xs shadow">حفظ</button></td>
+          <td class="p-2 border text-center font-bold">${idx + 1}</td>
+          <td class="p-2 border">
+            <input type="text" value="${std.name}" onchange="updateStudentField('${std.id}', 'name', this.value)" class="w-full border rounded p-1 text-xs font-bold text-primary mb-1">
+            <input type="text" value="${std.phone}" onchange="updateStudentField('${std.id}', 'phone', this.value)" class="w-full border rounded p-1 text-[11px] font-mono dir-ltr">
+          </td>
+          <td class="p-2 border">
+            <textarea onchange="updateStudentField('${std.id}', 'track', this.value)" class="w-full border rounded p-1 text-[11px] resize-none" rows="2">${std.track}</textarea>
+          </td>
+          <td class="p-2 border text-center">
+            <input type="number" value="${std.totalSessions || 8}" min="1" onchange="updateStudentField('${std.id}', 'totalSessions', this.value)" class="w-full border rounded p-1 text-center font-bold">
+          </td>
+          <td class="p-2 border">
+            <select onchange="updateStudentField('${std.id}', 'paymentStatus', this.value)" class="w-full border rounded p-1 text-[11px]">
+              <option value="غير مدفوع" ${std.paymentStatus === 'غير مدفوع' ? 'selected' : ''}>غير مدفوع ❌</option>
+              <option value="مدفوع الجزئي" ${std.paymentStatus === 'مدفوع الجزئي' ? 'selected' : ''}>مدفوع جزئي ⏳</option>
+              <option value="مدفوع بالكامل" ${std.paymentStatus === 'مدفوع بالكامل' ? 'selected' : ''}>مدفوع بالكامل ✅</option>
+            </select>
+          </td>
+          <td class="p-2 border text-center">
+            <input type="number" value="${std.paymentsCount || 0}" min="0" onchange="updateStudentField('${std.id}', 'paymentsCount', this.value)" class="w-full border rounded p-1 text-center font-bold">
+          </td>
+          <td class="p-2 border">
+            <textarea onchange="updateStudentField('${std.id}', 'notes', this.value)" placeholder="اكتب ملاحظات للطالب..." class="w-full border rounded p-1 text-[11px] resize-none" rows="2">${std.notes || ''}</textarea>
+          </td>
+          <td class="p-2 border">
+            <textarea onchange="updateStudentField('${std.id}', 'progress', this.value)" placeholder="إنجاز الحصة..." class="w-full border rounded p-1 text-[11px] resize-none" rows="2">${std.progress || ''}</textarea>
+          </td>
+          <td class="p-2 border">
+            <input type="text" value="${std.sessionTime || ''}" placeholder="مثال: الأحد 5 مساءً" onchange="updateStudentField('${std.id}', 'sessionTime', this.value)" class="w-full border rounded p-1 text-[11px]">
+          </td>
+          <td class="p-2 border">
+            <textarea onchange="updateStudentField('${std.id}', 'sessionHistory', this.value)" placeholder="سجل التواريخ..." class="w-full border rounded p-1 text-[11px] resize-none" rows="2">${std.sessionHistory || ''}</textarea>
+          </td>
+          <td class="p-2 border text-center">
+            <button onclick="saveStudentDataAlert()" class="bg-primary hover:bg-primary-light text-white px-3 py-1 rounded text-xs font-bold transition">حفظ <i class="fas fa-save ml-1"></i></button>
+          </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    function saveTeacherStudentData(studentId) {
-      const s = studentsDB.find(x => x.id === studentId);
-      if(s) {
-        s.notes = document.getElementById(`note_${studentId}`).value;
-        s.progress = document.getElementById(`prog_${studentId}`).value;
-        s.lessonDate = document.getElementById(`ldate_${studentId}`).value;
-        s.completedDates = document.getElementById(`cdates_${studentId}`).value;
-
+    function updateStudentField(id, field, val) {
+      const std = studentsDB.find(s => s.id === id);
+      if (std) {
+        if (field === 'totalSessions' || field === 'paymentsCount') {
+          std[field] = parseInt(val) || 0;
+        } else {
+          std[field] = val;
+        }
         localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-        alert('تم حفظ بيانات الطالب وتحديثها بنجاح!');
       }
     }
 
-    function showStudentDashboard(student) {
-      document.getElementById('portalLoginSection').classList.add('hidden');
-      document.getElementById('studentDashboard').classList.remove('hidden');
-      document.getElementById('studentWelcome').innerText = `أهلاً بك يا طالبنا: ${student.name}`;
+    function saveStudentDataAlert() {
+      alert('تم حفظ وتحديث كافة بيانات الطالب بنجاح وستظهر فوراً في لوحته!');
+    }
 
+    // عرض الطالب للوحة الخاصة به
+    function renderStudentView(std) {
+      document.getElementById('studentWelcome').innerText = `أهلاً بك يا طالبنا: ${std.name}`;
       const card = document.getElementById('studentDetailsCard');
-      const teacher = teachersDB.find(t => t.id === student.assignedTeacherId);
+      
+      const teacher = teachersDB.find(t => t.id === std.assignedTeacherId);
+      const teacherName = teacher ? teacher.name : 'لم يحدد بعد';
 
       card.innerHTML = `
-        <div class="bg-white p-6 rounded-2xl border border-gold/30 space-y-4 shadow-sm">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 border-b">
-            <div><span class="text-gray-400 font-bold block mb-1">المسار الدراسي:</span><span class="font-extrabold text-primary text-sm">${student.track}</span></div>
-            <div><span class="text-gray-400 font-bold block mb-1">المعلم الموكل:</span><span class="font-extrabold text-gold-dark text-sm">${teacher ? teacher.name : 'لم يحدد بعد'}</span></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white p-4 rounded-2xl border shadow-sm space-y-2">
+            <p><strong class="text-primary">اسم الطالب:</strong> ${std.name}</p>
+            <p><strong class="text-primary">المسار الدراسي:</strong> ${std.track}</p>
+            <p><strong class="text-primary">المعلم الموكل:</strong> <span class="text-gold-dark font-bold">${teacherName}</span></p>
+            <p><strong class="text-primary">موعد الحصة المعتاد:</strong> ${std.sessionTime || 'لم يحدد'}</p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4 border-b text-center">
-            <div class="bg-sand p-3 rounded-xl border"><span class="text-gray-500 text-[11px] block">عدد الحصص الكلي</span><span class="font-black text-lg text-primary">${student.totalLessons || 8}</span></div>
-            <div class="bg-sand p-3 rounded-xl border"><span class="text-gray-500 text-[11px] block">حالة الحساب</span><span class="font-bold text-xs text-green-600 block mt-1">${student.accountStatus || 'نشط'}</span></div>
-            <div class="bg-sand p-3 rounded-xl border"><span class="text-gray-500 text-[11px] block">موعد الحصة القادمة</span><span class="font-bold text-xs text-gold-dark block mt-1">${student.lessonDate || 'لم يحدد بعد'}</span></div>
+          <div class="bg-white p-4 rounded-2xl border shadow-sm space-y-2">
+            <p><strong class="text-primary">حالة الدفع:</strong> <span class="font-bold">${std.paymentStatus}</span></p>
+            <p><strong class="text-primary">عدد الدفعات الموثقة:</strong> ${std.paymentsCount || 0}</p>
+            <p><strong class="text-primary">إجمالي الحصص بالمسار:</strong> ${std.totalSessions || 8}</p>
           </div>
+        </div>
 
-          <div class="space-y-3 pt-2">
-            <div><h5 class="font-bold text-primary text-xs mb-1"><i class="fas fa-tasks text-gold ml-1"></i>الإنجازات والتسميع:</h5><p class="bg-sand p-3 rounded-xl border text-gray-700 leading-relaxed">${student.progress || 'لا توجد ملاحظات إنجاز مسجلة بعد.'}</p></div>
-            <div><h5 class="font-bold text-primary text-xs mb-1"><i class="fas fa-comment-alt text-gold ml-1"></i>ملاحظات وتوجيهات المعلم:</h5><p class="bg-sand p-3 rounded-xl border text-gray-700 leading-relaxed">${student.notes || 'لا توجد ملاحظات مسجلة بعد.'}</p></div>
-            <div><h5 class="font-bold text-primary text-xs mb-1"><i class="fas fa-calendar-check text-gold ml-1"></i>سجل تواريخ الحصص المعطاة:</h5><p class="bg-sand p-3 rounded-xl border text-gray-700 font-mono">${student.completedDates || 'لم يتم توثيق حصص سابقة بعد.'}</p></div>
-          </div>
+        <div class="bg-white p-4 rounded-2xl border shadow-sm space-y-2">
+          <h5 class="font-bold text-primary text-sm border-b pb-2"><i class="fas fa-clipboard-list text-gold ml-1"></i> ملاحظات المعلم والإنجاز الشخصي</h5>
+          <p><strong class="text-primary">إنجازك بالحصة:</strong> ${std.progress || 'لا يوجد إنجاز مدون حالياً'}</p>
+          <p><strong class="text-primary">ملاحظات معلمك:</strong> ${std.notes || 'لا توجد ملاحظات'}</p>
+          <p><strong class="text-primary">تاريخ إعطاء الحصص:</strong> ${std.sessionHistory || 'لم تسجل تواريخ بعد'}</p>
         </div>
       `;
     }
