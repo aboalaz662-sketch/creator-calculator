@@ -2201,42 +2201,6 @@
         alert(`تم حفظ وتحديث بيانات الطالب (${student.name}) بنجاح! وستظهر فوراً في شاشته الخاصة.`);
       }
     }
-
-    // عرض بيانات وإنجازات الطالب في بوابته
-    function renderStudentDashboard() {
-      if (!loggedInStudent) return;
-      const card = document.getElementById('studentDetailsCard');
-      const welcome = document.getElementById('studentWelcome');
-      
-      // جلب أحدث نسخة للطالب من القاعدة
-      const currentStudent = studentsDB.find(s => s.id === loggedInStudent.id) || loggedInStudent;
-      const assignedTeacher = teachersDB.find(t => t.id === currentStudent.assignedTeacherId);
-
-      if (welcome) welcome.innerText = `أهلاً بك يا ${currentStudent.name}`;
-
-      if (!card) return;
-
-      card.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
-            <h5 class="font-bold text-primary decorated-title border-b pb-2"><i class="fas fa-info-circle text-gold ml-1"></i> معلومات المسار والتسجيل</h5>
-            <p><strong>المسار الدراسي:</strong> ${currentStudent.track}</p>
-            <p><strong>المعلم الموكل:</strong> ${assignedTeacher ? assignedTeacher.name + ' (' + assignedTeacher.role + ')' : 'قيد التعيين من قبل الإدارة'}</p>
-            <p><strong>العدد الكلي للحصص:</strong> ${currentStudent.totalSessions || 8} حصص</p>
-            <p><strong>حالة الدفع/الحساب:</strong> <span class="font-extrabold ${currentStudent.paymentStatus === 'مدفوع' ? 'text-green-600' : 'text-red-600'}">${currentStudent.paymentStatus || 'غير مدفوع'}</span></p>
-            <p><strong>عدد الدفعات المُسجلة:</strong> ${currentStudent.paymentsCount || 0}</p>
-          </div>
-
-          <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
-            <h5 class="font-bold text-primary decorated-title border-b pb-2"><i class="fas fa-calendar-alt text-gold ml-1"></i> مواعيد الحصص والإنجاز</h5>
-            <p><strong>تاريخ ووقت الحصة المعتاد:</strong> ${currentStudent.sessionTime || 'لم يحدد بعد'}</p>
-            <p><strong>إنجاز الطالب بالحصة:</strong> ${currentStudent.progress || 'لا يوجد إنجاز مسجل حتى الآن'}</p>
-            <p><strong>سجل تواريخ إعطاء الحصص:</strong> ${currentStudent.sessionHistory || 'لم يتم توثيق حصص بعد'}</p>
-            <p><strong>ملاحظات المعلم:</strong> ${currentStudent.notes || 'لا توجد ملاحظات جديدة'}</p>
-          </div>
-        </div>
-      `;
-    }
-  </script>
+ <script type="module" src="script.js?v=1.5"></script>
 </body>
 </html>
