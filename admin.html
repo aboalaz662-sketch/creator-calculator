@@ -16,10 +16,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Firebase App & Firestore SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
   <script>
     tailwind.config = {
       theme: {
@@ -52,6 +48,7 @@
       background-color: #F9F8F3;
       color: #2D3748;
     }
+    
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -62,11 +59,21 @@
       background: #C5A059;
       border-radius: 4px;
     }
+
     .decorated-title {
       font-family: 'Reem Kufi', sans-serif;
       letter-spacing: 0.5px;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
     }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px -6px rgba(13, 59, 46, 0.12);
+    }
+
     .dir-ltr {
       direction: ltr;
       text-align: right;
@@ -75,7 +82,7 @@
 </head>
 <body class="antialiased selection:bg-gold selection:text-white min-h-screen bg-sand">
 
-  <!-- HEADER / NAVBAR -->
+  <!-- ================= HEADER / NAVBAR ================= -->
   <header class="sticky top-0 z-40 bg-primary border-b border-gold/30 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
@@ -86,12 +93,12 @@
           </div>
           <div>
             <h1 class="font-extrabold text-lg text-white decorated-title">لوحة التحكم والإدارة النظامية</h1>
-            <p class="text-[10px] text-gold-light font-medium">أكاديمية إيلاف التعليمية (Firebase Powered)</p>
+            <p class="text-[10px] text-gold-light font-medium">أكاديمية إيلاف التعليمية</p>
           </div>
         </div>
 
         <div class="flex items-center gap-4">
-          <a href="index_5.html" class="bg-white/10 hover:bg-gold hover:text-primary text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 border border-white/10">
+          <a href="index.html" class="bg-white/10 hover:bg-gold hover:text-primary text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 border border-white/10">
             <i class="fas fa-home"></i>
             <span>العودة للرئيسية</span>
           </a>
@@ -105,7 +112,7 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT CONTAINER -->
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- LOGIN SCREEN VIEW -->
@@ -163,12 +170,14 @@
           <i class="fas fa-video text-gold"></i> الفيديو
         </button>
         <button id="tabImgBtn" onclick="switchAdminTab('img')" class="py-2.5 px-4 rounded-xl text-gray-500 hover:text-primary whitespace-nowrap flex items-center gap-2">
-          <i class="fas fa-image text-gold"></i> رأي صورة
+          <i class="fas fa-comment-image text-gold"></i> رأي صورة
         </button>
       </div>
 
       <!-- TAB 1: إدارة الطلبات والترحيل -->
       <div id="requestsSection" class="space-y-6">
+        
+        <!-- Search Bar -->
         <div class="bg-white p-5 rounded-2xl border border-gold/40 shadow-sm space-y-2">
           <label class="block text-xs font-extrabold text-primary flex items-center gap-2">
             <i class="fas fa-search text-gold text-sm"></i>
@@ -228,6 +237,7 @@
             </table>
           </div>
         </div>
+
       </div>
 
       <!-- TAB 2: إدارة التعليقات والآراء -->
@@ -396,33 +406,36 @@
 
   </main>
 
-  <!-- JAVASCRIPT LOGIC WITH FIREBASE INTEGRATION -->
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
-    // 1. إعدادات Firebase 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDWG6LUvXrx8IDKMQoTUWRVNhRiLhDEIY8",
-      authDomain: "elaf-academy.firebaseapp.com",
-      projectId: "elaf-academy",
-      storageBucket: "elaf-academy.firebasestorage.app",
-      messagingSenderId: "577219194497",
-      appId: "1:577219194497:web:de693b30933b577799a780"
-    };
+    const ADMIN_PASS = 'elaf2026'; // الرمز السري للوحة الأدمن
 
-    // تهيئة الفايربيس
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
+    let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
+    let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
+    let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
+    let threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
+
+    // تحديث وتنشيط البيانات تلقائياً من localStorage عند حدوث أي تعديل
+    function reloadAllData() {
+      studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
+      teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
+      reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
+      threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
+
+      renderAdminUnassigned();
+      renderAdminReviews();
+      renderAdminTeachers();
+      loadThreeImagesForm();
+      loadSavedInputs();
     }
-    const db = firebase.firestore();
-
-    const ADMIN_PASS = 'elaf2026';
-
-    let studentsDB = [];
-    let teachersDB = [];
-    let reviewsDB = [];
-    let siteSettings = {};
 
     window.addEventListener('DOMContentLoaded', () => {
       checkLoginSession();
+    });
+
+    // استماع للتغييرات في الـ localStorage لربط التعديل فوريًا بين أدمن والصفحة الرئيسية
+    window.addEventListener('storage', () => {
+      reloadAllData();
     });
 
     function verifyPassword() {
@@ -450,48 +463,7 @@
       document.getElementById('adminLoginView').classList.add('hidden');
       document.getElementById('adminContentView').classList.remove('hidden');
       document.getElementById('logoutBtn').classList.remove('hidden');
-      
-      // بدء الاستماع المباشر للتغييرات في Firebase Firestore
-      listenToFirebase();
-    }
-
-    // ربط الاستماع المباشر لقواعد البيانات بـ Firestore
-    function listenToFirebase() {
-      // 1. الاستماع للطلاب
-      db.collection('students').onSnapshot(snapshot => {
-        studentsDB = [];
-        snapshot.forEach(doc => {
-          studentsDB.push({ id: doc.id, ...doc.data() });
-        });
-        renderAdminUnassigned();
-      });
-
-      // 2. الاستماع للمعلمين
-      db.collection('teachers').onSnapshot(snapshot => {
-        teachersDB = [];
-        snapshot.forEach(doc => {
-          teachersDB.push({ id: doc.id, ...doc.data() });
-        });
-        renderAdminTeachers();
-        renderAdminUnassigned(); // لإعادة تحديث الخيارات المتاحة
-      });
-
-      // 3. الاستماع للتعليقات
-      db.collection('reviews').onSnapshot(snapshot => {
-        reviewsDB = [];
-        snapshot.forEach(doc => {
-          reviewsDB.push({ id: doc.id, ...doc.data() });
-        });
-        renderAdminReviews();
-      });
-
-      // 4. الاستماع لإعدادات الموقع العامة
-      db.collection('site_settings').doc('general').onSnapshot(doc => {
-        if (doc.exists) {
-          siteSettings = doc.data();
-          loadSettingsToForm();
-        }
-      });
+      reloadAllData();
     }
 
     // التنقل بين تبويبات الإدارة
@@ -521,10 +493,34 @@
         }
       });
 
-      const selectedTabBtn = document.getElementById(btnMap[tab]);
-      const selectedSection = document.getElementById(tab + 'Section');
-      if(selectedSection) selectedSection.classList.remove('hidden');
-      if(selectedTabBtn) selectedTabBtn.className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      if(tab === 'requests') {
+        document.getElementById('requestsSection').classList.remove('hidden');
+        document.getElementById('tabRequestsBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'reviews') {
+        document.getElementById('reviewsSection').classList.remove('hidden');
+        document.getElementById('tabReviewsBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'teacher') {
+        document.getElementById('teacherSection').classList.remove('hidden');
+        document.getElementById('tabTeacherBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'threeImgs') {
+        document.getElementById('threeImgsSection').classList.remove('hidden');
+        document.getElementById('tabThreeImgsBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'paypal') {
+        document.getElementById('paypalSection').classList.remove('hidden');
+        document.getElementById('tabPaypalBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'logo') {
+        document.getElementById('logoSection').classList.remove('hidden');
+        document.getElementById('tabLogoBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'founder') {
+        document.getElementById('founderSection').classList.remove('hidden');
+        document.getElementById('tabFounderBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'vid') {
+        document.getElementById('vidSection').classList.remove('hidden');
+        document.getElementById('tabVidBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      } else if(tab === 'img') {
+        document.getElementById('imgSection').classList.remove('hidden');
+        document.getElementById('tabImgBtn').className = "py-2.5 px-4 rounded-xl border-b-2 border-gold text-primary bg-gold/10 whitespace-nowrap flex items-center gap-2";
+      }
     }
 
     // عرض وإدارة الطلاب والطلبات
@@ -533,13 +529,11 @@
       const approvedTbody = document.getElementById('approvedStudentsTable');
       const searchVal = (document.getElementById('adminSearchInput')?.value || '').trim().toLowerCase();
 
-      if(!pendingTbody || !approvedTbody) return;
-
       pendingTbody.innerHTML = '';
       approvedTbody.innerHTML = '';
 
-      const pendingList = studentsDB.filter(s => s.status === 'pending' && ((s.name && s.name.toLowerCase().includes(searchVal)) || (s.phone && s.phone.includes(searchVal))));
-      const approvedList = studentsDB.filter(s => s.status === 'approved' && ((s.name && s.name.toLowerCase().includes(searchVal)) || (s.phone && s.phone.includes(searchVal))));
+      const pendingList = studentsDB.filter(s => s.status === 'pending' && (s.name.toLowerCase().includes(searchVal) || s.phone.includes(searchVal)));
+      const approvedList = studentsDB.filter(s => s.status === 'approved' && (s.name.toLowerCase().includes(searchVal) || s.phone.includes(searchVal)));
 
       document.getElementById('pendingCountBadge').innerText = `${pendingList.length} طلبات`;
 
@@ -552,9 +546,9 @@
           tr.className = 'border-b hover:bg-amber-50/50';
           tr.innerHTML = `
             <td class="p-3 border text-center font-bold">${idx + 1}</td>
-            <td class="p-3 border font-bold text-primary">${std.name || ''}</td>
-            <td class="p-3 border font-mono dir-ltr text-right">${std.phone || ''}</td>
-            <td class="p-3 border text-[11px]">${std.track || ''}</td>
+            <td class="p-3 border font-bold text-primary">${std.name}</td>
+            <td class="p-3 border font-mono dir-ltr text-right">${std.phone}</td>
+            <td class="p-3 border text-[11px]">${std.track}</td>
             <td class="p-3 border"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">قيد المراجعة</span></td>
             <td class="p-3 border text-center space-x-2 space-x-reverse">
               <button onclick="approveStudent('${std.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1 rounded text-xs transition"><i class="fas fa-check ml-1"></i>قبول</button>
@@ -581,9 +575,9 @@
 
           tr.innerHTML = `
             <td class="p-3 border text-center font-bold">${idx + 1}</td>
-            <td class="p-3 border font-bold text-primary">${std.name || ''}</td>
-            <td class="p-3 border font-mono dir-ltr text-right">${std.phone || ''}</td>
-            <td class="p-3 border text-[11px]">${std.track || ''}</td>
+            <td class="p-3 border font-bold text-primary">${std.name}</td>
+            <td class="p-3 border font-mono dir-ltr text-right">${std.phone}</td>
+            <td class="p-3 border text-[11px]">${std.track}</td>
             <td class="p-3 border">
               <input type="text" id="adminAccStatus_${std.id}" value="${std.accountStatus || ''}" placeholder="مدفوع / غير مدفوع" class="w-full border rounded px-2 py-1 text-xs">
             </td>
@@ -606,35 +600,41 @@
     }
 
     function approveStudent(id) {
-      db.collection('students').doc(id).update({
-        status: 'approved',
-        accountStatus: 'مقبول / بانتظار التحديد'
-      });
+      const std = studentsDB.find(s => s.id === id);
+      if (std) {
+        std.status = 'approved';
+        std.accountStatus = 'مقبول / بانتظار التحديد';
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        reloadAllData();
+      }
     }
 
     function rejectStudent(id) {
       if(confirm('هل أنت تأكد من رفض هذا الطلب وحذفه نهائياً؟')) {
-        db.collection('students').doc(id).delete();
+        studentsDB = studentsDB.filter(s => s.id !== id);
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        reloadAllData();
       }
     }
 
     function saveStudentAdminChanges(id) {
-      const accountStatus = document.getElementById(`adminAccStatus_${id}`).value;
-      const paymentsCount = parseInt(document.getElementById(`adminPayCount_${id}`).value) || 0;
-      const assignedTeacherId = document.getElementById(`adminTeacherSelect_${id}`).value;
+      const std = studentsDB.find(s => s.id === id);
+      if (std) {
+        std.accountStatus = document.getElementById(`adminAccStatus_${id}`).value;
+        std.paymentsCount = parseInt(document.getElementById(`adminPayCount_${id}`).value) || 0;
+        std.assignedTeacherId = document.getElementById(`adminTeacherSelect_${id}`).value;
 
-      db.collection('students').doc(id).update({
-        accountStatus,
-        paymentsCount,
-        assignedTeacherId
-      }).then(() => {
-        alert('تم حفظ البيانات وترحيل الطالب للمعلم بنجاح على الفايربيس!');
-      });
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        alert('تم حفظ البيانات وترحيل الطالب للمعلم بنجاح!');
+        reloadAllData();
+      }
     }
 
     function deleteStudent(id) {
       if(confirm('هل أنت أثق برغبتك في حذف هذا الطالب بشكل كامل؟')) {
-        db.collection('students').doc(id).delete();
+        studentsDB = studentsDB.filter(s => s.id !== id);
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        reloadAllData();
       }
     }
 
@@ -657,11 +657,11 @@
 
         let content = rev.type === 'image' 
           ? `<img src="${rev.img}" class="w-16 h-12 object-cover rounded border">` 
-          : `<span class="text-gray-700">${rev.text || ''}</span>`;
+          : `<span class="text-gray-700">${rev.text}</span>`;
 
         tr.innerHTML = `
           <td class="p-3 border text-center font-bold">${idx + 1}</td>
-          <td class="p-3 border font-bold text-primary">${rev.author || rev.name || ''}</td>
+          <td class="p-3 border font-bold text-primary">${rev.author}</td>
           <td class="p-3 border"><span class="bg-gold/20 text-primary font-bold px-2 py-0.5 rounded text-[10px]">${rev.type === 'image' ? 'رأي صورة' : 'تعليق نصي'}</span></td>
           <td class="p-3 border">${content}</td>
           <td class="p-3 border text-center">
@@ -674,7 +674,9 @@
 
     function deleteReview(id) {
       if (confirm('هل أنت متاكد من حذف هذا التعليق؟')) {
-        db.collection('reviews').doc(id).delete();
+        reviewsDB = reviewsDB.filter(r => r.id !== id);
+        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+        reloadAllData();
       }
     }
 
@@ -687,18 +689,21 @@
         return;
       }
 
-      db.collection('reviews').add({
+      const newRev = {
+        id: 'rev-' + Date.now(),
         author: author,
-        name: author,
         img: imgUrl,
         type: 'image',
-        rating: 5,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      }).then(() => {
-        document.getElementById('imgRevAuthor').value = '';
-        document.getElementById('imgRevUrl').value = '';
-        alert('تم إضافة الرأي المصور بنجاح في قاعدة البيانات!');
-      });
+        rating: 5
+      };
+
+      reviewsDB.unshift(newRev);
+      localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+
+      document.getElementById('imgRevAuthor').value = '';
+      document.getElementById('imgRevUrl').value = '';
+      alert('تم إضافة الرأي المصور بنجاح وسيظهر فوراً بالصفحة الرئيسية!');
+      reloadAllData();
     }
 
     // إدارة المعلمين
@@ -714,18 +719,18 @@
           <td class="p-3 border text-center font-bold">${idx + 1}</td>
           <td class="p-3 border font-bold text-primary flex items-center gap-2">
             <img src="${t.img || 'https://via.placeholder.com/40'}" class="w-8 h-8 rounded-full object-cover">
-            <span>${t.name || ''}</span>
+            <span>${t.name}</span>
           </td>
-          <td class="p-3 border">${t.role || ''}</td>
-          <td class="p-3 border font-mono">${t.userAuth || ''}</td>
-          <td class="p-3 border font-mono">${t.passAuth || ''}</td>
+          <td class="p-3 border">${t.role}</td>
+          <td class="p-3 border font-mono">${t.userAuth}</td>
+          <td class="p-3 border font-mono">${t.passAuth}</td>
           <td class="p-3 border text-center">
             <span class="${t.isBlocked ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'} font-bold px-2.5 py-1 rounded text-[10px]">
               ${t.isBlocked ? 'معطل' : 'نشط'}
             </span>
           </td>
           <td class="p-3 border text-center space-x-2 space-x-reverse">
-            <button onclick="toggleTeacherBlock('${t.id}', ${t.isBlocked})" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-1 rounded text-xs transition">${t.isBlocked ? 'تفعيل' : 'تعطيل'}</button>
+            <button onclick="toggleTeacherBlock('${t.id}')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-3 py-1 rounded text-xs transition">${t.isBlocked ? 'تفعيل' : 'تعطيل'}</button>
             <button onclick="deleteTeacher('${t.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2 py-1 rounded text-xs transition"><i class="fas fa-trash"></i></button>
           </td>
         `;
@@ -741,54 +746,54 @@
       const passAuth = document.getElementById('teacherPassAuthInput').value.trim();
       const img = document.getElementById('teacherImgInput').value.trim();
 
-      db.collection('teachers').add({
+      const newTeacher = {
+        id: 'tech-' + Date.now(),
         name,
         role,
         userAuth,
         passAuth,
         img: img || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
         isBlocked: false
-      }).then(() => {
-        alert('تم توليد حساب المعلم بنجاح على الفايربيس!');
-        e.target.reset();
-      });
+      };
+
+      teachersDB.push(newTeacher);
+      localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+      alert('تم توليد حساب المعلم بنجاح!');
+      e.target.reset();
+      reloadAllData();
     }
 
-    function toggleTeacherBlock(id, currentStatus) {
-      db.collection('teachers').doc(id).update({
-        isBlocked: !currentStatus
-      });
+    function toggleTeacherBlock(id) {
+      const t = teachersDB.find(tech => tech.id === id);
+      if (t) {
+        t.isBlocked = !t.isBlocked;
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        reloadAllData();
+      }
     }
 
     function deleteTeacher(id) {
       if (confirm('هل أنت أثق برغبتك في حذف هذا المعلم؟')) {
-        db.collection('teachers').doc(id).delete();
+        teachersDB = teachersDB.filter(t => t.id !== id);
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        reloadAllData();
       }
     }
 
-    // إعدادات الموقع العامة (الحافظين، اللوجو، بايبال، المؤسس، الفيديو)
-    function loadSettingsToForm() {
-      if (siteSettings.threeImages) {
-        if(document.getElementById('name1Input')) document.getElementById('name1Input').value = siteSettings.threeImages.name1 || '';
-        if(document.getElementById('img1Input')) document.getElementById('img1Input').value = siteSettings.threeImages.img1 || '';
-        if(document.getElementById('name2Input')) document.getElementById('name2Input').value = siteSettings.threeImages.name2 || '';
-        if(document.getElementById('img2Input')) document.getElementById('img2Input').value = siteSettings.threeImages.img2 || '';
-        if(document.getElementById('name3Input')) document.getElementById('name3Input').value = siteSettings.threeImages.name3 || '';
-        if(document.getElementById('img3Input')) document.getElementById('img3Input').value = siteSettings.threeImages.img3 || '';
-      }
-      if(document.getElementById('paypalImgInput')) document.getElementById('paypalImgInput').value = siteSettings.paypalImg || '';
-      if(document.getElementById('logoUrlInput')) document.getElementById('logoUrlInput').value = siteSettings.logoUrl || '';
-      if(document.getElementById('videoUrlInput')) document.getElementById('videoUrlInput').value = siteSettings.videoUrl || '';
-
-      if (siteSettings.founder) {
-        if(document.getElementById('founderNameInput')) document.getElementById('founderNameInput').value = siteSettings.founder.name || '';
-        if(document.getElementById('founderRoleInput')) document.getElementById('founderRoleInput').value = siteSettings.founder.role || '';
-        if(document.getElementById('founderImgInput')) document.getElementById('founderImgInput').value = siteSettings.founder.img || '';
+    // منصة الحافظين
+    function loadThreeImagesForm() {
+      if (threeImgsDB) {
+        if(document.getElementById('name1Input')) document.getElementById('name1Input').value = threeImgsDB.name1 || '';
+        if(document.getElementById('img1Input')) document.getElementById('img1Input').value = threeImgsDB.img1 || '';
+        if(document.getElementById('name2Input')) document.getElementById('name2Input').value = threeImgsDB.name2 || '';
+        if(document.getElementById('img2Input')) document.getElementById('img2Input').value = threeImgsDB.img2 || '';
+        if(document.getElementById('name3Input')) document.getElementById('name3Input').value = threeImgsDB.name3 || '';
+        if(document.getElementById('img3Input')) document.getElementById('img3Input').value = threeImgsDB.img3 || '';
       }
     }
 
     function saveThreeImages() {
-      const threeImages = {
+      threeImgsDB = {
         name1: document.getElementById('name1Input').value.trim(),
         img1: document.getElementById('img1Input').value.trim(),
         name2: document.getElementById('name2Input').value.trim(),
@@ -797,23 +802,35 @@
         img3: document.getElementById('img3Input').value.trim()
       };
 
-      db.collection('site_settings').doc('general').set({ threeImages }, { merge: true }).then(() => {
-        alert('تم تحديث منصة الشرف والحافظين بنجاح!');
-      });
+      localStorage.setItem('elaf_three_images', JSON.stringify(threeImgsDB));
+      alert('تم تحديث منصة الشرف والحافظين بنجاح!');
+      reloadAllData();
+    }
+
+    // حفظ واستدعاء الإعدادات الأخرى
+    function loadSavedInputs() {
+      if(document.getElementById('paypalImgInput')) document.getElementById('paypalImgInput').value = localStorage.getItem('elaf_saved_paypal') || '';
+      if(document.getElementById('logoUrlInput')) document.getElementById('logoUrlInput').value = localStorage.getItem('elaf_saved_logo') || '';
+      if(document.getElementById('videoUrlInput')) document.getElementById('videoUrlInput').value = localStorage.getItem('elaf_saved_video_url') || '';
+
+      const founder = JSON.parse(localStorage.getItem('elaf_saved_founder') || '{}');
+      if(document.getElementById('founderNameInput')) document.getElementById('founderNameInput').value = founder.name || '';
+      if(document.getElementById('founderRoleInput')) document.getElementById('founderRoleInput').value = founder.role || '';
+      if(document.getElementById('founderImgInput')) document.getElementById('founderImgInput').value = founder.img || '';
     }
 
     function savePaypalImg() {
-      const paypalImg = document.getElementById('paypalImgInput').value.trim();
-      db.collection('site_settings').doc('general').set({ paypalImg }, { merge: true }).then(() => {
-        alert('تم حفظ صورة بايبال بنجاح!');
-      });
+      const url = document.getElementById('paypalImgInput').value.trim();
+      localStorage.setItem('elaf_saved_paypal', url);
+      alert('تم حفظ صورة بايبال بنجاح!');
+      reloadAllData();
     }
 
     function saveLogoUrl() {
-      const logoUrl = document.getElementById('logoUrlInput').value.trim();
-      db.collection('site_settings').doc('general').set({ logoUrl }, { merge: true }).then(() => {
-        alert('تم تحديث شعار الأكاديمية بنجاح!');
-      });
+      const url = document.getElementById('logoUrlInput').value.trim();
+      localStorage.setItem('elaf_saved_logo', url);
+      alert('تم تحديث شعار الأكاديمية بنجاح!');
+      reloadAllData();
     }
 
     function saveFounderDetails() {
@@ -822,16 +839,16 @@
         role: document.getElementById('founderRoleInput').value.trim(),
         img: document.getElementById('founderImgInput').value.trim()
       };
-      db.collection('site_settings').doc('general').set({ founder }, { merge: true }).then(() => {
-        alert('تم حفظ بيانات المؤسس بنجاح!');
-      });
+      localStorage.setItem('elaf_saved_founder', JSON.stringify(founder));
+      alert('تم حفظ بيانات المؤسس بنجاح!');
+      reloadAllData();
     }
 
     function saveVideoUrl() {
-      const videoUrl = document.getElementById('videoUrlInput').value.trim();
-      db.collection('site_settings').doc('general').set({ videoUrl }, { merge: true }).then(() => {
-        alert('تم تحديث رابط الفيديو بنجاح على الفايربيس!');
-      });
+      const url = document.getElementById('videoUrlInput').value.trim();
+      localStorage.setItem('elaf_saved_video_url', url);
+      alert('تم تحديث رابط الفيديو بنجاح! وسيعمل المولد تلقائياً مع روابط اليوتيوب بالصفحة الرئيسية.');
+      reloadAllData();
     }
   </script>
 </body>
