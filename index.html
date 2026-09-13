@@ -136,6 +136,7 @@
           <button onclick="toggleSidebarNav()" class="bg-gold hover:bg-gold-dark text-primary font-black px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-all flex items-center gap-2 shadow-md relative">
             <i class="fas fa-cog text-base"></i>
             <span>لوحة النظام</span>
+            <span id="pendingBadgeHeader" class="hidden absolute -top-2 -right-2 bg-red-600 text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-primary">0</span>
           </button>
 
           <nav class="hidden md:flex items-center gap-5 font-bold text-sm text-gray-200">
@@ -157,7 +158,7 @@
             <h1 class="font-extrabold text-xl text-white tracking-wide decorated-title"><span class="gold-gradient-text"> أكاديمية إيلاف التعليمية</span></h1>
             <p class="text-[10px] text-gold-light font-medium tracking-wider">للتلاوة والتجويد والعلوم القرآنية</p>
           </div>
-          <div class="relative group">
+          <div class="relative group cursor-pointer" onclick="openAdminModal()">
             <div id="logoContainer" class="w-12 h-12 bg-gold/10 border border-gold/40 rounded-2xl flex items-center justify-center overflow-hidden transition group-hover:scale-105 logo-glow">
               <span id="logoText" class="text-gold font-black text-2xl decorated-title">إ</span>
               <img id="logoImg" src="" alt="شعار أكاديمية إيلاف التعليمية" class="w-full h-full object-cover hidden">
@@ -185,6 +186,14 @@
       <p class="text-xs text-gray-300 mb-4 font-normal">اختر الشاشة أو اللوحة التي ترغب بالانتقال إليها:</p>
 
       <div class="space-y-3">
+        <button onclick="openSystemPanel('admin')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5 relative">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-user-shield text-gold"></i>
+            <span>صفحة الإدارة والتحكم</span>
+          </div>
+          <span id="pendingBadgeSidebar" class="hidden bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-extrabold">0</span>
+        </button>
+
         <button onclick="openSystemPanel('teacher')" class="w-full text-right bg-white/10 hover:bg-gold hover:text-primary text-xs font-bold p-3 rounded-xl transition flex items-center justify-between border border-white/5">
           <div class="flex items-center gap-3">
             <i class="fas fa-chalkboard-teacher text-gold"></i>
@@ -204,7 +213,7 @@
     </div>
 
     <div class="border-t border-gold/20 pt-4 text-center">
-      <span class="text-[10px] text-gold-light"> أكاديمية إيلاف التعليمية</span>
+      <span class="text-[10px] text-gold-light"> أكاديمية إيلاف التعليمية - نظام الإدارة والتحكم</span>
     </div>
   </div>
 
@@ -258,7 +267,7 @@
 
         <div class="lg:col-span-5">
           <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden border-2 border-gold/40 shadow-2xl bg-primary-dark/80 p-2 img-glow">
-            <div id="videoContainer" class="relative rounded-2xl overflow-hidden aspect-video bg-black/50 flex items-center justify-center group min-h-[250px] sm:min-h-[300px]">
+            <div id="videoContainer" class="relative rounded-2xl overflow-hidden aspect-video bg-black/50 flex items-center justify-center group">
               <video id="mainVideoPlayer" controls class="w-full h-full min-h-[250px] sm:min-h-[300px] object-cover rounded-2xl">
                 <source id="mainVideoSource" src="assets/video.mp4" type="video/mp4">
                 متصفحك لا يدعم تشغيل الفيديو.
@@ -699,6 +708,7 @@
       <div class="text-center max-w-3xl mx-auto mb-16">
         <h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">الكادر التعليمي</h2>
         <h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">نخبة من المعلمين والمعلمات المجازين</h3>
+        <p class="text-xs text-gray-500 mt-2">يمكن للإدارة إضافة وإدارة أو حذف وإيقاف المعلمين من لوحة التحكم</p>
         <div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div>
       </div>
 
@@ -717,20 +727,26 @@
 
       <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
+      <div id="show-more-container" class="text-center mt-12 hidden">
+        <button onclick="showAllTestimonials()" class="bg-primary hover:bg-primary-light text-white font-bold px-8 py-3 rounded-xl text-xs transition shadow-md">
+          عرض المزيد من الآراء
+        </button>
+      </div>
+
       <!-- نموذج إضافة رأي جديد -->
       <div class="mt-16 bg-white p-6 sm:p-8 rounded-3xl border border-gold/30 shadow-lg max-w-2xl mx-auto">
         <h4 class="font-black text-lg text-primary mb-2 text-center decorated-title"><i class="fas fa-comment-dots text-gold ml-2"></i>أضف رأيك وانطباعك بالأكاديمية</h4>
         <p class="text-xs text-gray-500 text-center mb-6">نعتز برأيكم ويسعدنا مشاركة تجربتكم معنا لتشجيع الطلاب الجدد</p>
         
-        <form id="publicReviewForm" class="space-y-4">
+        <form onsubmit="handlePublicAddReview(event)" class="space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold text-gray-700 mb-1">الاسم / ولي الأمر</label>
-              <input type="text" id="reviewer-name" required placeholder="أدخل اسمك أو صفتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
+              <input type="text" id="publicReviewAuthor" required placeholder="أدخل اسمك أو صفتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
             </div>
             <div>
               <label class="block text-xs font-bold text-gray-700 mb-1">التقييم</label>
-              <select id="reviewer-rating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
+              <select id="publicReviewRating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
                 <option value="5">⭐⭐⭐⭐⭐ (5/5 ممتاز)</option>
                 <option value="4">⭐⭐⭐⭐ (4/5 جيد جداً)</option>
                 <option value="3">⭐⭐⭐ (3/5 جيد)</option>
@@ -739,9 +755,9 @@
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-700 mb-1">انطباعك أو تعليقك</label>
-            <textarea id="reviewer-text" rows="3" required placeholder="اكتب رأيك وتجربتك مع أكاديمية إيلاف التعليمية..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none resize-none"></textarea>
+            <textarea id="publicReviewText" rows="3" required placeholder="اكتب رأيك وتجربتك مع أكاديمية إيلاف التعليمية..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none resize-none"></textarea>
           </div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md btn-submit">
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">
             نشر الرأي فوراً
           </button>
         </form>
@@ -755,7 +771,7 @@
       <div class="bg-sand rounded-3xl border border-gold/30 p-8 sm:p-12 shadow-xl relative">
         <div class="text-center mb-8">
           <h3 class="text-2xl font-black text-primary decorated-title">تسجيل طالب جديد وإنشاء حساب</h3>
-          <p class="text-xs text-gray-600 mt-2">سجل بياناتك وسيتم إرسال طلبك للإدارة للموافقة عليه ثم ترحيلك للمعلم المناسب</p>
+          <p class="text-xs text-gray-600 mt-2">سجل بياناتك وسيتم إرسال طلبك للرئيس/الإدارة للموافقة عليه ثم ترحيلك للمعلم المناسب</p>
         </div>
 
         <form onsubmit="handleStudentSelfRegister(event)" class="space-y-5">
@@ -933,113 +949,254 @@
     </div>
   </div>
 
-  <!-- ================= FIREBASE REALTIME SCRIPT ================= -->
-  <script type="module">
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { app } from "./firebase.js";
-
-    const db = getFirestore(app);
-    const reviewsRef = collection(db, "reviews");
-
-    function escapeHTML(str) {
-      return String(str).replace(/[&<>"']/g, function (m) {
-        return {
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#039;'
-        }[m];
-      });
-    }
-
-    // نشر رأي جديد وإرساله مباشرة إلى Firebase
-    const reviewForm = document.getElementById("publicReviewForm");
-    if (reviewForm) {
-      reviewForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const nameInput = document.getElementById("reviewer-name");
-        const ratingSelect = document.getElementById("reviewer-rating");
-        const textInput = document.getElementById("reviewer-text");
-        const submitBtn = reviewForm.querySelector("button[type='submit']");
-
-        const name = nameInput.value.trim();
-        const text = textInput.value.trim();
-        const rating = parseInt(ratingSelect.value) || 5;
-
-        if (!name || !text) return;
-
-        if (submitBtn) submitBtn.disabled = true;
-
-        try {
-          await addDoc(reviewsRef, {
-            name: name,
-            rating: rating,
-            text: text,
-            createdAt: serverTimestamp()
-          });
-
-          nameInput.value = "";
-          textInput.value = "";
-          alert("شكراً لك! تم نشر رأيك بنجاح وظهر لجميع الزوار.");
-        } catch (error) {
-          console.error("خطأ في حفظ الرأي:", error);
-          alert("حدث خطأ أثناء نشر الرأي. يرجى التأكد من إعدادات الفايربيس.");
-        } finally {
-          if (submitBtn) submitBtn.disabled = false;
-        }
-      });
-    }
-
-    // جلب واستماع الآراء لحظياً من Firebase Firestore
-    const q = query(reviewsRef, orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
-      const grid = document.getElementById("testimonials-grid");
-      if (!grid) return;
-
-      grid.innerHTML = "";
-
-      if (snapshot.empty) {
-        grid.innerHTML = '<p class="col-span-full text-center text-gray-400 text-xs py-8">لا توجد آراء حالياً. كن أول من يشارك رأيه!</p>';
-        return;
-      }
-
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        const safeName = escapeHTML(data.name || "زائر");
-        const safeText = escapeHTML(data.text || "");
-        const safeRating = Math.min(Math.max(parseInt(data.rating) || 5, 1), 5);
-        const stars = '⭐'.repeat(safeRating);
-
-        const card = document.createElement('div');
-        card.className = 'bg-white p-6 rounded-3xl border border-gold/30 shadow-sm card-hover flex flex-col justify-between relative';
-        card.innerHTML = `
+  <!-- ================= ADMIN MODAL PANEL ================= -->
+  <div id="adminModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl border border-gray-100 relative">
+      
+      <div id="adminLoginView" class="p-8">
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+          <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-lock text-gold"></i> دخول لوحة الإدارة</h3>
+          <button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="space-y-5">
           <div>
-            <div class="flex justify-between items-center mb-3">
-              <span class="text-gold text-xs">${stars}</span>
-              <span class="text-[10px] text-gray-400"><i class="fas fa-check-circle text-green-500 ml-1"></i>رأي موثق</span>
+            <label class="block text-xs font-bold text-gray-700 mb-2">أدخل الرقم السري للإدارة</label>
+            <input type="password" id="adminPassword" placeholder="••••••••" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none">
+            <p id="passwordError" class="text-red-500 text-xs font-bold mt-2 hidden">الرقم السري غير صحيح!</p>
+          </div>
+          <button onclick="verifyPassword()" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3 rounded-xl transition text-xs shadow-lg">تسجيل الدخول</button>
+        </div>
+      </div>
+
+      <div id="adminContentView" class="p-6 sm:p-8 hidden max-h-[85vh] overflow-y-auto">
+        <div class="flex justify-between items-center border-b pb-4 mb-4">
+          <h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-sliders-h text-gold"></i> لوحة التحكم وإدارة النظام</h3>
+          <button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1">
+          <button id="tabRequestsBtn" onclick="switchAdminTab('requests')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap flex items-center gap-1.5">
+            <i class="fas fa-tasks text-gold"></i> إدارة الطلبات والترحيل
+          </button>
+          <button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">إدارة وتوليد المعلمين</button>
+          <button id="tabThreeImgsBtn" onclick="switchAdminTab('threeImgs')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-images text-gold ml-1"></i> إدارة الحافظين (1-2-3)</button>
+          <button id="tabPaypalBtn" onclick="switchAdminTab('paypal')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fab fa-paypal text-gold ml-1"></i> صورة بايبال</button>
+          <button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">اللوجو</button>
+          <button id="tabFounderBtn" onclick="switchAdminTab('founder')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المؤسس</button>
+          <button id="tabVidBtn" onclick="switchAdminTab('vid')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">الفيديو</button>
+          <button id="tabImgBtn" onclick="switchAdminTab('img')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">رأي صورة</button>
+        </div>
+
+        <!-- TAB 1: إدارة الطلبات والترحيل -->
+        <div id="requestsSection" class="space-y-8">
+          <div class="bg-sand p-4 rounded-2xl border border-gold/40 shadow-sm space-y-2">
+            <label class="block text-xs font-extrabold text-primary flex items-center gap-2">
+              <i class="fas fa-search text-gold text-sm"></i>
+              <span>البحث الشامل بالسجل (بالاسم أو الرقم):</span>
+            </label>
+            <div class="relative">
+              <input type="text" id="adminSearchInput" oninput="renderAdminUnassigned()" placeholder="اكتب اسم الطالب أو رقم الهاتف للبحث الفوري..." class="w-full border-2 border-gold/30 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none bg-white shadow-inner pl-10">
+              <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
             </div>
-            <p class="text-xs text-gray-600 leading-relaxed mb-4">"${safeText}"</p>
           </div>
-          <div class="border-t border-gray-100 pt-3 mt-2 flex justify-between items-center">
-            <h5 class="font-bold text-xs text-primary decorated-title">${safeName}</h5>
+
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="font-bold text-xs sm:text-sm text-amber-700 flex items-center gap-2">
+                <i class="fas fa-clock"></i> طلبات التسجيل الجديدة المعلقة
+              </h4>
+              <span id="pendingCountBadge" class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold">0 طلبات</span>
+            </div>
+            <div class="overflow-x-auto border border-amber-200 rounded-xl bg-amber-50/30">
+              <table class="w-full text-right text-xs border-collapse">
+                <thead>
+                  <tr class="bg-amber-600 text-white">
+                    <th class="p-3 border border-amber-700 text-center w-10">م</th>
+                    <th class="p-3 border border-amber-700">اسم الطالب</th>
+                    <th class="p-3 border border-amber-700">الهاتف</th>
+                    <th class="p-3 border border-amber-700">المسار المطلوب</th>
+                    <th class="p-3 border border-amber-700">الحالة</th>
+                    <th class="p-3 border border-amber-700 text-center">قرار صاحب الأكاديمية</th>
+                  </tr>
+                </thead>
+                <tbody id="pendingRequestsTable"></tbody>
+              </table>
+            </div>
           </div>
-        `;
-        grid.appendChild(card);
-      });
-    }, (error) => {
-      console.error("خطأ في جلب الآراء من الفايربيس:", error);
-    });
-  </script>
+
+          <div class="space-y-3">
+            <h4 class="font-bold text-xs sm:text-sm text-primary flex items-center gap-2">
+              <i class="fas fa-user-check text-green-600"></i> الطلاب المقبولون (تحديد المعلم، حالة الحساب والترحيل)
+            </h4>
+            <div class="overflow-x-auto border rounded-xl">
+              <table class="w-full text-right text-xs border-collapse">
+                <thead>
+                  <tr class="bg-primary text-white">
+                    <th class="p-3 border text-center w-10">م</th>
+                    <th class="p-3 border">اسم الطالب</th>
+                    <th class="p-3 border">الهاتف</th>
+                    <th class="p-3 border">المسار</th>
+                    <th class="p-3 border min-w-[130px]">حالة الحساب / الدفع</th>
+                    <th class="p-3 border w-24 text-center">عدد الدفعات</th>
+                    <th class="p-3 border">ترحيل للمعلم</th>
+                    <th class="p-3 border text-center">الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="approvedStudentsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: إدارة المعلمين -->
+        <div id="addTeacherForm" class="space-y-6 hidden">
+          <form onsubmit="handleAddTeacher(event)" class="space-y-4 bg-sand p-4 rounded-2xl border border-gold/30">
+            <h4 class="font-bold text-sm text-primary flex items-center gap-2"><i class="fas fa-user-plus text-gold"></i> إضافة معلم جديد</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المعلم / المعلمة</label><input type="text" id="teacherNameInput" required class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">التخصص</label><input type="text" id="teacherRoleInput" required class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المستخدم للدخول</label><input type="text" id="teacherUserAuthInput" required placeholder="مثال: teacher1" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label><input type="password" id="teacherPassAuthInput" required placeholder="••••••••" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+            </div>
+            <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة المعلم</label><input type="file" id="teacherFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-white"></div>
+            <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="teacherUrlInput" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+            <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-2.5 rounded-xl transition text-xs shadow-md">إضافة المعلم وتوليد حسابه</button>
+          </form>
+
+          <div class="space-y-3">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <h4 class="font-bold text-xs sm:text-sm text-primary flex items-center gap-2"><i class="fas fa-users-cog text-gold"></i> التحكم بالحسابات المعلمين المتاحة</h4>
+              <!-- خانة البحث عند إدارة وتوليد المعلمين -->
+              <div class="relative w-full sm:w-64">
+                <input type="text" id="teacherSearchInput" oninput="renderAdminTeachers()" placeholder="بحث باسم المعلم أو اسم المستخدم..." class="w-full border border-gold/40 rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-white pl-8">
+                <i class="fas fa-search absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+              </div>
+            </div>
+            <div class="overflow-x-auto border rounded-xl">
+              <table class="w-full text-right text-xs border-collapse">
+                <thead>
+                  <tr class="bg-primary text-white">
+                    <th class="p-2.5 border text-center w-10">م</th>
+                    <th class="p-2.5 border">المعلم</th>
+                    <th class="p-2.5 border">اسم المستخدم</th>
+                    <th class="p-2.5 border">الحالة</th>
+                    <th class="p-2.5 border text-center">الإجراءات والتحكم</th>
+                  </tr>
+                </thead>
+                <tbody id="adminTeachersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB THREE IMGS -->
+        <div id="threeImagesForm" class="space-y-6 hidden">
+          <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+            <h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fas fa-trophy text-gold"></i> إدارة صور وأسماء الحافظين على منصة التتويج</h4>
+            <p class="text-[11px] text-gray-500 mt-1">قم برفع الصور وإدخال أسماء الطلاب الحافظين للقرآن الكريم.</p>
+          </div>
+
+          <form onsubmit="handleSaveThreeImages(event)" class="space-y-6">
+            <div class="p-4 border-2 border-amber-400 rounded-2xl bg-amber-50/20 shadow-sm space-y-3">
+              <span class="inline-block bg-amber-400 text-primary font-black text-xs px-3 py-1 rounded-full shadow">صورة واسم صاحب المركز الأول (1) - المنتصف</span>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم الطالب / الطالبة</label><input type="text" id="threeImgName1" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none bg-white font-bold"></div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع ملف صورة</label><input type="file" id="threeImgFile1" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-white"></div>
+                <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="threeImgUrl1" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none bg-white"></div>
+              </div>
+            </div>
+
+            <div class="p-4 border border-gold/40 rounded-2xl bg-white shadow-sm space-y-3">
+              <span class="inline-block bg-gold text-primary font-black text-xs px-3 py-1 rounded-full shadow">صورة واسم المركز الثاني (2) - اليمين</span>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم الطالب / الطالبة</label><input type="text" id="threeImgName2" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none bg-gray-50 font-bold"></div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع ملف صورة</label><input type="file" id="threeImgFile2" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-gray-50"></div>
+                <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="threeImgUrl2" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              </div>
+            </div>
+
+            <div class="p-4 border border-gold/40 rounded-2xl bg-white shadow-sm space-y-3">
+              <span class="inline-block bg-gold text-primary font-black text-xs px-3 py-1 rounded-full shadow">صورة واسم المركز الثالث (3) - الشمال</span>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم الطالب / الطالبة</label><input type="text" id="threeImgName3" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none bg-gray-50 font-bold"></div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع ملف صورة</label><input type="file" id="threeImgFile3" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-gray-50"></div>
+                <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="threeImgUrl3" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث التتويج فوراً</button>
+          </form>
+        </div>
+
+        <!-- TAB PAYPAL -->
+        <form id="addPaypalForm" onsubmit="handleUpdatePaypal(event)" class="space-y-4 hidden">
+          <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+            <h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fab fa-paypal text-gold"></i> تحديث صورة رمز الدفع لـ PayPal</h4>
+            <p class="text-[11px] text-gray-500 mt-1">قم برفع صورة جديدة للـ QR Code الخاص بحساب بايبال لتظهر للطلاب بقسم الدفع.</p>
+          </div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة بايبال جديدة (QR Code)</label><input type="file" id="paypalFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-white"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="paypalUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ صورة PayPal</button>
+        </form>
+
+        <!-- TAB LOGO -->
+        <form id="addLogoForm" onsubmit="handleUpdateLogo(event)" class="space-y-4 hidden">
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة اللوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط صورة اللوجو</label><input type="url" id="logoUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ اللوجو</button>
+        </form>
+
+        <!-- TAB FOUNDER -->
+        <form id="addFounderForm" onsubmit="handleUpdateFounder(event)" class="space-y-4 hidden">
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المؤسس</label><input type="text" id="founderNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">المسمى الوظيفي</label><input type="text" id="founderRoleInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة جديدة</label><input type="file" id="founderFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="founderUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ والتعديل</button>
+        </form>
+
+        <!-- TAB VIDEO -->
+        <form id="addVidForm" onsubmit="handleChangeVideo(event)" class="space-y-4 hidden">
+          <div class="bg-sand p-3 rounded-xl border border-gold/30">
+            <h5 class="font-bold text-xs text-primary mb-1">رفع ملف فيديو مباشر من الجهاز</h5>
+            <input type="file" id="videoFileInput" accept="video/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-white">
+          </div>
+          <div class="text-center font-bold text-xs text-gray-400">أو</div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 mb-1">رابط ملف فيديو مباشر (MP4, WebM)</label>
+            <input type="url" id="videoUrlInput" placeholder="https://domain.com/video.mp4" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
+          </div>
+          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث الفيديو</button>
+        </form>
+
+        <!-- TAB IMAGE REVIEWS -->
+        <form id="addImgForm" onsubmit="handleAddImgReview(event)" class="space-y-4 hidden">
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم / الوصف</label><input type="text" id="imgAuthor" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة الرأي</label><input type="file" id="imgFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="imgUrlInput" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" class="w-full bg-primary hover:bg-primary-light text-white font-black py-3 rounded-xl transition text-xs shadow-md">إضافة الصورة</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
+    const SECRET_PIN = "Elaf0123";
     let activePortalRole = 'student';
-    let loggedInTeacher = null;
+    let isAdminLoggedIn = false; // تتبع حالة تسجيل دخول المدير
 
     let studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
     let teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
+    let reviewsDB = JSON.parse(localStorage.getItem('elaf_reviews_db') || '[]');
     let threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
+
+    // تم إزالة التعليقات الأولية لتسهيل البدء من جديد
+    if (!localStorage.getItem('elaf_reviews_db_initialized')) {
+      reviewsDB = [];
+      localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+      localStorage.setItem('elaf_reviews_db_initialized', 'true');
+    }
 
     const initialTeachers = [
       { id: 'tech-1', name: 'الشيخ محمد علي', role: 'معلم القراءات العشر', userAuth: 'mohamed', passAuth: '123456', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400', isBlocked: false },
@@ -1051,27 +1208,18 @@
       localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
     }
 
-    function reloadAllData() {
-      studentsDB = JSON.parse(localStorage.getItem('elaf_students_db') || '[]');
-      teachersDB = JSON.parse(localStorage.getItem('elaf_teachers_db') || '[]');
-      threeImgsDB = JSON.parse(localStorage.getItem('elaf_three_images') || '{"img1":"","name1":"","img2":"","name2":"","img3":"","name3":""}');
-
+    window.addEventListener('DOMContentLoaded', () => {
       loadSavedLogo();
       loadSavedVideo();
       loadSavedPaypal();
       renderThreeImages();
       refreshTeachersMainGrid();
+      updatePendingBadges();
       loadSavedFounder();
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      reloadAllData();
+      renderTestimonials();
     });
 
-    window.addEventListener('storage', () => {
-      reloadAllData();
-    });
-
+    // القائمة الجانبية
     function toggleSidebarNav() {
       const sidebar = document.getElementById('sidebarNav');
       const overlay = document.getElementById('sidebarNavOverlay');
@@ -1081,9 +1229,14 @@
 
     function openSystemPanel(role) {
       toggleSidebarNav();
-      openPortalModal(role);
+      if(role === 'admin') {
+        openAdminModal();
+      } else {
+        openPortalModal(role);
+      }
     }
 
+    // نسخ النصوص
     function copyText(text, btnElement) {
       navigator.clipboard.writeText(text).then(() => {
         const originalHTML = btnElement.innerHTML;
@@ -1098,6 +1251,7 @@
       });
     }
 
+    // نافذة بايبال
     function openPaypalModal() {
       document.getElementById('paypalModal').classList.remove('hidden');
     }
@@ -1113,45 +1267,69 @@
       }
     }
 
-    function getYoutubeEmbedUrl(url) {
-      if (!url) return null;
-      let videoId = null;
-      if (url.includes('youtu.be/')) {
-        videoId = url.split('youtu.be/')[1].split('?')[0].split('&')[0];
-      } else if (url.includes('youtube.com/watch')) {
-        const urlParams = new URLSearchParams(url.split('?')[1]);
-        videoId = urlParams.get('v');
-      } else if (url.includes('youtube.com/embed/')) {
-        videoId = url.split('youtube.com/embed/')[1].split('?')[0];
+    function handleUpdatePaypal(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('paypalFileInput');
+      const urlInput = document.getElementById('paypalUrlInput').value.trim();
+
+      const applyPaypalImg = (src) => {
+        if (!src) return;
+        localStorage.setItem('elaf_saved_paypal', src);
+        loadSavedPaypal();
+        alert('تم حفظ وتحديث صورة بايبال بنجاح!');
+        closeAdminModal();
+      };
+
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => applyPaypalImg(event.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        applyPaypalImg(urlInput);
+      } else {
+        alert('يرجى اختيار ملف صورة أو إدخال رابط مباشر');
       }
-      return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0` : null;
     }
 
+    // الفيديو
     function loadSavedVideo() {
       const savedVideoUrl = localStorage.getItem('elaf_saved_video_url');
-      const videoContainer = document.getElementById('videoContainer');
-      if (!videoContainer) return;
-
-      if (savedVideoUrl) {
-        const ytEmbedUrl = getYoutubeEmbedUrl(savedVideoUrl);
-        if (ytEmbedUrl) {
-          videoContainer.innerHTML = `<iframe class="w-full h-full min-h-[250px] sm:min-h-[300px] rounded-2xl" src="${ytEmbedUrl}" title="فيديو أكاديمية إيلاف" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-        } else {
-          videoContainer.innerHTML = `
-            <video id="mainVideoPlayer" controls class="w-full h-full min-h-[250px] sm:min-h-[300px] object-cover rounded-2xl">
-              <source id="mainVideoSource" src="${savedVideoUrl}" type="video/mp4">
-              متصفحك لا يدعم تشغيل الفيديو.
-            </video>`;
-        }
-      } else {
-        videoContainer.innerHTML = `
-          <video id="mainVideoPlayer" controls class="w-full h-full min-h-[250px] sm:min-h-[300px] object-cover rounded-2xl">
-            <source id="mainVideoSource" src="assets/video.mp4" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو.
-          </video>`;
+      const videoPlayer = document.getElementById('mainVideoPlayer');
+      const videoSource = document.getElementById('mainVideoSource');
+      const input = document.getElementById('videoUrlInput');
+      
+      if (savedVideoUrl && videoPlayer && videoSource) {
+        videoSource.src = savedVideoUrl;
+        videoPlayer.load();
+        if (input) input.value = savedVideoUrl;
       }
     }
 
+    function handleChangeVideo(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('videoFileInput');
+      const videoUrl = document.getElementById('videoUrlInput').value.trim();
+
+      const applyVideoSource = (src) => {
+        if (!src) return;
+        localStorage.setItem('elaf_saved_video_url', src);
+        loadSavedVideo();
+        alert('تم رفع وتحديث الفيديو بنجاح!');
+        closeAdminModal();
+      };
+
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => applyVideoSource(event.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (videoUrl) {
+        applyVideoSource(videoUrl);
+      } else {
+        alert('يرجى اختيار ملف فيديو من جهازك أو وضع رابط مباشر');
+      }
+    }
+
+    // اللوجو والمؤسس
     function loadSavedLogo() {
       const savedLogo = localStorage.getItem('elaf_saved_logo');
       if (savedLogo) {
@@ -1161,13 +1339,68 @@
       }
     }
 
+    function handleUpdateLogo(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('logoFileInput');
+      const urlInput = document.getElementById('logoUrlInput').value;
+
+      const saveLogo = (src) => {
+        if (!src) return;
+        localStorage.setItem('elaf_saved_logo', src);
+        loadSavedLogo();
+        alert('تم حفظ اللوجو بنجاح!');
+        closeAdminModal();
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => saveLogo(event.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        saveLogo(urlInput);
+      }
+    }
+
     function loadSavedFounder() {
       const savedFounder = JSON.parse(localStorage.getItem('elaf_saved_founder') || '{}');
       if (savedFounder.name) document.getElementById('founderName').innerText = savedFounder.name;
       if (savedFounder.role) document.getElementById('founderRole').innerText = savedFounder.role;
       if (savedFounder.img) document.getElementById('founderImg').src = savedFounder.img;
+      
+      document.getElementById('founderNameInput').value = savedFounder.name || 'الشيخ د. أحمد المنصوري';
+      document.getElementById('founderRoleInput').value = savedFounder.role || 'حاصل على القراءات العشر وأستاذ التجويد';
     }
 
+    function handleUpdateFounder(e) {
+      e.preventDefault();
+      const name = document.getElementById('founderNameInput').value;
+      const role = document.getElementById('founderRoleInput').value;
+      const fileInput = document.getElementById('founderFileInput');
+      const urlInput = document.getElementById('founderUrlInput').value;
+
+      const saveFounder = (imgSrc) => {
+        const currentImg = document.getElementById('founderImg').src;
+        const founderObj = {
+          name: name,
+          role: role,
+          img: imgSrc || currentImg
+        };
+        localStorage.setItem('elaf_saved_founder', JSON.stringify(founderObj));
+        loadSavedFounder();
+        alert('تم حفظ بيانات وتعديلات المؤسس بنجاح!');
+        closeAdminModal();
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => saveFounder(event.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        saveFounder(urlInput);
+      }
+    }
+
+    // منصة التتويج
     function renderThreeImages() {
       const section = document.getElementById('threeImagesSection');
       let hasData = false;
@@ -1207,11 +1440,166 @@
 
       if (hasData) {
         section.classList.remove('hidden');
-      } else {
-        section.classList.add('hidden');
+      }
+
+      if (document.getElementById('threeImgName1')) document.getElementById('threeImgName1').value = threeImgsDB.name1 || '';
+      if (document.getElementById('threeImgName2')) document.getElementById('threeImgName2').value = threeImgsDB.name2 || '';
+      if (document.getElementById('threeImgName3')) document.getElementById('threeImgName3').value = threeImgsDB.name3 || '';
+    }
+
+    function handleSaveThreeImages(e) {
+      e.preventDefault();
+      
+      const name1 = document.getElementById('threeImgName1').value;
+      const name2 = document.getElementById('threeImgName2').value;
+      const name3 = document.getElementById('threeImgName3').value;
+      
+      const file1 = document.getElementById('threeImgFile1').files[0];
+      const url1 = document.getElementById('threeImgUrl1').value;
+      
+      const file2 = document.getElementById('threeImgFile2').files[0];
+      const url2 = document.getElementById('threeImgUrl2').value;
+      
+      const file3 = document.getElementById('threeImgFile3').files[0];
+      const url3 = document.getElementById('threeImgUrl3').value;
+
+      const processImg = (file, url, current) => {
+        return new Promise((resolve) => {
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (ev) => resolve(ev.target.result);
+            reader.readAsDataURL(file);
+          } else if (url) {
+            resolve(url);
+          } else {
+            resolve(current);
+          }
+        });
+      };
+
+      Promise.all([
+        processImg(file1, url1, threeImgsDB.img1),
+        processImg(file2, url2, threeImgsDB.img2),
+        processImg(file3, url3, threeImgsDB.img3)
+      ]).then(([res1, res2, res3]) => {
+        threeImgsDB = {
+          img1: res1, name1: name1,
+          img2: res2, name2: name2,
+          img3: res3, name3: name3
+        };
+        localStorage.setItem('elaf_three_images', JSON.stringify(threeImgsDB));
+        renderThreeImages();
+        alert('تم حفظ وتحديث منصة الحافظين بنجاح!');
+        closeAdminModal();
+      });
+    }
+
+    // الآراء والشهادات
+    function renderTestimonials() {
+      const grid = document.getElementById('testimonials-grid');
+      if(!grid) return;
+      grid.innerHTML = '';
+
+      if (reviewsDB.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-center text-gray-400 text-xs py-8">لا توجد آراء حالياً. يمكنك إضافة رأيك الأول من النموذج أدناه.</p>';
+        return;
+      }
+
+      reviewsDB.forEach(rev => {
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-3xl border border-gold/30 shadow-sm card-hover flex flex-col justify-between relative';
+        
+        let contentHtml = '';
+        if(rev.type === 'image') {
+          contentHtml = `<img src="${rev.img}" class="w-full h-48 object-cover rounded-2xl mb-3 border">`;
+        } else {
+          contentHtml = `<p class="text-xs text-gray-600 leading-relaxed mb-4">"${rev.text}"</p>`;
+        }
+
+        let stars = '⭐'.repeat(rev.rating || 5);
+
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-gold text-xs">${stars}</span>
+              <span class="text-[10px] text-gray-400"><i class="fas fa-check-circle text-green-500 ml-1"></i>رأي موثق</span>
+            </div>
+            ${contentHtml}
+          </div>
+          <div class="border-t border-gray-100 pt-3 mt-2 flex justify-between items-center">
+            <h5 class="font-bold text-xs text-primary decorated-title">${rev.author}</h5>
+            ${isAdminLoggedIn ? `<button onclick="deleteReview('${rev.id}')" class="text-red-500 hover:text-red-700 text-xs font-bold bg-red-50 px-2 py-1 rounded-lg"><i class="fas fa-trash ml-1"></i>حذف</button>` : ''}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function handlePublicAddReview(e) {
+      e.preventDefault();
+      const author = document.getElementById('publicReviewAuthor').value.trim();
+      const rating = parseInt(document.getElementById('publicReviewRating').value);
+      const text = document.getElementById('publicReviewText').value.trim();
+
+      if(!author || !text) return;
+
+      const newRev = {
+        id: 'rev-' + Date.now(),
+        author: author,
+        rating: rating,
+        text: text,
+        type: 'text'
+      };
+
+      reviewsDB.unshift(newRev);
+      localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+      renderTestimonials();
+
+      document.getElementById('publicReviewAuthor').value = '';
+      document.getElementById('publicReviewText').value = '';
+      alert('شكراً لك! تم نشر رأيك بنجاح.');
+    }
+
+    function handleAddImgReview(e) {
+      e.preventDefault();
+      const author = document.getElementById('imgAuthor').value.trim();
+      const fileInput = document.getElementById('imgFileInput');
+      const urlInput = document.getElementById('imgUrlInput').value.trim();
+
+      const saveImgRev = (src) => {
+        if(!src) return;
+        const newRev = {
+          id: 'rev-' + Date.now(),
+          author: author,
+          rating: 5,
+          img: src,
+          type: 'image'
+        };
+        reviewsDB.unshift(newRev);
+        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+        renderTestimonials();
+        alert('تمت إضافة صورة الرأي بنجاح!');
+        closeAdminModal();
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => saveImgRev(event.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        saveImgRev(urlInput);
       }
     }
 
+    function deleteReview(id) {
+      if(confirm('هل أنت تأكد من رغبتك بحذف هذا الرأي؟')) {
+        reviewsDB = reviewsDB.filter(r => r.id !== id);
+        localStorage.setItem('elaf_reviews_db', JSON.stringify(reviewsDB));
+        renderTestimonials();
+      }
+    }
+
+    // الكادر التعليمي
     function refreshTeachersMainGrid() {
       const grid = document.getElementById('teachers-grid');
       if(!grid) return;
@@ -1230,12 +1618,117 @@
             <h4 class="font-extrabold text-base text-primary decorated-title mb-1">${t.name}</h4>
             <p class="text-xs text-gold-dark font-semibold mb-3">${t.role}</p>
           </div>
-          <a href="https://wa.me/962780285762" target="_blank" class="w-full bg-primary hover:bg-primary-light text-white font-bold py-2.5 rounded-xl text-xs transition block">سجل مع المعلم</a>
+          <a href="https://wa.me/962780285762" target="_blank" class="w-full bg-primary hover:bg-primary-light text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+            <i class="fab fa-whatsapp"></i>
+            <span>طلب حجز حصة</span>
+          </a>
         `;
         grid.appendChild(card);
       });
     }
 
+    function renderAdminTeachers() {
+      const tbody = document.getElementById('adminTeachersTable');
+      if(!tbody) return;
+      tbody.innerHTML = '';
+
+      const searchQuery = (document.getElementById('teacherSearchInput')?.value || '').trim().toLowerCase();
+
+      const filteredTeachers = teachersDB.filter(t => {
+        if (!searchQuery) return true;
+        return (t.name && t.name.toLowerCase().includes(searchQuery)) ||
+               (t.userAuth && t.userAuth.toLowerCase().includes(searchQuery));
+      });
+
+      if (filteredTeachers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 text-xs">لا توجد نتائج مطابقة للبحث</td></tr>`;
+        return;
+      }
+
+      filteredTeachers.forEach((t, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b hover:bg-gray-50';
+        tr.innerHTML = `
+          <td class="p-2.5 text-center font-bold">${idx + 1}</td>
+          <td class="p-2.5 font-bold text-primary">${t.name} <span class="block text-[10px] text-gray-400">${t.role}</span></td>
+          <td class="p-2.5 font-mono text-xs">${t.userAuth}</td>
+          <td class="p-2.5">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${t.isBlocked ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}">
+              ${t.isBlocked ? 'موقوف' : 'نشط'}
+            </span>
+          </td>
+          <td class="p-2.5 text-center space-x-1 space-x-reverse">
+            <button onclick="toggleBlockTeacher('${t.id}')" class="px-2 py-1 text-[11px] rounded font-bold ${t.isBlocked ? 'bg-green-600 text-white' : 'bg-amber-500 text-white'}">
+              ${t.isBlocked ? 'تفعيل' : 'إيقاف'}
+            </button>
+            <button onclick="deleteTeacher('${t.id}')" class="px-2 py-1 text-[11px] bg-red-600 text-white rounded font-bold">حذف</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function handleAddTeacher(e) {
+      e.preventDefault();
+      const name = document.getElementById('teacherNameInput').value.trim();
+      const role = document.getElementById('teacherRoleInput').value.trim();
+      const userAuth = document.getElementById('teacherUserAuthInput').value.trim();
+      const passAuth = document.getElementById('teacherPassAuthInput').value.trim();
+      const fileInput = document.getElementById('teacherFileInput');
+      const urlInput = document.getElementById('teacherUrlInput').value.trim();
+
+      const saveTech = (imgSrc) => {
+        const newTeacher = {
+          id: 'tech-' + Date.now(),
+          name: name,
+          role: role,
+          userAuth: userAuth,
+          passAuth: passAuth,
+          img: imgSrc || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
+          isBlocked: false
+        };
+
+        teachersDB.push(newTeacher);
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        renderAdminTeachers();
+        refreshTeachersMainGrid();
+        alert('تمت إضافة المعلم بنجاح وتوليد الحساب!');
+        
+        document.getElementById('teacherNameInput').value = '';
+        document.getElementById('teacherRoleInput').value = '';
+        document.getElementById('teacherUserAuthInput').value = '';
+        document.getElementById('teacherPassAuthInput').value = '';
+      };
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (event) => saveTech(event.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        saveTech(urlInput);
+      }
+    }
+
+    function toggleBlockTeacher(id) {
+      const t = teachersDB.find(x => x.id === id);
+      if(t) {
+        t.isBlocked = !t.isBlocked;
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        renderAdminTeachers();
+        refreshTeachersMainGrid();
+      }
+    }
+
+    function deleteTeacher(id) {
+      if(confirm('هل أنت تأكد من حذف حساب هذا المعلم؟')) {
+        teachersDB = teachersDB.filter(x => x.id !== id);
+        localStorage.setItem('elaf_teachers_db', JSON.stringify(teachersDB));
+        renderAdminTeachers();
+        refreshTeachersMainGrid();
+      }
+    }
+
+    // التسجيل الذاتي للطلاب
     function handleStudentSelfRegister(e) {
       e.preventDefault();
       const name = document.getElementById('regStudentName').value.trim();
@@ -1243,172 +1736,339 @@
       const pass = document.getElementById('regStudentPass').value.trim();
       const track = document.getElementById('regStudentTrack').value;
 
-      if(!name || !phone || !pass || !track) return;
-
       const newStudent = {
         id: 'std-' + Date.now(),
         name: name,
         phone: phone,
         pass: pass,
         track: track,
-        status: 'pending',
-        assignedTeacherId: '',
-        totalSessions: 8,
-        completedSessions: 0,
+        status: 'pending', // معلق حتى موافقة الإدارة
+        assignedTeacherId: null,
+        totalLessons: track.includes('8') ? 8 : track.includes('12') ? 12 : track.includes('16') ? 16 : 8,
         accountStatus: 'قيد المراجعة',
         paymentsCount: 0,
-        studentNotes: '',
-        achievement: '',
-        sessionTime: '',
-        givenSessionsDates: ''
+        notes: '',
+        progress: '',
+        lessonDate: '',
+        completedDates: ''
       };
 
       studentsDB.push(newStudent);
       localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+      updatePendingBadges();
 
-      alert('تم إرسال طلب تسجيلك بنجاح! سيتم مراجعته وتفعيله من قبل الإدارة في أقرب وقت.');
+      alert('تم إرسال طلبك بنجاح! سيتم التواصل معك ومراجعة حسابك من قبل إدارة الأكاديمية.');
       e.target.reset();
     }
 
+    function updatePendingBadges() {
+      const pendingCount = studentsDB.filter(s => s.status === 'pending').length;
+      
+      const badgeHeader = document.getElementById('pendingBadgeHeader');
+      const badgeSidebar = document.getElementById('pendingBadgeSidebar');
+      const badgeCount = document.getElementById('pendingCountBadge');
+
+      if(badgeHeader) {
+        badgeHeader.innerText = pendingCount;
+        if(pendingCount > 0) badgeHeader.classList.remove('hidden');
+        else badgeHeader.classList.add('hidden');
+      }
+
+      if(badgeSidebar) {
+        badgeSidebar.innerText = pendingCount;
+        if(pendingCount > 0) badgeSidebar.classList.remove('hidden');
+        else badgeSidebar.classList.add('hidden');
+      }
+
+      if(badgeCount) {
+        badgeCount.innerText = pendingCount + ' طلبات';
+      }
+    }
+
+    // إدارة الإدارة والترحيل
+    function verifyPassword() {
+      const pin = document.getElementById('adminPassword').value;
+      if(pin === SECRET_PIN) {
+        isAdminLoggedIn = true;
+        document.getElementById('adminLoginView').classList.add('hidden');
+        document.getElementById('adminContentView').classList.remove('hidden');
+        document.getElementById('passwordError').classList.add('hidden');
+        renderAdminUnassigned();
+        renderAdminTeachers();
+        renderTestimonials(); // إظهار أزرار الحذف بعد دخول الأدمن
+      } else {
+        document.getElementById('passwordError').classList.remove('hidden');
+      }
+    }
+
+    function openAdminModal() {
+      document.getElementById('adminModal').classList.remove('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function switchAdminTab(tab) {
+      const sections = ['requestsSection', 'addTeacherForm', 'threeImagesForm', 'addPaypalForm', 'addLogoForm', 'addFounderForm', 'addVidForm', 'addImgForm'];
+      sections.forEach(s => {
+        const elem = document.getElementById(s);
+        if(elem) elem.classList.add('hidden');
+      });
+
+      if(tab === 'requests') document.getElementById('requestsSection').classList.remove('hidden');
+      if(tab === 'teacher') {
+        document.getElementById('addTeacherForm').classList.remove('hidden');
+        renderAdminTeachers();
+      }
+      if(tab === 'threeImgs') document.getElementById('threeImagesForm').classList.remove('hidden');
+      if(tab === 'paypal') document.getElementById('addPaypalForm').classList.remove('hidden');
+      if(tab === 'logo') document.getElementById('addLogoForm').classList.remove('hidden');
+      if(tab === 'founder') document.getElementById('addFounderForm').classList.remove('hidden');
+      if(tab === 'vid') document.getElementById('addVidForm').classList.remove('hidden');
+      if(tab === 'img') document.getElementById('addImgForm').classList.remove('hidden');
+    }
+
+    function renderAdminUnassigned() {
+      const pendingTbody = document.getElementById('pendingRequestsTable');
+      const approvedTbody = document.getElementById('approvedStudentsTable');
+      if(!pendingTbody || !approvedTbody) return;
+
+      pendingTbody.innerHTML = '';
+      approvedTbody.innerHTML = '';
+
+      const query = (document.getElementById('adminSearchInput')?.value || '').trim().toLowerCase();
+
+      const pendingList = studentsDB.filter(s => s.status === 'pending' && (s.name.toLowerCase().includes(query) || s.phone.includes(query)));
+      const approvedList = studentsDB.filter(s => s.status === 'approved' && (s.name.toLowerCase().includes(query) || s.phone.includes(query)));
+
+      // جدول الطلبات المعلقة
+      if(pendingList.length === 0) {
+        pendingTbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400">لا توجد طلبات معلقة حالياً</td></tr>`;
+      } else {
+        pendingList.forEach((s, idx) => {
+          const tr = document.createElement('tr');
+          tr.className = 'border-b hover:bg-amber-100/50';
+          tr.innerHTML = `
+            <td class="p-2.5 text-center font-bold">${idx + 1}</td>
+            <td class="p-2.5 font-bold text-primary">${s.name}</td>
+            <td class="p-2.5 font-mono dir-ltr text-right">${s.phone}</td>
+            <td class="p-2.5 text-xs">${s.track}</td>
+            <td class="p-2.5"><span class="bg-amber-200 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-bold">معلق</span></td>
+            <td class="p-2.5 text-center space-x-1 space-x-reverse">
+              <button onclick="approveStudent('${s.id}')" class="bg-green-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-green-700">قبول الطلب</button>
+              <button onclick="rejectStudent('${s.id}')" class="bg-red-600 text-white px-3 py-1 rounded text-xs font-bold hover:bg-red-700">رفض</button>
+            </td>
+          `;
+          pendingTbody.appendChild(tr);
+        });
+      }
+
+      // جدول الطلاب المقبولين
+      if(approvedList.length === 0) {
+        approvedTbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-400">لا يوجد طلاب مقبولون</td></tr>`;
+      } else {
+        approvedList.forEach((s, idx) => {
+          const tr = document.createElement('tr');
+          tr.className = 'border-b hover:bg-gray-50';
+
+          let teacherOptions = `<option value="">اختر المعلم للترحيل</option>`;
+          teachersDB.filter(t => !t.isBlocked).forEach(t => {
+            const selected = s.assignedTeacherId === t.id ? 'selected' : '';
+            teacherOptions += `<option value="${t.id}" ${selected}>${t.name}</option>`;
+          });
+
+          tr.innerHTML = `
+            <td class="p-2.5 text-center font-bold">${idx + 1}</td>
+            <td class="p-2.5 font-bold text-primary">${s.name}</td>
+            <td class="p-2.5 font-mono dir-ltr text-right">${s.phone}</td>
+            <td class="p-2.5 text-xs">${s.track}</td>
+            <td class="p-2.5">
+              <input type="text" value="${s.accountStatus || 'مدفوع'}" onchange="updateStudentField('${s.id}', 'accountStatus', this.value)" class="w-full border rounded px-2 py-1 text-xs focus:border-gold outline-none">
+            </td>
+            <td class="p-2.5 text-center">
+              <input type="number" value="${s.paymentsCount || 1}" onchange="updateStudentField('${s.id}', 'paymentsCount', parseInt(this.value))" class="w-16 border rounded text-center py-1 text-xs focus:border-gold outline-none">
+            </td>
+            <td class="p-2.5">
+              <select onchange="assignTeacherToStudent('${s.id}', this.value)" class="w-full border rounded px-2 py-1 text-xs focus:border-gold outline-none bg-white">
+                ${teacherOptions}
+              </select>
+            </td>
+            <td class="p-2.5 text-center">
+              <button onclick="deleteStudent('${s.id}')" class="text-red-600 hover:text-red-800 font-bold text-xs"><i class="fas fa-trash"></i></button>
+            </td>
+          `;
+          approvedTbody.appendChild(tr);
+        });
+      }
+    }
+
+    function approveStudent(id) {
+      const s = studentsDB.find(x => x.id === id);
+      if(s) {
+        s.status = 'approved';
+        s.accountStatus = 'تم القبول / مدفوع';
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        renderAdminUnassigned();
+        updatePendingBadges();
+      }
+    }
+
+    function rejectStudent(id) {
+      if(confirm('هل أنت تأكد من رفض هذا الطلب؟')) {
+        studentsDB = studentsDB.filter(x => x.id !== id);
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        renderAdminUnassigned();
+        updatePendingBadges();
+      }
+    }
+
+    function updateStudentField(id, field, val) {
+      const s = studentsDB.find(x => x.id === id);
+      if(s) {
+        s[field] = val;
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+      }
+    }
+
+    function assignTeacherToStudent(studentId, teacherId) {
+      const s = studentsDB.find(x => x.id === studentId);
+      if(s) {
+        s.assignedTeacherId = teacherId || null;
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        alert('تم ترحيل الطالب للمعلم المحدد بنجاح!');
+      }
+    }
+
+    function deleteStudent(id) {
+      if(confirm('هل أنت تأكد من حذف بيانات هذا الطالب؟')) {
+        studentsDB = studentsDB.filter(x => x.id !== id);
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        renderAdminUnassigned();
+      }
+    }
+
+    // البوابات والدخول
     function openPortalModal(role) {
       activePortalRole = role;
-      document.getElementById('portalModal').classList.remove('hidden');
-      document.getElementById('portalLoginSection').classList.remove('hidden');
-      document.getElementById('teacherDashboard').classList.add('hidden');
-      document.getElementById('studentDashboard').classList.add('hidden');
-      
-      const titleElem = document.getElementById('portalTitle');
+      const modal = document.getElementById('portalModal');
+      const title = document.getElementById('portalTitle');
+      const loginSec = document.getElementById('portalLoginSection');
+      const teacherDash = document.getElementById('teacherDashboard');
+      const studentDash = document.getElementById('studentDashboard');
+
+      loginSec.classList.remove('hidden');
+      teacherDash.classList.add('hidden');
+      studentDash.classList.add('hidden');
+
       if(role === 'teacher') {
-        titleElem.innerHTML = `<i class="fas fa-chalkboard-teacher text-gold"></i> تسجيل دخول بوابة المعلم`;
+        title.innerHTML = `<i class="fas fa-chalkboard-teacher text-gold"></i> بوابة المعلم - دخول`;
       } else {
-        titleElem.innerHTML = `<i class="fas fa-user-graduate text-gold"></i> تسجيل دخول بوابة الطالب`;
+        title.innerHTML = `<i class="fas fa-user-graduate text-gold"></i> بوابة الطالب - دخول`;
       }
+
+      modal.classList.remove('hidden');
     }
 
     function closePortalModal() {
       document.getElementById('portalModal').classList.add('hidden');
-      document.getElementById('portalUserAuth').value = '';
-      document.getElementById('portalPassAuth').value = '';
     }
 
     function handleLogin() {
-      const userInput = document.getElementById('portalUserAuth').value.trim();
-      const passInput = document.getElementById('portalPassAuth').value.trim();
+      const user = document.getElementById('portalUserAuth').value.trim();
+      const pass = document.getElementById('portalPassAuth').value.trim();
 
       if(activePortalRole === 'teacher') {
-        const foundTeacher = teachersDB.find(t => (t.userAuth === userInput || t.name === userInput) && t.passAuth === passInput && !t.isBlocked);
-        if(foundTeacher) {
-          loggedInTeacher = foundTeacher;
-          document.getElementById('portalLoginSection').classList.add('hidden');
-          document.getElementById('teacherDashboard').classList.remove('hidden');
-          renderTeacherStudents();
+        const teacher = teachersDB.find(t => t.userAuth === user && t.passAuth === pass && !t.isBlocked);
+        if(teacher) {
+          showTeacherDashboard(teacher);
         } else {
-          alert('اسم المستخدم أو كلمة المرور غير صحيحة، أو الحساب معطل.');
+          alert('اسم المستخدم أو كلمة المرور غير صحيحة، أو تم إيقاف الحساب!');
         }
       } else {
-        const foundStudent = studentsDB.find(s => (s.phone === userInput || s.name === userInput) && s.pass === passInput);
-        if(foundStudent) {
-          document.getElementById('portalLoginSection').classList.add('hidden');
-          document.getElementById('studentDashboard').classList.remove('hidden');
-          renderStudentDashboard(foundStudent);
+        const student = studentsDB.find(s => (s.phone === user || s.name === user) && s.pass === pass);
+        if(student) {
+          showStudentDashboard(student);
         } else {
-          alert('بيانات الدخول غير صحيحة أو أن الحساب لا يزال قيد الموافقة.');
+          alert('بيانات الدخول غير صحيحة!');
         }
       }
     }
 
-    function renderTeacherStudents() {
+    function showTeacherDashboard(teacher) {
+      document.getElementById('portalLoginSection').classList.add('hidden');
+      document.getElementById('teacherDashboard').classList.remove('hidden');
+      document.getElementById('portalTitle').innerHTML = `<i class="fas fa-chalkboard-teacher text-gold"></i> بوابة المعلم: ${teacher.name}`;
+
       const tbody = document.getElementById('teacherStudentsTable');
       tbody.innerHTML = '';
 
-      if(!loggedInTeacher) return;
-
-      const myStudents = studentsDB.filter(s => s.assignedTeacherId === loggedInTeacher.id && s.status === 'approved');
+      const myStudents = studentsDB.filter(s => s.assignedTeacherId === teacher.id);
 
       if(myStudents.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="11" class="text-center p-6 text-gray-400">لا يوجد طلاب موكلين لك حالياً.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-gray-400">لا يوجد طلاب موكلين إليك حالياً.</td></tr>`;
         return;
       }
 
-      myStudents.forEach((std, idx) => {
+      myStudents.forEach((s, idx) => {
         const tr = document.createElement('tr');
         tr.className = 'border-b hover:bg-gray-50';
         tr.innerHTML = `
-          <td class="p-2 border text-center font-bold">${idx + 1}</td>
-          <td class="p-2 border">
-            <div class="font-bold text-primary">${std.name}</div>
-            <div class="text-[10px] text-gray-500 dir-ltr text-right">${std.phone}</div>
-          </td>
-          <td class="p-2 border text-[11px]">${std.track}</td>
-          <td class="p-2 border text-center">
-            <input type="number" id="totalSess_${std.id}" value="${std.totalSessions || 8}" class="w-12 border text-center rounded py-1">
-          </td>
-          <td class="p-2 border text-center">
-            <input type="text" id="accStatus_${std.id}" value="${std.accountStatus || ''}" placeholder="مدفوع / غير مدفوع" class="w-full border rounded px-1.5 py-1 text-[11px]">
-          </td>
-          <td class="p-2 border text-center">
-            <input type="number" id="payCount_${std.id}" value="${std.paymentsCount || 0}" class="w-12 border text-center rounded py-1">
-          </td>
-          <td class="p-2 border">
-            <textarea id="notes_${std.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none">${std.studentNotes || ''}</textarea>
-          </td>
-          <td class="p-2 border">
-            <textarea id="achieve_${std.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none">${std.achievement || ''}</textarea>
-          </td>
-          <td class="p-2 border">
-            <input type="text" id="sTime_${std.id}" value="${std.sessionTime || ''}" placeholder="الأحد 5 مساءً" class="w-full border rounded px-1.5 py-1 text-[11px]">
-          </td>
-          <td class="p-2 border">
-            <textarea id="sDates_${std.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none" placeholder="1/10, 3/10...">${std.givenSessionsDates || ''}</textarea>
-          </td>
-          <td class="p-2 border text-center">
-            <button onclick="saveTeacherStudentChanges('${std.id}')" class="bg-primary hover:bg-primary-light text-white font-bold px-3 py-1 rounded text-[11px] transition">حفظ</button>
-          </td>
+          <td class="p-2 text-center font-bold">${idx + 1}</td>
+          <td class="p-2 font-bold text-primary">${s.name}<span class="block text-[10px] font-mono dir-ltr text-right text-gray-500">${s.phone}</span></td>
+          <td class="p-2 text-xs">${s.track}</td>
+          <td class="p-2 text-center font-bold">${s.totalLessons || 8}</td>
+          <td class="p-2 text-center"><span class="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded-full font-bold">${s.accountStatus || 'مدفوع'}</span></td>
+          <td class="p-2 text-center font-bold">${s.paymentsCount || 1}</td>
+          <td class="p-2"><textarea id="note_${s.id}" class="w-full border rounded p-1 text-xs focus:border-gold outline-none resize-none" rows="2">${s.notes || ''}</textarea></td>
+          <td class="p-2"><textarea id="prog_${s.id}" class="w-full border rounded p-1 text-xs focus:border-gold outline-none resize-none" rows="2">${s.progress || ''}</textarea></td>
+          <td class="p-2"><input type="text" id="ldate_${s.id}" value="${s.lessonDate || ''}" placeholder="مثال: الأحد 4 عصراً" class="w-full border rounded p-1 text-xs focus:border-gold outline-none"></td>
+          <td class="p-2"><input type="text" id="cdates_${s.id}" value="${s.completedDates || ''}" placeholder="التواريخ المعطاة..." class="w-full border rounded p-1 text-xs focus:border-gold outline-none"></td>
+          <td class="p-2 text-center"><button onclick="saveTeacherStudentData('${s.id}')" class="bg-gold hover:bg-gold-dark text-primary font-black px-3 py-1.5 rounded text-xs shadow">حفظ</button></td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    function saveTeacherStudentChanges(stdId) {
-      const std = studentsDB.find(s => s.id === stdId);
-      if(!std) return;
+    function saveTeacherStudentData(studentId) {
+      const s = studentsDB.find(x => x.id === studentId);
+      if(s) {
+        s.notes = document.getElementById(`note_${studentId}`).value;
+        s.progress = document.getElementById(`prog_${studentId}`).value;
+        s.lessonDate = document.getElementById(`ldate_${studentId}`).value;
+        s.completedDates = document.getElementById(`cdates_${studentId}`).value;
 
-      std.totalSessions = parseInt(document.getElementById(`totalSess_${stdId}`).value) || 0;
-      std.accountStatus = document.getElementById(`accStatus_${stdId}`).value;
-      std.paymentsCount = parseInt(document.getElementById(`payCount_${stdId}`).value) || 0;
-      std.studentNotes = document.getElementById(`notes_${stdId}`).value;
-      std.achievement = document.getElementById(`achieve_${stdId}`).value;
-      std.sessionTime = document.getElementById(`sTime_${stdId}`).value;
-      std.givenSessionsDates = document.getElementById(`sDates_${stdId}`).value;
-
-      localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
-      alert('تم حفظ والتعديل بنجاح!');
+        localStorage.setItem('elaf_students_db', JSON.stringify(studentsDB));
+        alert('تم حفظ بيانات الطالب وتحديثها بنجاح!');
+      }
     }
 
-    function renderStudentDashboard(student) {
-      const teacher = teachersDB.find(t => t.id === student.assignedTeacherId);
-      const card = document.getElementById('studentDetailsCard');
+    function showStudentDashboard(student) {
+      document.getElementById('portalLoginSection').classList.add('hidden');
+      document.getElementById('studentDashboard').classList.remove('hidden');
       document.getElementById('studentWelcome').innerText = `أهلاً بك يا طالبنا: ${student.name}`;
 
+      const card = document.getElementById('studentDetailsCard');
+      const teacher = teachersDB.find(t => t.id === student.assignedTeacherId);
+
       card.innerHTML = `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
-            <p><strong class="text-primary">المسار الدراسي:</strong> ${student.track}</p>
-            <p><strong class="text-primary">المعلم الموكل:</strong> ${teacher ? teacher.name : 'لم يتم التعيين بعد'}</p>
-            <p><strong class="text-primary">مواعيد الحصص:</strong> ${student.sessionTime || 'غير محددة بعد'}</p>
+        <div class="bg-white p-6 rounded-2xl border border-gold/30 space-y-4 shadow-sm">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 border-b">
+            <div><span class="text-gray-400 font-bold block mb-1">المسار الدراسي:</span><span class="font-extrabold text-primary text-sm">${student.track}</span></div>
+            <div><span class="text-gray-400 font-bold block mb-1">المعلم الموكل:</span><span class="font-extrabold text-gold-dark text-sm">${teacher ? teacher.name : 'لم يحدد بعد'}</span></div>
           </div>
 
-          <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
-            <p><strong class="text-primary">حالة الحساب والدفع:</strong> <span class="bg-gold/20 text-primary font-bold px-2 py-0.5 rounded">${student.accountStatus || 'قيد المراجعة'}</span></p>
-            <p><strong class="text-primary">إجمالي الحصص:</strong> ${student.totalSessions || 8}</p>
-            <p><strong class="text-primary">تاريخ الحصص المعطاة:</strong> ${student.givenSessionsDates || 'لا يوجد موثق حتى الآن'}</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4 border-b text-center">
+            <div class="bg-sand p-3 rounded-xl border"><span class="text-gray-500 text-[11px] block">عدد الحصص الكلي</span><span class="font-black text-lg text-primary">${student.totalLessons || 8}</span></div>
+            <div class="bg-sand p-3 rounded-xl border"><span class="text-gray-500 text-[11px] block">حالة الحساب</span><span class="font-bold text-xs text-green-600 block mt-1">${student.accountStatus || 'نشط'}</span></div>
+            <div class="bg-sand p-3 rounded-xl border"><span class="text-gray-500 text-[11px] block">موعد الحصة القادمة</span><span class="font-bold text-xs text-gold-dark block mt-1">${student.lessonDate || 'لم يحدد بعد'}</span></div>
           </div>
-        </div>
 
-        <div class="bg-white p-4 rounded-2xl border border-gold/30 shadow-sm space-y-2">
-          <h5 class="font-extrabold text-primary decorated-title">الإنجاز الأخير والملاحظات</h5>
-          <p><strong class="text-gold-dark">الإنجاز:</strong> ${student.achievement || 'لا توجد تفاصيل مضافة من المعلم'}</p>
-          <p><strong class="text-gold-dark">الملاحظات:</strong> ${student.studentNotes || 'لا توجد ملاحظات مضافة'}</p>
+          <div class="space-y-3 pt-2">
+            <div><h5 class="font-bold text-primary text-xs mb-1"><i class="fas fa-tasks text-gold ml-1"></i>الإنجازات والتسميع:</h5><p class="bg-sand p-3 rounded-xl border text-gray-700 leading-relaxed">${student.progress || 'لا توجد ملاحظات إنجاز مسجلة بعد.'}</p></div>
+            <div><h5 class="font-bold text-primary text-xs mb-1"><i class="fas fa-comment-alt text-gold ml-1"></i>ملاحظات وتوجيهات المعلم:</h5><p class="bg-sand p-3 rounded-xl border text-gray-700 leading-relaxed">${student.notes || 'لا توجد ملاحظات مسجلة بعد.'}</p></div>
+            <div><h5 class="font-bold text-primary text-xs mb-1"><i class="fas fa-calendar-check text-gold ml-1"></i>سجل تواريخ الحصص المعطاة:</h5><p class="bg-sand p-3 rounded-xl border text-gray-700 font-mono">${student.completedDates || 'لم يتم توثيق حصص سابقة بعد.'}</p></div>
+          </div>
         </div>
       `;
     }
