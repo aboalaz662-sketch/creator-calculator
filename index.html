@@ -1062,7 +1062,7 @@
             </div>
             <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة المعلم</label><input type="file" id="teacherFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-1.5 text-xs focus:border-gold outline-none bg-white"></div>
             <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة</label><input type="url" id="teacherUrlInput" class="w-full border rounded-xl px-3.5 py-2 text-xs focus:border-gold outline-none"></div>
-            <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-2.5 rounded-xl transition text-xs shadow-md">إضافة المعلم وتوليد حسابه</button>
+            <button type="submit" id="btnSubmitTeacher" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-2.5 rounded-xl transition text-xs shadow-md">إضافة المعلم وتوليد حسابه</button>
           </form>
 
           <div class="space-y-3">
@@ -1125,7 +1125,7 @@
               </div>
             </div>
 
-            <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث التتويج فوراً</button>
+            <button type="submit" id="btnSaveThreeImgs" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث التتويج فوراً</button>
           </form>
         </div>
 
@@ -1159,23 +1159,31 @@
           </div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة بايبال جديدة (QR Code)</label><input type="file" id="paypalFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-white"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="paypalUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ صورة PayPal</button>
+          <button type="submit" id="btnSavePaypal" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ صورة PayPal وتحديث فوراً</button>
         </form>
 
         <!-- TAB LOGO -->
         <form id="addLogoForm" onsubmit="handleUpdateLogo(event)" class="space-y-4 hidden">
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة اللوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط صورة اللوجو</label><input type="url" id="logoUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ اللوجو</button>
+          <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+            <h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fas fa-image text-gold"></i> تحديث لوجو الأكاديمية</h4>
+            <p class="text-[11px] text-gray-500 mt-1">قم برفع صورة اللوجو الجديد ليتم استبدال الشعار في الهيدر والفوتر بضغطة زر.</p>
+          </div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة اللوجو</label><input type="file" id="logoFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-white"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط صورة اللوجو المباشر</label><input type="url" id="logoUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+          <button type="submit" id="btnSaveLogo" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ اللوجو وتحديث فوراً</button>
         </form>
 
         <!-- TAB FOUNDER -->
         <form id="addFounderForm" onsubmit="handleUpdateFounder(event)" class="space-y-4 hidden">
+          <div class="bg-sand p-4 rounded-2xl border border-gold/30">
+            <h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fas fa-user-tie text-gold"></i> تحديث معلومات وصورة المؤسس</h4>
+            <p class="text-[11px] text-gray-500 mt-1">تعديل الاسم والمسمى الوظيفي والصورة المخصصة للشيخ مؤسس الأكاديمية.</p>
+          </div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">اسم المؤسس</label><input type="text" id="founderNameInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">المسمى الوظيفي</label><input type="text" id="founderRoleInput" required class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة جديدة</label><input type="file" id="founderFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-gray-50"></div>
+          <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة جديدة</label><input type="file" id="founderFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-white"></div>
           <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="founderUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ والتعديل</button>
+          <button type="submit" id="btnSaveFounder" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث فوراً</button>
         </form>
 
         <!-- TAB VIDEO -->
@@ -1194,7 +1202,7 @@
             <label class="block text-xs font-bold text-gray-700 mb-1">رابط ملف فيديو مباشر (MP4, WebM)</label>
             <input type="url" id="videoUrlInput" placeholder="https://domain.com/video.mp4" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none">
           </div>
-          <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث الفيديو</button>
+          <button type="submit" id="btnSaveVid" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ وتحديث الفيديو</button>
         </form>
 
         <!-- TAB PASSWORD -->
@@ -1424,7 +1432,7 @@
     };
 
     window.switchAdminTab = function(tab) {
-      const tabs = ['requests', 'addTeacherForm', 'threeImagesForm', 'adminReviewsSection', 'addPaypalForm', 'addLogoForm', 'addFounderForm', 'addVidForm', 'changePassForm'];
+      const tabs = ['requestsSection', 'addTeacherForm', 'threeImagesForm', 'adminReviewsSection', 'addPaypalForm', 'addLogoForm', 'addFounderForm', 'addVidForm', 'changePassForm'];
       tabs.forEach(t => {
         const el = document.getElementById(t);
         if (el) el.classList.add('hidden');
@@ -1491,12 +1499,56 @@
       }
     };
 
+    window.handleAddTeacher = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitTeacher');
+      btn.disabled = true;
+      btn.innerText = "جاري الإضافة والرفع...";
+
+      try {
+        let imgUrl = document.getElementById('teacherUrlInput').value.trim();
+        const file = document.getElementById('teacherFileInput').files[0];
+
+        if (file) {
+          imgUrl = await uploadFile('teachers', file);
+        }
+
+        const newTeacher = {
+          name: document.getElementById('teacherNameInput').value.trim(),
+          role: document.getElementById('teacherRoleInput').value.trim(),
+          userAuth: document.getElementById('teacherUserAuthInput').value.trim(),
+          passAuth: document.getElementById('teacherPassAuthInput').value.trim(),
+          img: imgUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=400',
+          active: true,
+          createdAt: new Date()
+        };
+
+        await addDoc(collection(db, "teachers"), newTeacher);
+        alert("تم إضافة وتوليد المعلم بنجاح!");
+        document.getElementById('teacherNameInput').value = "";
+        document.getElementById('teacherRoleInput').value = "";
+        document.getElementById('teacherUserAuthInput').value = "";
+        document.getElementById('teacherPassAuthInput').value = "";
+        document.getElementById('teacherUrlInput').value = "";
+        document.getElementById('teacherFileInput').value = "";
+      } catch(err) {
+        alert("حدث خطأ أثناء إضافة المعلم: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "إضافة المعلم وتوليد حسابه";
+      }
+    };
+
     window.handleSaveThreeImages = async function(e) {
       e.preventDefault();
+      const btn = document.getElementById('btnSaveThreeImgs');
+      btn.disabled = true;
+      btn.innerText = "جاري الحفظ والتحديث...";
+
       try {
-        let img1 = document.getElementById('threeImgUrl1').value;
-        let img2 = document.getElementById('threeImgUrl2').value;
-        let img3 = document.getElementById('threeImgUrl3').value;
+        let img1 = document.getElementById('threeImgUrl1').value.trim();
+        let img2 = document.getElementById('threeImgUrl2').value.trim();
+        let img3 = document.getElementById('threeImgUrl3').value.trim();
 
         const file1 = document.getElementById('threeImgFile1').files[0];
         const file2 = document.getElementById('threeImgFile2').files[0];
@@ -1507,11 +1559,11 @@
         if (file3) img3 = await uploadFile('threeImgs', file3);
 
         const dataToSave = {
-          name1: document.getElementById('threeImgName1').value,
+          name1: document.getElementById('threeImgName1').value.trim(),
           img1: img1 || threeImgsDB.img1 || '',
-          name2: document.getElementById('threeImgName2').value,
+          name2: document.getElementById('threeImgName2').value.trim(),
           img2: img2 || threeImgsDB.img2 || '',
-          name3: document.getElementById('threeImgName3').value,
+          name3: document.getElementById('threeImgName3').value.trim(),
           img3: img3 || threeImgsDB.img3 || ''
         };
 
@@ -1519,6 +1571,142 @@
         alert("تم تحديث أسماء وصور الحافظين بنجاح!");
       } catch (err) {
         alert("خطأ أثناء الحفظ: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "حفظ وتحديث التتويج فوراً";
+      }
+    };
+
+    window.handleUpdatePaypal = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSavePaypal');
+      btn.disabled = true;
+      btn.innerText = "جاري تحديث الصورة...";
+
+      try {
+        let paypalUrl = document.getElementById('paypalUrlInput').value.trim();
+        const file = document.getElementById('paypalFileInput').files[0];
+
+        if (file) {
+          paypalUrl = await uploadFile('paypal', file);
+        }
+
+        if (!paypalUrl) {
+          alert("يرجى اختيار صورة أو وضع رابط مباشر للصورة!");
+          btn.disabled = false;
+          btn.innerText = "حفظ صورة PayPal وتحديث فوراً";
+          return;
+        }
+
+        await setDoc(doc(db, "settings", "general"), { paypal: paypalUrl }, { merge: true });
+        alert("تم تحديث صورة بايبال بنجاح!");
+        document.getElementById('addPaypalForm').reset();
+      } catch (err) {
+        alert("حدث خطأ أثناء الحفظ: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "حفظ صورة PayPal وتحديث فوراً";
+      }
+    };
+
+    window.handleUpdateLogo = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSaveLogo');
+      btn.disabled = true;
+      btn.innerText = "جاري حفظ اللوجو...";
+
+      try {
+        let logoUrl = document.getElementById('logoUrlInput').value.trim();
+        const file = document.getElementById('logoFileInput').files[0];
+
+        if (file) {
+          logoUrl = await uploadFile('logo', file);
+        }
+
+        if (!logoUrl) {
+          alert("يرجى تحديد ملف صورة أو إدخال رابط اللوجو!");
+          btn.disabled = false;
+          btn.innerText = "حفظ اللوجو وتحديث فوراً";
+          return;
+        }
+
+        await setDoc(doc(db, "settings", "general"), { logo: logoUrl }, { merge: true });
+        alert("تم تحديث شعار الأكاديمية بنجاح!");
+        document.getElementById('addLogoForm').reset();
+      } catch (err) {
+        alert("حدث خطأ أثناء الحفظ: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "حفظ اللوجو وتحديث فوراً";
+      }
+    };
+
+    window.handleUpdateFounder = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSaveFounder');
+      btn.disabled = true;
+      btn.innerText = "جاري حفظ البيانات...";
+
+      try {
+        let imgUrl = document.getElementById('founderUrlInput').value.trim();
+        const file = document.getElementById('founderFileInput').files[0];
+
+        if (file) {
+          imgUrl = await uploadFile('founder', file);
+        }
+
+        const founderData = {
+          name: document.getElementById('founderNameInput').value.trim(),
+          role: document.getElementById('founderRoleInput').value.trim()
+        };
+
+        if (imgUrl) founderData.img = imgUrl;
+
+        await setDoc(doc(db, "settings", "general"), { founder: founderData }, { merge: true });
+        alert("تم تحديث بيانات وصورة المؤسس بنجاح!");
+      } catch (err) {
+        alert("حدث خطأ أثناء التحديث: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "حفظ وتحديث فوراً";
+      }
+    };
+
+    window.handleChangeVideo = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSaveVid');
+      btn.disabled = true;
+      btn.innerText = "جاري تحديث الفيديو...";
+
+      try {
+        const file = document.getElementById('videoFileInput').files[0];
+        const ytUrl = document.getElementById('youtubeUrlInput').value.trim();
+        const directUrl = document.getElementById('videoUrlInput').value.trim();
+
+        let finalVideo = "";
+        let ytId = extractYoutubeId(ytUrl);
+
+        if (file) {
+          finalVideo = await uploadFile('videos', file);
+          await setDoc(doc(db, "settings", "general"), { video: finalVideo, youtubeUrl: "" }, { merge: true });
+        } else if (ytId) {
+          await setDoc(doc(db, "settings", "general"), { youtubeUrl: ytUrl, video: "" }, { merge: true });
+        } else if (directUrl) {
+          await setDoc(doc(db, "settings", "general"), { video: directUrl, youtubeUrl: "" }, { merge: true });
+        } else {
+          alert("يرجى اختيار ملف فيديو أو إدخال رابط يوتيوب/رابط مباشر!");
+          btn.disabled = false;
+          btn.innerText = "حفظ وتحديث الفيديو";
+          return;
+        }
+
+        alert("تم تحديث الفيديو بنجاح!");
+        document.getElementById('addVidForm').reset();
+      } catch (err) {
+        alert("حدث خطأ أثناء حفظ الفيديو: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "حفظ وتحديث الفيديو";
       }
     };
 
@@ -1537,8 +1725,8 @@
 
       if (threeImgsDB.img1 || threeImgsDB.name1) {
         document.getElementById('cardImg1').classList.remove('hidden');
-        document.getElementById('displayImg1').src = threeImgsDB.img1;
-        document.getElementById('displayName1').innerText = threeImgsDB.name1;
+        document.getElementById('displayImg1').src = threeImgsDB.img1 || 'https://via.placeholder.com/200';
+        document.getElementById('displayName1').innerText = threeImgsDB.name1 || '';
         document.getElementById('displayName1').classList.remove('hidden');
         count++;
       } else {
@@ -1547,8 +1735,8 @@
 
       if (threeImgsDB.img2 || threeImgsDB.name2) {
         document.getElementById('cardImg2').classList.remove('hidden');
-        document.getElementById('displayImg2').src = threeImgsDB.img2;
-        document.getElementById('displayName2').innerText = threeImgsDB.name2;
+        document.getElementById('displayImg2').src = threeImgsDB.img2 || 'https://via.placeholder.com/200';
+        document.getElementById('displayName2').innerText = threeImgsDB.name2 || '';
         document.getElementById('displayName2').classList.remove('hidden');
         count++;
       } else {
@@ -1557,281 +1745,128 @@
 
       if (threeImgsDB.img3 || threeImgsDB.name3) {
         document.getElementById('cardImg3').classList.remove('hidden');
-        document.getElementById('displayImg3').src = threeImgsDB.img3;
-        document.getElementById('displayName3').innerText = threeImgsDB.name3;
+        document.getElementById('displayImg3').src = threeImgsDB.img3 || 'https://via.placeholder.com/200';
+        document.getElementById('displayName3').innerText = threeImgsDB.name3 || '';
         document.getElementById('displayName3').classList.remove('hidden');
         count++;
       } else {
         document.getElementById('cardImg3').classList.add('hidden');
       }
 
-      if (count > 0) section.classList.remove('hidden');
-      else section.classList.add('hidden');
+      if (count > 0) {
+        section.classList.remove('hidden');
+      } else {
+        section.classList.add('hidden');
+      }
     }
 
-    function renderAdminReviews() {
-      const tbody = document.getElementById('adminReviewsTable');
-      if (!tbody) return;
-      tbody.innerHTML = '';
+    function refreshTeachersMainGrid() {
+      const container = document.getElementById('teachers-grid');
+      if (!container) return;
+      container.innerHTML = '';
 
-      if (reviewsDB.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">لا توجد تعليقات حتى الآن</td></tr>`;
+      const activeTeachers = teachersDB.filter(t => t.active !== false);
+
+      if (activeTeachers.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400 font-bold text-sm">لا يوجد معلمون مضافون حالياً.</div>`;
         return;
       }
 
-      reviewsDB.forEach((rev, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = "border-b hover:bg-gray-50";
-        tr.innerHTML = `
-          <td class="p-2.5 text-center font-bold">${idx + 1}</td>
-          <td class="p-2.5 font-bold text-primary">${rev.author || 'زائر'}</td>
-          <td class="p-2.5 text-amber-500">${'⭐'.repeat(parseInt(rev.rating || 5))}</td>
-          <td class="p-2.5 text-gray-600 max-w-xs truncate">${rev.text || ''}</td>
-          <td class="p-2.5 text-center">
-            <button onclick="deleteReview('${rev.id}')" class="bg-red-100 hover:bg-red-200 text-red-700 px-2.5 py-1 rounded-lg text-[11px] font-bold transition">
-              <i class="fas fa-trash-alt ml-1"></i>حذف
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    window.deleteReview = async function(revId) {
-      if (confirm('هل أنت تأكد من رغبتك في حذف هذا التعليق؟')) {
-        try {
-          await deleteDoc(doc(db, "reviews", revId));
-          alert('تم حذف التعليق بنجاح');
-        } catch (err) {
-          alert('خطأ أثناء الحذف: ' + err.message);
-        }
-      }
-    };
-
-    window.handlePublicAddReview = async function(e) {
-      e.preventDefault();
-      const author = document.getElementById('publicReviewAuthor').value.trim();
-      const rating = document.getElementById('publicReviewRating').value;
-      const text = document.getElementById('publicReviewText').value.trim();
-
-      if (!author || !text) {
-        alert('يرجى ملء جميع الحقول المطلوب');
-        return;
-      }
-
-      try {
-        await addDoc(collection(db, "reviews"), {
-          author,
-          rating: parseInt(rating),
-          text,
-          createdAt: new Date().toISOString()
-        });
-        alert('تم نشر رأيك بنجاح! شكراً لمشاركتك.');
-        e.target.reset();
-      } catch (err) {
-        alert('تعذر نشر الرأي: ' + err.message);
-      }
-    };
-
-    let showAllReviewsFlag = false;
-    function renderTestimonials() {
-      const grid = document.getElementById('testimonials-grid');
-      const showMoreContainer = document.getElementById('show-more-container');
-      if (!grid) return;
-      grid.innerHTML = '';
-
-      if (reviewsDB.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center text-gray-400 py-8">لا توجد آراء للطلاب حتى الآن. كُن أول من يضيف رأيه!</div>`;
-        if (showMoreContainer) showMoreContainer.classList.add('hidden');
-        return;
-      }
-
-      const displayList = showAllReviewsFlag ? reviewsDB : reviewsDB.slice(0, 6);
-
-      displayList.forEach(rev => {
+      activeTeachers.forEach(t => {
         const card = document.createElement('div');
-        card.className = "bg-white p-6 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between";
+        card.className = "bg-sand rounded-3xl p-6 text-center border border-gray-100 shadow-sm card-hover flex flex-col items-center justify-between";
         card.innerHTML = `
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="flex text-amber-400 text-xs">${'★'.repeat(rev.rating || 5)}${'☆'.repeat(5 - (rev.rating || 5))}</div>
-              <i class="fas fa-quote-right text-gold/30 text-2xl"></i>
+          <div>
+            <div class="w-28 h-28 rounded-full border-2 border-gold p-1 mx-auto mb-4 overflow-hidden shadow-inner">
+              <img src="${t.img || 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=400'}" class="w-full h-full object-cover rounded-full">
             </div>
-            <p class="text-xs text-gray-600 leading-relaxed font-normal">${rev.text || ''}</p>
+            <h4 class="font-extrabold text-base text-primary mb-1 decorated-title">${t.name}</h4>
+            <p class="text-xs text-gold-dark font-semibold mb-3">${t.role}</p>
           </div>
-          <div class="pt-4 mt-4 border-t border-gray-100 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-gold/20 text-gold-dark font-bold text-xs flex items-center justify-center">
-              ${(rev.author || 'ز').charAt(0)}
-            </div>
-            <span class="font-bold text-xs text-primary decorated-title">${rev.author || 'طالب الأكاديمية'}</span>
-          </div>
+          <a href="https://wa.me/962780285762" target="_blank" class="w-full bg-primary hover:bg-primary-light text-white font-bold py-2 rounded-xl text-xs transition">حجز حصة مع المعلم</a>
         `;
-        grid.appendChild(card);
+        container.appendChild(card);
       });
-
-      if (showMoreContainer) {
-        if (reviewsDB.length > 6 && !showAllReviewsFlag) {
-          showMoreContainer.classList.remove('hidden');
-        } else {
-          showMoreContainer.classList.add('hidden');
-        }
-      }
     }
-
-    window.showAllTestimonials = function() {
-      showAllReviewsFlag = true;
-      renderTestimonials();
-    };
-
-    window.handleUpdatePaypal = async function(e) {
-      e.preventDefault();
-      try {
-        let paypalUrl = document.getElementById('paypalUrlInput').value;
-        const paypalFile = document.getElementById('paypalFileInput').files[0];
-
-        if (paypalFile) {
-          paypalUrl = await uploadFile('paypal', paypalFile);
-        }
-
-        if (!paypalUrl) {
-          alert("يرجى اختيار صورة أو وضع رابط مباشر للصورة!");
-          return;
-        }
-
-        await setDoc(doc(db, "settings", "general"), { paypal: paypalUrl }, { merge: true });
-        alert("تم تحديث صورة رمز PayPal بنجاح!");
-      } catch (err) {
-        alert("خطأ أثناء الحفظ: " + err.message);
-      }
-    };
-
-    window.handleUpdateLogo = async function(e) {
-      e.preventDefault();
-      try {
-        let logoUrl = document.getElementById('logoUrlInput').value;
-        const logoFile = document.getElementById('logoFileInput').files[0];
-
-        if (logoFile) {
-          logoUrl = await uploadFile('logo', logoFile);
-        }
-
-        if (!logoUrl) {
-          alert("يرجى اختيار صورة أو وضع رابط مباشر للصورة!");
-          return;
-        }
-
-        await setDoc(doc(db, "settings", "general"), { logo: logoUrl }, { merge: true });
-        alert("تم تحديث شعار (لوجو) الأكاديمية بنجاح!");
-      } catch (err) {
-        alert("خطأ أثناء الحفظ: " + err.message);
-      }
-    };
-
-    window.handleUpdateFounder = async function(e) {
-      e.preventDefault();
-      try {
-        const name = document.getElementById('founderNameInput').value;
-        const role = document.getElementById('founderRoleInput').value;
-        let imgUrl = document.getElementById('founderUrlInput').value;
-        const file = document.getElementById('founderFileInput').files[0];
-
-        if (file) {
-          imgUrl = await uploadFile('founder', file);
-        }
-
-        const founderData = { name, role };
-        if (imgUrl) founderData.img = imgUrl;
-
-        await setDoc(doc(db, "settings", "general"), { founder: founderData }, { merge: true });
-        alert("تم تحديث بيانات المؤسس بنجاح!");
-      } catch (err) {
-        alert("خطأ أثناء الحفظ: " + err.message);
-      }
-    };
-
-    window.handleChangeVideo = async function(e) {
-      e.preventDefault();
-      try {
-        const videoFile = document.getElementById('videoFileInput').files[0];
-        const youtubeUrl = document.getElementById('youtubeUrlInput').value.trim();
-        const videoUrl = document.getElementById('videoUrlInput').value.trim();
-
-        let finalVideoUrl = "";
-
-        if (videoFile) {
-          finalVideoUrl = await uploadFile('videos', videoFile);
-          await setDoc(doc(db, "settings", "general"), { video: finalVideoUrl, youtubeUrl: "" }, { merge: true });
-        } else if (youtubeUrl) {
-          await setDoc(doc(db, "settings", "general"), { youtubeUrl: youtubeUrl, video: "" }, { merge: true });
-        } else if (videoUrl) {
-          await setDoc(doc(db, "settings", "general"), { video: videoUrl, youtubeUrl: "" }, { merge: true });
-        } else {
-          alert("يرجى تحديد ملف فيديو أو إدخال رابط يوتيوب أو رابط مباشر!");
-          return;
-        }
-
-        alert("تم تحديث الفيديو الرئيسي بنجاح!");
-      } catch (err) {
-        alert("خطأ أثناء حفظ الفيديو: " + err.message);
-      }
-    };
 
     function updatePendingBadges() {
       const pendingCount = studentsDB.filter(s => s.status === 'pending').length;
-      const headerBadge = document.getElementById('pendingBadgeHeader');
-      const sidebarBadge = document.getElementById('pendingBadgeSidebar');
-      const countBadge = document.getElementById('pendingCountBadge');
+      const b1 = document.getElementById('pendingBadgeHeader');
+      const b2 = document.getElementById('pendingBadgeSidebar');
+      const b3 = document.getElementById('pendingCountBadge');
 
-      if (headerBadge) {
-        headerBadge.innerText = pendingCount;
-        if (pendingCount > 0) headerBadge.classList.remove('hidden');
-        else headerBadge.classList.add('hidden');
-      }
-
-      if (sidebarBadge) {
-        sidebarBadge.innerText = pendingCount;
-        if (pendingCount > 0) sidebarBadge.classList.remove('hidden');
-        else sidebarBadge.classList.add('hidden');
-      }
-
-      if (countBadge) {
-        countBadge.innerText = `${pendingCount} طلبات`;
+      if (pendingCount > 0) {
+        if (b1) { b1.innerText = pendingCount; b1.classList.remove('hidden'); }
+        if (b2) { b2.innerText = pendingCount; b2.classList.remove('hidden'); }
+        if (b3) { b3.innerText = `${pendingCount} طلبات معلقة`; }
+      } else {
+        if (b1) b1.classList.add('hidden');
+        if (b2) b2.classList.add('hidden');
+        if (b3) b3.innerText = `0 طلبات`;
       }
     }
 
-    function renderAdminUnassigned() {
+    window.handleStudentSelfRegister = async function(e) {
+      e.preventDefault();
+      try {
+        const name = document.getElementById('regStudentName').value.trim();
+        const phone = document.getElementById('regStudentPhone').value.trim();
+        const pass = document.getElementById('regStudentPass').value.trim();
+        const track = document.getElementById('regStudentTrack').value;
+
+        const newStudent = {
+          name,
+          phone,
+          password: pass,
+          track,
+          status: 'pending',
+          teacherId: '',
+          sessionsCount: 0,
+          paymentStatus: 'غير مدفوع',
+          paymentsCount: 0,
+          notes: '',
+          achievement: '',
+          sessionTime: '',
+          givenDates: '',
+          createdAt: new Date()
+        };
+
+        await addDoc(collection(db, "students"), newStudent);
+        alert("تم إرسال طلب تسجيلك بنجاح! يرجى الانتظار لحين اعتماد حسابك من قبل إدارة الأكاديمية.");
+        e.target.reset();
+      } catch (err) {
+        alert("حدث خطأ أثناء إرسال الطلب: " + err.message);
+      }
+    };
+
+    window.renderAdminUnassigned = function() {
+      const searchVal = document.getElementById('adminSearchInput') ? document.getElementById('adminSearchInput').value.toLowerCase().trim() : '';
       const pendingTbody = document.getElementById('pendingRequestsTable');
       const approvedTbody = document.getElementById('approvedStudentsTable');
-      const searchVal = (document.getElementById('adminSearchInput')?.value || '').toLowerCase().trim();
 
       if (pendingTbody) pendingTbody.innerHTML = '';
       if (approvedTbody) approvedTbody.innerHTML = '';
 
-      const pendingStudents = studentsDB.filter(s => s.status === 'pending');
-      const approvedStudents = studentsDB.filter(s => s.status === 'approved' || !s.status);
+      const pendingList = studentsDB.filter(s => s.status === 'pending' && (s.name.toLowerCase().includes(searchVal) || s.phone.includes(searchVal)));
+      const approvedList = studentsDB.filter(s => s.status !== 'pending' && (s.name.toLowerCase().includes(searchVal) || s.phone.includes(searchVal)));
 
-      // Render Pending
       if (pendingTbody) {
-        if (pendingStudents.length === 0) {
-          pendingTbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500 font-bold">لا توجد طلبات تسجبل معلقة حالياً</td></tr>`;
+        if (pendingList.length === 0) {
+          pendingTbody.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-gray-500 font-bold">لا يوجد طلبات تسجيل معلقة حالياً</td></tr>`;
         } else {
-          pendingStudents.forEach((st, idx) => {
+          pendingList.forEach((s, idx) => {
             const tr = document.createElement('tr');
-            tr.className = "border-b border-amber-200 hover:bg-amber-100/50";
+            tr.className = "border-b hover:bg-amber-100/50 bg-white";
             tr.innerHTML = `
-              <td class="p-2.5 text-center font-bold">${idx + 1}</td>
-              <td class="p-2.5 font-bold text-primary">${st.name || ''}</td>
-              <td class="p-2.5 dir-ltr text-right font-mono">${st.phone || ''}</td>
-              <td class="p-2.5 text-gray-700">${st.track || 'غير محدد'}</td>
-              <td class="p-2.5"><span class="bg-amber-200 text-amber-900 font-bold text-[10px] px-2 py-0.5 rounded-full">قيد الانتظار</span></td>
-              <td class="p-2.5 text-center">
+              <td class="p-3 text-center font-bold">${idx + 1}</td>
+              <td class="p-3 font-bold text-primary">${s.name}</td>
+              <td class="p-3 font-mono dir-ltr">${s.phone}</td>
+              <td class="p-3 text-xs text-gray-600">${s.track || '-'}</td>
+              <td class="p-3"><span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-black">معلق</span></td>
+              <td class="p-3 text-center">
                 <div class="flex items-center justify-center gap-2">
-                  <button onclick="approveStudentRequest('${st.id}')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-lg text-xs font-bold shadow transition">
-                    <i class="fas fa-check ml-1"></i>قبول
-                  </button>
-                  <button onclick="rejectStudentRequest('${st.id}')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-xs font-bold shadow transition">
-                    <i class="fas fa-times ml-1"></i>رفض
-                  </button>
+                  <button onclick="approveStudent('${s.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1 rounded-lg text-xs">قبول الطالب</button>
+                  <button onclick="rejectStudent('${s.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1 rounded-lg text-xs">رفض الطلب</button>
                 </div>
               </td>
             `;
@@ -1840,273 +1875,241 @@
         }
       }
 
-      // Render Approved
       if (approvedTbody) {
-        const filteredApproved = approvedStudents.filter(st => {
-          if (!searchVal) return true;
-          return (st.name && st.name.toLowerCase().includes(searchVal)) || 
-                 (st.phone && st.phone.toLowerCase().includes(searchVal));
-        });
-
-        if (filteredApproved.length === 0) {
-          approvedTbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-400">لا يوجد طلاب مطابقون للبحث</td></tr>`;
+        if (approvedList.length === 0) {
+          approvedTbody.innerHTML = `<tr><td colspan="8" class="text-center p-4 text-gray-500 font-bold">لا يوجد طلاب مقبولون لعرضهم</td></tr>`;
         } else {
-          filteredApproved.forEach((st, idx) => {
-            const tr = document.createElement('tr');
-            tr.className = "border-b hover:bg-gray-50";
-
+          approvedList.forEach((s, idx) => {
             let teacherOptions = `<option value="">-- اختر المعلم --</option>`;
             teachersDB.forEach(t => {
-              const selected = st.teacherId === t.id ? 'selected' : '';
+              const selected = s.teacherId === t.id ? 'selected' : '';
               teacherOptions += `<option value="${t.id}" ${selected}>${t.name}</option>`;
             });
 
+            const tr = document.createElement('tr');
+            tr.className = "border-b hover:bg-gray-50 bg-white";
             tr.innerHTML = `
-              <td class="p-2.5 text-center font-bold">${idx + 1}</td>
-              <td class="p-2.5 font-bold text-primary">${st.name || ''}</td>
-              <td class="p-2.5 dir-ltr text-right font-mono text-xs">${st.phone || ''}</td>
-              <td class="p-2.5 text-gray-600 text-[11px]">${st.track || '-'}</td>
-              <td class="p-2.5">
-                <select onchange="updateStudentField('${st.id}', 'accountStatus', this.value)" class="border rounded px-2 py-1 text-[11px] font-bold outline-none w-full bg-white">
-                  <option value="نشط / مدفوع" ${st.accountStatus === 'نشط / مدفوع' ? 'selected' : ''}>🟢 نشط / مدفوع</option>
-                  <option value="غير مدفوع" ${st.accountStatus === 'غير مدفوع' ? 'selected' : ''}>🔴 غير مدفوع</option>
-                  <option value="موقوف" ${st.accountStatus === 'موقوف' ? 'selected' : ''}>⚠️ موقوف</option>
+              <td class="p-3 text-center font-bold">${idx + 1}</td>
+              <td class="p-3 font-bold text-primary">${s.name}</td>
+              <td class="p-3 font-mono dir-ltr">${s.phone}</td>
+              <td class="p-3 text-xs text-gray-600">${s.track || '-'}</td>
+              <td class="p-3">
+                <select onchange="updateStudentField('${s.id}', 'paymentStatus', this.value)" class="border rounded-lg px-2 py-1 text-xs outline-none w-full">
+                  <option value="غير مدفوع" ${s.paymentStatus === 'غير مدفوع' ? 'selected' : ''}>غير مدفوع</option>
+                  <option value="تم الدفع جزئياً" ${s.paymentStatus === 'تم الدفع جزئياً' ? 'selected' : ''}>تم الدفع جزئياً</option>
+                  <option value="مدفوع بالكامل" ${s.paymentStatus === 'مدفوع بالكامل' ? 'selected' : ''}>مدفوع بالكامل</option>
                 </select>
               </td>
-              <td class="p-2.5 text-center">
-                <input type="number" min="0" value="${st.paymentsCount || 0}" onchange="updateStudentField('${st.id}', 'paymentsCount', parseInt(this.value))" class="w-16 border rounded text-center py-1 font-bold">
+              <td class="p-3 text-center">
+                <input type="number" min="0" value="${s.paymentsCount || 0}" onchange="updateStudentField('${s.id}', 'paymentsCount', parseInt(this.value))" class="w-16 border rounded-lg p-1 text-center font-bold text-xs">
               </td>
-              <td class="p-2.5">
-                <select onchange="assignStudentTeacher('${st.id}', this.value)" class="border rounded px-2 py-1 text-xs outline-none w-full bg-white text-primary font-bold">
+              <td class="p-3">
+                <select onchange="assignTeacherToStudent('${s.id}', this.value)" class="border border-gold rounded-lg px-2 py-1 text-xs outline-none w-full bg-amber-50/50 font-bold">
                   ${teacherOptions}
                 </select>
               </td>
-              <td class="p-2.5 text-center">
-                <button onclick="deleteStudent('${st.id}')" class="bg-red-100 hover:bg-red-200 text-red-700 px-2.5 py-1 rounded-lg text-[11px] font-bold transition">
-                  <i class="fas fa-trash-alt ml-1"></i>حذف
-                </button>
+              <td class="p-3 text-center">
+                <button onclick="deleteStudent('${s.id}')" class="text-red-500 hover:text-red-700 font-bold text-xs"><i class="fas fa-trash-alt ml-1"></i>حذف</button>
               </td>
             `;
             approvedTbody.appendChild(tr);
           });
         }
       }
-    }
-
-    window.approveStudentRequest = async function(stId) {
-      try {
-        await updateDoc(doc(db, "students", stId), { status: 'approved', accountStatus: 'نشط / مدفوع' });
-        alert("تم قبول الطالب بنجاح ونقله إلى قائمة المقبولين!");
-      } catch (err) {
-        alert("خطأ أثناء قبول الطلب: " + err.message);
-      }
     };
 
-    window.rejectStudentRequest = async function(stId) {
+    window.approveStudent = async function(id) {
+      await updateDoc(doc(db, "students", id), { status: 'approved' });
+      alert("تم قبول الطالب بنجاح!");
+    };
+
+    window.rejectStudent = async function(id) {
       if (confirm("هل أنت تأكد من رفض هذا الطلب وحذفه؟")) {
-        try {
-          await deleteDoc(doc(db, "students", stId));
-          alert("تم رفض الطلب وحذفه.");
-        } catch (err) {
-          alert("خطأ أثناء الرفض: " + err.message);
-        }
+        await deleteDoc(doc(db, "students", id));
       }
     };
 
-    window.updateStudentField = async function(stId, field, value) {
-      try {
-        await updateDoc(doc(db, "students", stId), { [field]: value });
-      } catch (err) {
-        alert("تعذر تحديث البيانات: " + err.message);
+    window.deleteStudent = async function(id) {
+      if (confirm("هل أنت متاكد من حذف سجل هذا الطالب بشكل نهائي؟")) {
+        await deleteDoc(doc(db, "students", id));
       }
     };
 
-    window.assignStudentTeacher = async function(stId, teacherId) {
-      try {
-        await updateDoc(doc(db, "students", stId), { teacherId: teacherId || "" });
-        alert("تم تغيير ترحيل المعلم بنجاح!");
-      } catch (err) {
-        alert("خطأ أثناء التعيين: " + err.message);
-      }
+    window.updateStudentField = async function(id, field, value) {
+      const updateObj = {};
+      updateObj[field] = value;
+      await updateDoc(doc(db, "students", id), updateObj);
     };
 
-    window.deleteStudent = async function(stId) {
-      if (confirm("هل أنت تأكد من حذف سجل هذا الطالب تماماً؟")) {
-        try {
-          await deleteDoc(doc(db, "students", stId));
-          alert("تم حذف الطالب.");
-        } catch (err) {
-          alert("خطأ أثناء الحذف: " + err.message);
-        }
-      }
+    window.assignTeacherToStudent = async function(studentId, teacherId) {
+      await updateDoc(doc(db, "students", studentId), { teacherId });
+      alert("تم ترحيل الطالب للمعلم المحدد بنجاح!");
     };
 
-    window.handleAddTeacher = async function(e) {
-      e.preventDefault();
-      const name = document.getElementById('teacherNameInput').value.trim();
-      const role = document.getElementById('teacherRoleInput').value.trim();
-      const username = document.getElementById('teacherUserAuthInput').value.trim();
-      const password = document.getElementById('teacherPassAuthInput').value.trim();
-      let imgUrl = document.getElementById('teacherUrlInput').value.trim();
-      const file = document.getElementById('teacherFileInput').files[0];
-
-      if (file) {
-        imgUrl = await uploadFile('teachers', file);
-      }
-
-      try {
-        await addDoc(collection(db, "teachers"), {
-          name,
-          role,
-          username,
-          password,
-          img: imgUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300',
-          status: 'active'
-        });
-        alert("تم إنشاء حساب المعلم بنجاح!");
-        e.target.reset();
-      } catch (err) {
-        alert("خطأ أثناء إضافة المعلم: " + err.message);
-      }
-    };
-
-    function renderAdminTeachers() {
+    window.renderAdminTeachers = function() {
       const tbody = document.getElementById('adminTeachersTable');
-      const searchVal = (document.getElementById('teacherSearchInput')?.value || '').toLowerCase().trim();
+      const searchVal = document.getElementById('teacherSearchInput') ? document.getElementById('teacherSearchInput').value.toLowerCase().trim() : '';
+
       if (!tbody) return;
       tbody.innerHTML = '';
 
-      const filtered = teachersDB.filter(t => {
-        if (!searchVal) return true;
-        return (t.name && t.name.toLowerCase().includes(searchVal)) || 
-               (t.username && t.username.toLowerCase().includes(searchVal));
-      });
+      const filtered = teachersDB.filter(t => t.name.toLowerCase().includes(searchVal) || (t.userAuth && t.userAuth.toLowerCase().includes(searchVal)));
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">لا يوجد معلمون مطابقون</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-gray-500 font-bold">لا يوجد معلمون مطابقون للبحث</td></tr>`;
         return;
       }
 
       filtered.forEach((t, idx) => {
+        const isActive = t.active !== false;
         const tr = document.createElement('tr');
-        tr.className = "border-b hover:bg-gray-50";
+        tr.className = "border-b hover:bg-gray-50 bg-white";
         tr.innerHTML = `
           <td class="p-2.5 text-center font-bold">${idx + 1}</td>
           <td class="p-2.5 font-bold text-primary flex items-center gap-2">
-            <img src="${t.img}" class="w-8 h-8 rounded-full object-cover border border-gold/50">
-            <div>
-              <div>${t.name}</div>
-              <div class="text-[10px] text-gray-400 font-normal">${t.role}</div>
-            </div>
+            <img src="${t.img || 'https://via.placeholder.com/40'}" class="w-8 h-8 rounded-full object-cover border border-gold">
+            <span>${t.name}</span>
           </td>
-          <td class="p-2.5 font-mono text-xs text-amber-700 font-bold">${t.username}</td>
+          <td class="p-2.5 font-mono text-xs text-gray-600">${t.userAuth || '-'}</td>
           <td class="p-2.5">
-            <span class="${t.status === 'disabled' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'} text-[10px] px-2 py-0.5 rounded-full font-bold">
-              ${t.status === 'disabled' ? 'موقوف' : 'نشط'}
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+              ${isActive ? 'نشط' : 'موقف'}
             </span>
           </td>
-          <td class="p-2.5 text-center">
-            <div class="flex items-center justify-center gap-2">
-              <button onclick="toggleTeacherStatus('${t.id}', '${t.status}')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded text-[11px] font-bold">
-                ${t.status === 'disabled' ? 'تفعيل' : 'إيقاف'}
-              </button>
-              <button onclick="deleteTeacher('${t.id}')" class="bg-red-100 hover:bg-red-200 text-red-700 px-2 py-1 rounded text-[11px] font-bold">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
+          <td class="p-2.5 text-center space-x-2 space-x-reverse">
+            <button onclick="toggleTeacherActive('${t.id}', ${!isActive})" class="px-2.5 py-1 rounded-lg text-xs font-bold ${isActive ? 'bg-amber-500 text-white' : 'bg-green-600 text-white'}">
+              ${isActive ? 'إيقاف الحساب' : 'تفعيل'}
+            </button>
+            <button onclick="deleteTeacher('${t.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 py-1 rounded-lg text-xs">حذف</button>
           </td>
         `;
         tbody.appendChild(tr);
       });
-    }
+    };
 
-    window.toggleTeacherStatus = async function(tId, currentStatus) {
-      const newStatus = currentStatus === 'disabled' ? 'active' : 'disabled';
-      try {
-        await updateDoc(doc(db, "teachers", tId), { status: newStatus });
-      } catch (err) {
-        alert("خطأ أثناء تعديل حالة المعلم: " + err.message);
+    window.toggleTeacherActive = async function(id, active) {
+      await updateDoc(doc(db, "teachers", id), { active });
+    };
+
+    window.deleteTeacher = async function(id) {
+      if (confirm("هل أنت متأكد من حذف هذا المعلم؟ ستبقى بيانات طلابه موجودة ولكن بدون معلم موكل.")) {
+        await deleteDoc(doc(db, "teachers", id));
       }
     };
 
-    window.deleteTeacher = async function(tId) {
-      if (confirm("هل أنت تأكد من حذف هذا المعلم؟")) {
-        try {
-          await deleteDoc(doc(db, "teachers", tId));
-          alert("تم حذف المعلم.");
-        } catch (err) {
-          alert("خطأ أثناء الحذف: " + err.message);
-        }
-      }
-    };
+    window.renderAdminReviews = function() {
+      const tbody = document.getElementById('adminReviewsTable');
+      if (!tbody) return;
+      tbody.innerHTML = '';
 
-    function refreshTeachersMainGrid() {
-      const grid = document.getElementById('teachers-grid');
-      if (!grid) return;
-      grid.innerHTML = '';
-
-      const activeTeachers = teachersDB.filter(t => t.status !== 'disabled');
-
-      if (activeTeachers.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center text-gray-400 py-8">لا يوجد معلمون مضافون حالياً.</div>`;
+      if (reviewsDB.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-gray-500 font-bold">لا يوجد آراء أو تعليقات مضافة حالياً</td></tr>`;
         return;
       }
 
-      activeTeachers.forEach(t => {
+      reviewsDB.forEach((r, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = "border-b hover:bg-gray-50 bg-white";
+        tr.innerHTML = `
+          <td class="p-2.5 text-center font-bold">${idx + 1}</td>
+          <td class="p-2.5 font-bold text-primary">${r.author || 'زائر'}</td>
+          <td class="p-2.5 text-amber-500">${'⭐'.repeat(r.rating || 5)}</td>
+          <td class="p-2.5 text-xs text-gray-600">${r.text}</td>
+          <td class="p-2.5 text-center">
+            <button onclick="deleteReview('${r.id}')" class="text-red-600 font-bold hover:underline text-xs">حذف</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    };
+
+    window.deleteReview = async function(id) {
+      if (confirm("هل أنت متأكد من حذف هذا التعليق؟")) {
+        await deleteDoc(doc(db, "reviews", id));
+      }
+    };
+
+    window.handlePublicAddReview = async function(e) {
+      e.preventDefault();
+      try {
+        const author = document.getElementById('publicReviewAuthor').value.trim();
+        const rating = parseInt(document.getElementById('publicReviewRating').value);
+        const text = document.getElementById('publicReviewText').value.trim();
+
+        await addDoc(collection(db, "reviews"), {
+          author,
+          rating,
+          text,
+          createdAt: new Date()
+        });
+
+        alert("شكراً لك! تم نشر رأيك وانطباعك بنجاح.");
+        e.target.reset();
+      } catch (err) {
+        alert("حدث خطأ أثناء إضافة التعليق: " + err.message);
+      }
+    };
+
+    let showAllReviews = false;
+    function renderTestimonials() {
+      const grid = document.getElementById('testimonials-grid');
+      const containerBtn = document.getElementById('show-more-container');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (reviewsDB.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400 font-bold text-sm">كن أول من يضيف رأيه وانطباعه عن الأكاديمية!</div>`;
+        if (containerBtn) containerBtn.classList.add('hidden');
+        return;
+      }
+
+      const displayList = showAllReviews ? reviewsDB : reviewsDB.slice(0, 6);
+
+      displayList.forEach(r => {
         const card = document.createElement('div');
-        card.className = "bg-sand rounded-3xl border border-gold/30 p-6 text-center card-hover flex flex-col items-center";
+        card.className = "bg-white p-6 rounded-3xl border border-gray-100 shadow-sm card-hover flex flex-col justify-between";
         card.innerHTML = `
-          <div class="w-28 h-28 rounded-full border-2 border-gold p-1 bg-white mb-4 shadow">
-            <img src="${t.img}" class="w-full h-full object-cover rounded-full">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold/20 text-gold-dark font-black rounded-full flex items-center justify-center text-sm border border-gold/40">
+                  ${r.author ? r.author.charAt(0) : 'ز'}
+                </div>
+                <div>
+                  <h4 class="font-extrabold text-sm text-primary decorated-title">${r.author || 'زائر'}</h4>
+                  <p class="text-[10px] text-gray-400">طالب / ولي أمر</p>
+                </div>
+              </div>
+              <div class="text-amber-400 text-xs">${'⭐'.repeat(r.rating || 5)}</div>
+            </div>
+            <p class="text-xs text-gray-600 leading-relaxed italic">"${r.text}"</p>
           </div>
-          <h4 class="font-extrabold text-base text-primary decorated-title">${t.name}</h4>
-          <p class="text-xs text-gold-dark font-semibold mt-1">${t.role}</p>
         `;
         grid.appendChild(card);
       });
+
+      if (containerBtn) {
+        if (reviewsDB.length > 6 && !showAllReviews) {
+          containerBtn.classList.remove('hidden');
+        } else {
+          containerBtn.classList.add('hidden');
+        }
+      }
     }
 
-    window.handleStudentSelfRegister = async function(e) {
-      e.preventDefault();
-      const name = document.getElementById('regStudentName').value.trim();
-      const phone = document.getElementById('regStudentPhone').value.trim();
-      const password = document.getElementById('regStudentPass').value.trim();
-      const track = document.getElementById('regStudentTrack').value;
-
-      try {
-        await addDoc(collection(db, "students"), {
-          name,
-          phone,
-          password,
-          track,
-          status: 'pending',
-          accountStatus: 'غير مدفوع',
-          paymentsCount: 0,
-          totalSessions: 8,
-          teacherId: "",
-          notes: "",
-          achievement: "",
-          sessionTime: "",
-          sessionDates: "",
-          createdAt: new Date().toISOString()
-        });
-        alert("تم إرسال طلب تسجيلك بنجاح! سيتم التواصل معك بعد مراجعة الطلب من الإدارة.");
-        e.target.reset();
-      } catch (err) {
-        alert("تعذر التسجيل: " + err.message);
-      }
+    window.showAllTestimonials = function() {
+      showAllReviews = true;
+      renderTestimonials();
     };
 
     window.openPortalModal = function(role) {
       activePortalRole = role;
       document.getElementById('portalModal').classList.remove('hidden');
+      document.getElementById('portalTitle').innerHTML = `<i class="fas fa-${role === 'teacher' ? 'chalkboard-teacher' : 'user-graduate'} text-gold"></i> بوابة ${role === 'teacher' ? 'المعلم' : 'الطالب'}`;
+
       document.getElementById('portalLoginSection').classList.remove('hidden');
       document.getElementById('teacherDashboard').classList.add('hidden');
       document.getElementById('studentDashboard').classList.add('hidden');
-
-      const title = document.getElementById('portalTitle');
-      if (role === 'teacher') title.innerHTML = `<i class="fas fa-chalkboard-teacher text-gold"></i> بوابة المعلم - تسجيل الدخول`;
-      else title.innerHTML = `<i class="fas fa-user-graduate text-gold"></i> بوابة الطالب - تسجيل الدخول`;
     };
 
     window.closePortalModal = function() {
@@ -2118,125 +2121,140 @@
       const passVal = document.getElementById('portalPassAuth').value.trim();
 
       if (activePortalRole === 'teacher') {
-        const foundTeacher = teachersDB.find(t => t.username === userVal && t.password === passVal && t.status !== 'disabled');
-        if (foundTeacher) {
-          loggedInTeacher = foundTeacher;
+        const teacher = teachersDB.find(t => t.userAuth === userVal && t.passAuth === passVal && t.active !== false);
+        if (teacher) {
+          loggedInTeacher = teacher;
           document.getElementById('portalLoginSection').classList.add('hidden');
           document.getElementById('teacherDashboard').classList.remove('hidden');
           renderTeacherDashboard();
         } else {
-          alert("اسم المستخدم أو كلمة المرور غير صحيحة، أو الحساب غير مفعل!");
+          alert("خطأ في بيانت دخول المعلم أو الحساب موقف!");
         }
-      } else if (activePortalRole === 'student') {
-        const foundStudent = studentsDB.find(s => (s.phone === userVal || s.name === userVal) && s.password === passVal);
-        if (foundStudent) {
-          loggedInStudent = foundStudent;
+      } else {
+        const student = studentsDB.find(s => (s.phone === userVal || s.name === userVal) && s.password === passVal);
+        if (student) {
+          loggedInStudent = student;
           document.getElementById('portalLoginSection').classList.add('hidden');
           document.getElementById('studentDashboard').classList.remove('hidden');
           renderStudentDashboard();
         } else {
-          alert("بيانات الطالب غير صحيحة!");
+          alert("خطأ في رقم الهاتف أو كلمة المرور الخاصة بالحساب!");
         }
       }
     };
 
     function renderTeacherDashboard() {
+      if (!loggedInTeacher) return;
       const tbody = document.getElementById('teacherStudentsTable');
-      if (!tbody || !loggedInTeacher) return;
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       const myStudents = studentsDB.filter(s => s.teacherId === loggedInTeacher.id);
 
       if (myStudents.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="11" class="p-4 text-center text-gray-400 font-bold">لا يوجد طلاب موكلون إليك حالياً</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" class="text-center p-6 text-gray-500 font-bold">لا يوجد طلاب مرحلون إليك حالياً.</td></tr>`;
         return;
       }
 
-      myStudents.forEach((st, idx) => {
+      myStudents.forEach((s, idx) => {
         const tr = document.createElement('tr');
-        tr.className = "border-b hover:bg-gray-50 text-[11px]";
+        tr.className = "border-b hover:bg-amber-50/30 bg-white";
         tr.innerHTML = `
           <td class="p-2 border text-center font-bold">${idx + 1}</td>
           <td class="p-2 border font-bold text-primary">
-            <div>${st.name}</div>
-            <div class="text-[10px] text-gray-400 font-mono dir-ltr text-right">${st.phone}</div>
+            <div>${s.name}</div>
+            <div class="text-[10px] text-gray-500 font-mono dir-ltr">${s.phone}</div>
           </td>
-          <td class="p-2 border text-gray-700">${st.track || '-'}</td>
+          <td class="p-2 border text-xs text-gray-600">${s.track || '-'}</td>
           <td class="p-2 border text-center">
-            <input type="number" id="t_total_${st.id}" value="${st.totalSessions || 8}" class="w-12 border rounded text-center py-1">
+            <input type="number" min="0" id="sess_${s.id}" value="${s.sessionsCount || 0}" class="w-14 border rounded p-1 text-center font-bold">
+          </td>
+          <td class="p-2 border">
+            <select id="payStat_${s.id}" class="border rounded p-1 text-xs w-full">
+              <option value="غير مدفوع" ${s.paymentStatus === 'غير مدفوع' ? 'selected' : ''}>غير مدفوع</option>
+              <option value="تم الدفع جزئياً" ${s.paymentStatus === 'تم الدفع جزئياً' ? 'selected' : ''}>تم الدفع جزئياً</option>
+              <option value="مدفوع بالكامل" ${s.paymentStatus === 'مدفوع بالكامل' ? 'selected' : ''}>مدفوع بالكامل</option>
+            </select>
           </td>
           <td class="p-2 border text-center">
-            <span class="font-bold ${st.accountStatus === 'نشط / مدفوع' ? 'text-green-600' : 'text-red-600'}">${st.accountStatus || 'غير مدفوع'}</span>
+            <input type="number" min="0" id="payCnt_${s.id}" value="${s.paymentsCount || 0}" class="w-14 border rounded p-1 text-center font-bold">
           </td>
-          <td class="p-2 border text-center font-mono font-bold">${st.paymentsCount || 0}</td>
-          <td class="p-2 border"><textarea id="t_notes_${st.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none">${st.notes || ''}</textarea></td>
-          <td class="p-2 border"><textarea id="t_achieve_${st.id}" rows="2" class="w-full border rounded p-1 text-[11px] resize-none">${st.achievement || ''}</textarea></td>
-          <td class="p-2 border"><input type="text" id="t_time_${st.id}" value="${st.sessionTime || ''}" placeholder="مثال: الأحد 5 مساءً" class="w-full border rounded p-1"></td>
-          <td class="p-2 border"><textarea id="t_dates_${st.id}" rows="2" placeholder="تواريخ الحصص المعطاة..." class="w-full border rounded p-1 text-[11px] resize-none">${st.sessionDates || ''}</textarea></td>
+          <td class="p-2 border">
+            <textarea id="notes_${s.id}" rows="2" class="w-full border rounded p-1 text-xs resize-none">${s.notes || ''}</textarea>
+          </td>
+          <td class="p-2 border">
+            <textarea id="achieve_${s.id}" rows="2" class="w-full border rounded p-1 text-xs resize-none">${s.achievement || ''}</textarea>
+          </td>
+          <td class="p-2 border">
+            <input type="text" id="time_${s.id}" value="${s.sessionTime || ''}" placeholder="مثال: الأحد 5 مساءً" class="w-full border rounded p-1 text-xs">
+          </td>
+          <td class="p-2 border">
+            <input type="text" id="dates_${s.id}" value="${s.givenDates || ''}" placeholder="1/9, 5/9..." class="w-full border rounded p-1 text-xs">
+          </td>
           <td class="p-2 border text-center">
-            <button onclick="saveTeacherStudentData('${st.id}')" class="bg-gold hover:bg-gold-dark text-primary font-black px-3 py-1.5 rounded-lg transition shadow text-xs">
-              <i class="fas fa-save ml-1"></i>حفظ
-            </button>
+            <button onclick="saveStudentByTeacher('${s.id}')" class="bg-gold hover:bg-gold-dark text-primary font-black px-3 py-1.5 rounded-lg text-xs shadow">حفظ</button>
           </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    window.saveTeacherStudentData = async function(stId) {
-      const totalSessions = parseInt(document.getElementById(`t_total_${stId}`).value) || 8;
-      const notes = document.getElementById(`t_notes_${stId}`).value;
-      const achievement = document.getElementById(`t_achieve_${stId}`).value;
-      const sessionTime = document.getElementById(`t_time_${stId}`).value;
-      const sessionDates = document.getElementById(`t_dates_${stId}`).value;
-
+    window.saveStudentByTeacher = async function(studentId) {
       try {
-        await updateDoc(doc(db, "students", stId), {
-          totalSessions,
+        const sessionsCount = parseInt(document.getElementById(`sess_${studentId}`).value) || 0;
+        const paymentStatus = document.getElementById(`payStat_${studentId}`).value;
+        const paymentsCount = parseInt(document.getElementById(`payCnt_${studentId}`).value) || 0;
+        const notes = document.getElementById(`notes_${studentId}`).value;
+        const achievement = document.getElementById(`achieve_${studentId}`).value;
+        const sessionTime = document.getElementById(`time_${studentId}`).value;
+        const givenDates = document.getElementById(`dates_${studentId}`).value;
+
+        await updateDoc(doc(db, "students", studentId), {
+          sessionsCount,
+          paymentStatus,
+          paymentsCount,
           notes,
           achievement,
           sessionTime,
-          sessionDates
+          givenDates
         });
+
         alert("تم حفظ وتحديث بيانات الطالب بنجاح!");
       } catch (err) {
-        alert("تعذر حفظ البيانات: " + err.message);
+        alert("حدث خطأ أثناء حفظ البيانات: " + err.message);
       }
     };
 
     function renderStudentDashboard() {
+      if (!loggedInStudent) return;
+      const current = studentsDB.find(s => s.id === loggedInStudent.id) || loggedInStudent;
+      const teacher = teachersDB.find(t => t.id === current.teacherId);
+
+      document.getElementById('studentWelcome').innerText = `أهلاً بك يا طالبنا العزيز: ${current.name}`;
+
       const card = document.getElementById('studentDetailsCard');
-      const welcome = document.getElementById('studentWelcome');
-      if (!card || !loggedInStudent) return;
-
-      const updatedStudent = studentsDB.find(s => s.id === loggedInStudent.id) || loggedInStudent;
-      const myTeacher = teachersDB.find(t => t.id === updatedStudent.teacherId);
-
-      welcome.innerText = `أهلاً بك يا ${updatedStudent.name}`;
-
       card.innerHTML = `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-white p-4 rounded-2xl border shadow-sm space-y-2">
-            <h5 class="font-bold text-primary text-xs border-b pb-1"><i class="fas fa-info-circle text-gold ml-1"></i>تفاصيل الاشتراك</h5>
-            <p><strong>المسار:</strong> ${updatedStudent.track || 'غير محدد'}</p>
-            <p><strong>حالة الحساب:</strong> <span class="font-bold ${updatedStudent.accountStatus === 'نشط / مدفوع' ? 'text-green-600' : 'text-red-600'}">${updatedStudent.accountStatus || 'غير مدفوع'}</span></p>
-            <p><strong>عدد الدفعات:</strong> ${updatedStudent.paymentsCount || 0}</p>
-            <p><strong>عدد الحصص الكلي:</strong> ${updatedStudent.totalSessions || 8}</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-sand p-4 rounded-2xl border border-gold/30 space-y-2">
+            <h5 class="font-bold text-primary text-sm border-b pb-2">بيانات الحساب والمسار</h5>
+            <p><strong>المسار الملتحق به:</strong> <span class="text-gold-dark font-bold">${current.track || 'غير محدد'}</span></p>
+            <p><strong>المعلم المشرف:</strong> <span class="text-primary font-bold">${teacher ? teacher.name : 'لم يتم تحديد معلم بعد'}</span></p>
+            <p><strong>مواعيد الحصص:</strong> ${current.sessionTime || 'لم تُحدد بعد'}</p>
           </div>
 
-          <div class="bg-white p-4 rounded-2xl border shadow-sm space-y-2">
-            <h5 class="font-bold text-primary text-xs border-b pb-1"><i class="fas fa-chalkboard-teacher text-gold ml-1"></i>المعلم الموكل</h5>
-            <p><strong>اسم المعلم:</strong> ${myTeacher ? myTeacher.name : 'لم يتم تحديد معلم بعد'}</p>
-            <p><strong>تخصص المعلم:</strong> ${myTeacher ? myTeacher.role : '-'}</p>
-            <p><strong>موعد الحصة المعتاد:</strong> ${updatedStudent.sessionTime || 'لم يحدد بعد'}</p>
+          <div class="bg-sand p-4 rounded-2xl border border-gold/30 space-y-2">
+            <h5 class="font-bold text-primary text-sm border-b pb-2">سجل الحضور والمالية</h5>
+            <p><strong>عدد الحصص المنجزة:</strong> <span class="bg-primary text-gold px-2 py-0.5 rounded font-black">${current.sessionsCount || 0}</span></p>
+            <p><strong>حالة الاشتراك/الدفع:</strong> <span class="font-bold text-green-700">${current.paymentStatus || 'غير مدفوع'}</span></p>
+            <p><strong>عدد الدفعات الموثقة:</strong> ${current.paymentsCount || 0}</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-2xl border shadow-sm space-y-2">
-          <h5 class="font-bold text-primary text-xs border-b pb-1"><i class="fas fa-star text-gold ml-1"></i>الإنجاز والملاحظات</h5>
-          <p><strong>ملاحظات المعلم:</strong> ${updatedStudent.notes || 'لا توجد ملاحظات حلياً'}</p>
-          <p><strong>إنجاز الحصة:</strong> ${updatedStudent.achievement || 'لا يوجد توثيق إنجاز بعد'}</p>
-          <p><strong>سجل تواريخ إعطاء الحصص:</strong> ${updatedStudent.sessionDates || 'لا توجد تواريخ مسجلة'}</p>
+        <div class="bg-sand p-4 rounded-2xl border border-gold/30 space-y-2 mt-4">
+          <h5 class="font-bold text-primary text-sm border-b pb-2">ملاحظات وإنجاز المعلم لك</h5>
+          <p><strong>الملاحظات والتوجيهات:</strong> ${current.notes || 'لا يوجد ملاحظات حالياً'}</p>
+          <p><strong>إنجازك بالحصة والأجزاء:</strong> ${current.achievement || 'لا يوجد إنجاز مسجل حالياً'}</p>
+          <p><strong>تواريخ الحصص المعطاة:</strong> ${current.givenDates || '-'}</p>
         </div>
       `;
     }
