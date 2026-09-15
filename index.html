@@ -6,7 +6,7 @@
   <title>أكاديمية إيلاف التعليمية - النظام المتكامل</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdnjs.cloudflare.com"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -35,9 +35,19 @@
     .gold-glow-circle { box-shadow: 0 0 25px rgba(197,160,89,0.6), 0 0 45px rgba(197,160,89,0.3); }
     .avatar-glow { box-shadow: 0 0 25px rgba(197,160,89,0.7), 0 0 50px rgba(197,160,89,0.4); }
     .social-link-btn { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); } .social-link-btn:hover { transform: translateY(-3px); }
+    /* شاشة التحميل السريع */
+    #pageLoader { position: fixed; inset: 0; background: linear-gradient(135deg, #0D3B2E 0%, #06241C 100%); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease; }
+    #pageLoader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-logo { width: 80px; height: 80px; background: rgba(197,160,89,0.15); border: 2px solid rgba(197,160,89,0.4); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-family: 'Reem Kufi'; font-weight: 900; font-size: 2.5rem; color: #C5A059; box-shadow: 0 0 30px rgba(197,160,89,0.3); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .loader-spinner { margin-top: 24px; width: 32px; height: 32px; border: 3px solid rgba(197,160,89,0.2); border-top-color: #C5A059; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
   </style>
 </head>
 <body class="antialiased selection:bg-gold selection:text-white">
+  <div id="pageLoader"><div class="loader-logo">إ</div><p class="text-gold font-black text-lg mt-6 decorated-title">أكاديمية إيلاف التعليمية</p><p class="text-gold-light/60 text-[11px] mt-1">جاري تحميل النظام...</p><div class="loader-spinner"></div></div>
 
   <header class="sticky top-0 z-40 bg-primary/95 backdrop-blur-md border-b border-gold/30 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -106,10 +116,11 @@
         </div>
         <div class="lg:col-span-5">
           <div class="relative mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden border-2 border-gold/40 shadow-2xl bg-primary-dark/80 p-2 img-glow">
-            <div id="videoContainer" class="relative rounded-2xl overflow-hidden aspect-video bg-black/50 flex items-center justify-center group">
-              <video id="mainVideoPlayer" controls class="w-full h-full min-h-[250px] sm:min-h-[300px] object-cover rounded-2xl"><source id="mainVideoSource" src="" type="video/mp4">متصفحك لا يدعم تشغيل الفيديو.</video>
+            <div id="videoContainer" class="relative rounded-2xl overflow-hidden aspect-video bg-black/60 flex items-center justify-center group">
+              <video id="mainVideoPlayer" controls class="w-full h-full min-h-[250px] sm:min-h-[300px] object-cover rounded-2xl hidden"><source id="mainVideoSource" src="" type="video/mp4">متصفحك لا يدعم تشغيل الفيديو.</video>
               <iframe id="mainYoutubeIframe" class="w-full h-full min-h-[250px] sm:min-h-[300px] rounded-2xl hidden" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-              <div id="videoPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-gold-light text-xs gap-2"><i class="fas fa-play-circle text-5xl"></i><span>لا يوجد فيديو - قم بإضافته من لوحة الإدارة</span></div>
+              <div id="videoLoading" class="absolute inset-0 flex flex-col items-center justify-center gap-3"><div class="w-10 h-10 border-3 border-gold/20 border-t-gold rounded-full animate-spin"></div><span class="text-gold-light text-[11px]">جاري تحميل الفيديو...</span></div>
+              <div id="videoPlaceholder" class="absolute inset-0 hidden flex-col items-center justify-center text-gold-light text-xs gap-2 bg-primary-dark/50"><i class="fas fa-play-circle text-5xl opacity-60"></i><span>لا يوجد فيديو - قم بإضافته من لوحة الإدارة</span></div>
             </div>
           </div>
         </div>
@@ -465,10 +476,22 @@
         const data = docSnap.data();
         if (data.adminPin) currentAdminPin = data.adminPin;
         if (data.logo) loadSavedLogo(data.logo);
-        if (data.youtubeUrl || data.video) loadSavedVideo(data.youtubeUrl || data.video);
+        if (data.youtubeUrl || data.video) { loadSavedVideo(data.youtubeUrl || data.video); }
+        else { 
+          // اذا ما في فيديو محفوظ ابدا، اعرض placeholder بعد شوي
+          const loading = document.getElementById('videoLoading');
+          const placeholder = document.getElementById('videoPlaceholder');
+          if(loading) setTimeout(() => { loading.classList.add('hidden'); if(placeholder){ placeholder.classList.remove('hidden'); placeholder.classList.add('flex'); } }, 800);
+        }
         if (data.paypal) loadSavedPaypal(data.paypal);
         if (data.founder) loadSavedFounder(data.founder);
+      } else {
+        // ما في اعدادات ابدا
+        const loading = document.getElementById('videoLoading');
+        const placeholder = document.getElementById('videoPlaceholder');
+        if(loading) { loading.classList.add('hidden'); if(placeholder){ placeholder.classList.remove('hidden'); placeholder.classList.add('flex'); } }
       }
+      hidePageLoader();
     });
 
         window.loadSavedLogo = function(url) {
@@ -492,15 +515,41 @@
       const videoSource = document.getElementById('mainVideoSource');
       const iframe = document.getElementById('mainYoutubeIframe');
       const placeholder = document.getElementById('videoPlaceholder');
+      const loading = document.getElementById('videoLoading');
       const ytId = extractYoutubeId(videoPathOrUrl);
+      if(loading) loading.classList.add('hidden');
       if (ytId) {
-        videoPlayer.classList.add('hidden'); placeholder.classList.add('hidden');
+        videoPlayer.classList.add('hidden'); if(placeholder) { placeholder.classList.add('hidden'); placeholder.classList.remove('flex'); }
         iframe.src = `https://www.youtube.com/embed/${ytId}`; iframe.classList.remove('hidden');
       } else if (videoPathOrUrl) {
-        iframe.classList.add('hidden'); placeholder.classList.add('hidden');
+        iframe.classList.add('hidden'); if(placeholder) { placeholder.classList.add('hidden'); placeholder.classList.remove('flex'); }
         videoSource.src = videoPathOrUrl; videoPlayer.load(); videoPlayer.classList.remove('hidden');
+      } else {
+        // لا يوجد فيديو حتى بعد التحميل
+        if(loading) loading.classList.add('hidden');
+        if(placeholder) { placeholder.classList.remove('hidden'); placeholder.classList.add('flex'); }
       }
     };
+    
+    // اخفاء شاشة التحميل الرئيسية بسرعة
+    function hidePageLoader() {
+      const loader = document.getElementById('pageLoader');
+      if(loader) { loader.classList.add('hidden'); setTimeout(() => loader.remove(), 600); }
+    }
+    // اخفاء بعد 1.2 ثانية كحد أقصى حتى لو Firebase تأخر
+    setTimeout(hidePageLoader, 1200);
+    window.addEventListener('load', () => { setTimeout(hidePageLoader, 300); });
+    // اخفاء تحميل الفيديو اذا ما اجى شي خلال 3 ثواني
+    setTimeout(() => {
+      const loading = document.getElementById('videoLoading');
+      const placeholder = document.getElementById('videoPlaceholder');
+      const player = document.getElementById('mainVideoPlayer');
+      const iframe = document.getElementById('mainYoutubeIframe');
+      if(loading && !loading.classList.contains('hidden') && player.classList.contains('hidden') && iframe.classList.contains('hidden')) {
+        loading.classList.add('hidden');
+        if(placeholder) { placeholder.classList.remove('hidden'); placeholder.classList.add('flex'); }
+      }
+    }, 3000);
 
     window.loadSavedPaypal = function(url) {
       if (url) {
