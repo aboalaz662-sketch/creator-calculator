@@ -226,7 +226,12 @@
 
   <section id="teachers" class="py-20 bg-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center max-w-3xl mx-auto mb-16"><h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">الكادر التعليمي</h2><h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">نخبة من المعلمين والمعلمات المجازين</h3><div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div></div><div id="teachers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div></div></section>
 
-  <section id="testimonials" class="py-20 bg-sand"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center max-w-3xl mx-auto mb-16"><h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">آراء وانطباعات</h2><h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">ماذا يقول طلابنا عن الأكاديمية</h3><div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div></div><div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div><div class="mt-16 bg-white p-6 sm:p-8 rounded-3xl border border-gold/30 shadow-lg max-w-2xl mx-auto"><h4 class="font-black text-lg text-primary mb-2 text-center decorated-title"><i class="fas fa-comment-dots text-gold ml-2"></i>أضف رأيك وانطباعك بالأكاديمية</h4><form onsubmit="handlePublicAddReview(event)" class="space-y-4"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم / ولي الأمر</label><input type="text" id="publicReviewAuthor" required placeholder="أدخل اسمك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div><div><label class="block text-xs font-bold text-gray-700 mb-1">التقييم</label><select id="publicReviewRating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"><option value="5">⭐⭐⭐⭐⭐ (5/5 ممتاز)</option><option value="4">⭐⭐⭐⭐ (4/5)</option><option value="3">⭐⭐⭐ (3/5)</option></select></div></div><div><label class="block text-xs font-bold text-gray-700 mb-1">انطباعك أو تعليقك</label><textarea id="publicReviewText" rows="3" required placeholder="اكتب رأيك..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none resize-none"></textarea></div><button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl text-xs shadow-md">نشر الرأي فوراً</button></form></div></div></section>
+  <section id="testimonials" class="py-20 bg-sand"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center max-w-3xl mx-auto mb-16"><h2 class="text-xs font-bold text-gold-dark uppercase tracking-widest mb-2">آراء وانطباعات</h2><h3 class="text-2xl sm:text-4xl font-black text-primary decorated-title">ماذا يقول طلابنا عن الأكاديمية</h3><div class="w-16 h-1 bg-gold mx-auto mt-4 rounded-full"></div></div><div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <div id="commentImagesGalleryWrapper" class="mt-16 hidden">
+        <div class="text-center max-w-3xl mx-auto mb-8"><h4 class="text-xl sm:text-2xl font-black text-primary decorated-title"><i class="fas fa-images text-gold ml-2"></i>لقطات من آراء طلابنا على الواتساب</h4><div class="w-12 h-1 bg-gold mx-auto mt-3 rounded-full"></div></div>
+        <div id="commentImagesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+      <div class="mt-16 bg-white p-6 sm:p-8 rounded-3xl border border-gold/30 shadow-lg max-w-2xl mx-auto"><h4 class="font-black text-lg text-primary mb-2 text-center decorated-title"><i class="fas fa-comment-dots text-gold ml-2"></i>أضف رأيك وانطباعك بالأكاديمية</h4><form onsubmit="handlePublicAddReview(event)" class="space-y-4"><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-bold text-gray-700 mb-1">الاسم / ولي الأمر</label><input type="text" id="publicReviewAuthor" required placeholder="أدخل اسمك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div><div><label class="block text-xs font-bold text-gray-700 mb-1">التقييم</label><select id="publicReviewRating" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"><option value="5">⭐⭐⭐⭐⭐ (5/5 ممتاز)</option><option value="4">⭐⭐⭐⭐ (4/5)</option><option value="3">⭐⭐⭐ (3/5)</option></select></div></div><div><label class="block text-xs font-bold text-gray-700 mb-1">انطباعك أو تعليقك</label><textarea id="publicReviewText" rows="3" required placeholder="اكتب رأيك..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none resize-none"></textarea></div><button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl text-xs shadow-md">نشر الرأي فوراً</button></form></div></div></section>
 
   <section id="register" class="py-20 bg-white relative"><div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><div class="bg-sand rounded-3xl border border-gold/30 p-8 sm:p-12 shadow-xl relative"><div class="text-center mb-8"><h3 class="text-2xl font-black text-primary decorated-title">تسجيل طالب جديد وإنشاء حساب</h3><p class="text-xs text-gray-600 mt-2">سجل بياناتك وسيتم إرسال طلبك للإدارة للموافقة عليه</p></div><form onsubmit="handleStudentSelfRegister(event)" class="space-y-5"><div><label class="block text-xs font-bold text-gray-700 mb-2">الاسم الكامل</label><input type="text" id="regStudentName" required placeholder="أدخل اسمك الثلاثي" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold outline-none bg-white"></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div><label class="block text-xs font-bold text-gray-700 mb-2">رقم الهاتف (الواتساب)</label><input type="tel" id="regStudentPhone" required placeholder="00962..." class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold outline-none bg-white dir-ltr"></div><div><label class="block text-xs font-bold text-gray-700 mb-2">كلمة المرور للحساب</label><input type="password" id="regStudentPass" required placeholder="••••••••" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold outline-none bg-white"></div></div><div><label class="block text-xs font-bold text-gray-700 mb-2">المسار المفضل</label><select id="regStudentTrack" required class="w-full border border-gray-300 rounded-xl px-4 py-3 text-xs focus:border-gold outline-none bg-white"><option value="">اختر المسار المناسب لك</option><option value="مسار فردي برايفيت تحفيظ حصتين بالاسبوع (8 حصص شهريا)">مسار 8 حصص</option><option value="مسار فردي برايفيت تحفيظ 3حصص بالاسبوع (12 حصة شهريا)">مسار 12 حصة</option><option value="مسار فردي تحفيظ 4حصص بالاسبوع (16 حصة شهريا)">مسار 16 حصة</option><option value="مسار القاعدة النورانية (حصتين اسبوعيا)">مسار القاعدة النورانية</option></select></div><button type="submit" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-4 rounded-xl text-sm transition shadow-lg">إرسال طلب التسجيل إلى الإدارة</button></form></div></div></section>
 
@@ -243,7 +248,7 @@
 
   <div id="portalModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-3xl w-full max-w-6xl overflow-hidden shadow-2xl border relative p-6 sm:p-8"><div class="flex justify-between items-center border-b pb-4 mb-6"><h3 id="portalTitle" class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-user-circle text-gold"></i> دخول الحساب</h3><button onclick="closePortalModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button></div><div id="portalLoginSection" class="space-y-4 max-w-md mx-auto"><div><label class="block text-xs font-bold text-gray-700 mb-1">رقم الهاتف / اسم المستخدم</label><input type="text" id="portalUserAuth" placeholder="أدخل بياناتك" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div><div><label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label><input type="password" id="portalPassAuth" placeholder="••••••••" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div><button onclick="handleLogin()" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl text-xs shadow-md">دخول الشاشة</button></div><div id="teacherDashboard" class="hidden space-y-6 max-h-[80vh] overflow-y-auto"><div class="bg-sand p-4 rounded-2xl border border-gold/30"><h4 class="font-bold text-primary text-sm decorated-title">مرحباً بك في لوحة إدخال وتعديل بيانات الطلاب</h4><p class="text-[11px] text-gray-500">يمكنك تعديل بيانات الطالب مباشرة ثم الضغط حفظ لتظهر فوراً في بوابة الطالب.</p></div><div class="overflow-x-auto"><table class="w-full text-right text-xs border-collapse min-w-[1100px]"><thead><tr class="bg-primary text-white text-[11px]"><th class="p-2 border text-center w-10">م</th><th class="p-2 border">اسم الطالب ورقم الهاتف</th><th class="p-2 border">المسار</th><th class="p-2 border text-center">حالة الدفع</th><th class="p-2 border text-center">الدفعات</th><th class="p-2 border min-w-[150px]">ملاحظات</th><th class="p-2 border min-w-[150px]">إنجاز</th><th class="p-2 border">وقت الحصة</th><th class="p-2 border">تاريخ الحصص</th><th class="p-2 border text-center">حفظ</th></tr></thead><tbody id="teacherStudentsTable"></tbody></table></div></div><div id="studentDashboard" class="hidden space-y-6 max-h-[80vh] overflow-y-auto"><div class="bg-sand p-4 rounded-2xl border border-gold/30"><h4 class="font-bold text-primary text-sm decorated-title" id="studentWelcome">أهلاً بك يا طالبنا</h4><p class="text-[11px] text-gray-500">جدول حصصك وسجل المتابعة الشخصي وإنجازاتك</p></div><div id="studentDetailsCard" class="space-y-3 text-xs"></div></div></div></div>
 
-  <div id="adminModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl border relative"><div id="adminLoginView" class="p-8"><div class="flex justify-between items-center border-b pb-4 mb-6"><h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-lock text-gold"></i> دخول لوحة الإدارة</h3><button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button></div><div class="space-y-5"><div><label class="block text-xs font-bold text-gray-700 mb-2">أدخل الرقم السري للإدارة</label><input type="password" id="adminPassword" placeholder="••••••••" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none"><p id="passwordError" class="text-red-500 text-xs font-bold mt-2 hidden">الرقم السري غير صحيح!</p></div><button onclick="verifyPassword()" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3 rounded-xl text-xs shadow-lg">تسجيل الدخول</button><!-- تم إخفاء كلمة السر  لأسباب أمنية --></div></div><div id="adminContentView" class="p-6 sm:p-8 hidden max-h-[85vh] overflow-y-auto"><div class="flex justify-between items-center border-b pb-4 mb-4"><h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-sliders-h text-gold"></i> لوحة التحكم وإدارة النظام</h3><button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button></div><div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1"><button id="tabRequestsBtn" onclick="switchAdminTab('requests')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap flex items-center gap-1.5"><i class="fas fa-tasks text-gold"></i> إدارة الطلبات</button><button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المعلمين</button><button id="tabThreeImgsBtn" onclick="switchAdminTab('threeImgs')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-images text-gold ml-1"></i> الحافظين 1-2-3</button><button id="tabReviewsBtn" onclick="switchAdminTab('reviews')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-comments text-gold ml-1"></i> الآراء</button><button id="tabPaypalBtn" onclick="switchAdminTab('paypal')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fab fa-paypal text-gold ml-1"></i> بايبال</button><button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">اللوجو</button><button id="tabFounderBtn" onclick="switchAdminTab('founder')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المؤسس</button><button id="tabVidBtn" onclick="switchAdminTab('vid')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">الفيديو</button><button id="tabPassBtn" onclick="switchAdminTab('pass')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-key text-gold ml-1"></i> كلمة السر</button></div>
+  <div id="adminModal" class="fixed inset-0 modal-backdrop z-50 flex items-center justify-center p-4 hidden"><div class="bg-white rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl border relative"><div id="adminLoginView" class="p-8"><div class="flex justify-between items-center border-b pb-4 mb-6"><h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-lock text-gold"></i> دخول لوحة الإدارة</h3><button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button></div><div class="space-y-5"><div><label class="block text-xs font-bold text-gray-700 mb-2">أدخل الرقم السري للإدارة</label><input type="password" id="adminPassword" placeholder="••••••••" class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-gold outline-none"><p id="passwordError" class="text-red-500 text-xs font-bold mt-2 hidden">الرقم السري غير صحيح!</p></div><button onclick="verifyPassword()" class="w-full bg-primary hover:bg-primary-light text-white font-extrabold py-3 rounded-xl text-xs shadow-lg">تسجيل الدخول</button><!-- تم إخفاء كلمة السر  لأسباب أمنية --></div></div><div id="adminContentView" class="p-6 sm:p-8 hidden max-h-[85vh] overflow-y-auto"><div class="flex justify-between items-center border-b pb-4 mb-4"><h3 class="font-black text-lg text-primary flex items-center gap-2 decorated-title"><i class="fas fa-sliders-h text-gold"></i> لوحة التحكم وإدارة النظام</h3><button onclick="closeAdminModal()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button></div><div class="flex border-b border-gray-200 mb-6 text-xs font-bold overflow-x-auto gap-1"><button id="tabRequestsBtn" onclick="switchAdminTab('requests')" class="py-2.5 px-3 border-b-2 border-gold text-primary whitespace-nowrap flex items-center gap-1.5"><i class="fas fa-tasks text-gold"></i> إدارة الطلبات</button><button id="tabTeacherBtn" onclick="switchAdminTab('teacher')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المعلمين</button><button id="tabThreeImgsBtn" onclick="switchAdminTab('threeImgs')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-images text-gold ml-1"></i> الحافظين 1-2-3</button><button id="tabReviewsBtn" onclick="switchAdminTab('reviews')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-comments text-gold ml-1"></i> الآراء</button><button id="tabCommentImgsBtn" onclick="switchAdminTab('commentImgs')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-images text-gold ml-1"></i> صور التعليقات</button><button id="tabPaypalBtn" onclick="switchAdminTab('paypal')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fab fa-paypal text-gold ml-1"></i> بايبال</button><button id="tabLogoBtn" onclick="switchAdminTab('logo')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">اللوجو</button><button id="tabFounderBtn" onclick="switchAdminTab('founder')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">المؤسس</button><button id="tabVidBtn" onclick="switchAdminTab('vid')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap">الفيديو</button><button id="tabPassBtn" onclick="switchAdminTab('pass')" class="py-2.5 px-3 text-gray-400 border-b-2 border-transparent whitespace-nowrap"><i class="fas fa-key text-gold ml-1"></i> كلمة السر</button></div>
 
         <div id="requestsSection" class="space-y-8">
           <div class="bg-sand p-4 rounded-2xl border border-gold/40 shadow-sm space-y-2"><label class="block text-xs font-extrabold text-primary flex items-center gap-2"><i class="fas fa-search text-gold text-sm"></i><span>البحث الشامل بالسجل (بالاسم أو الرقم):</span></label><div class="relative"><input type="text" id="adminSearchInput" oninput="renderAdminUnassigned()" placeholder="اكتب اسم الطالب أو رقم الهاتف للبحث الفوري..." class="w-full border-2 border-gold/30 rounded-xl px-4 py-2.5 text-xs focus:border-gold outline-none bg-white shadow-inner pl-10"><i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i></div></div>
@@ -267,6 +272,19 @@
         </div>
 
         <div id="adminReviewsSection" class="space-y-4 hidden"><div class="bg-sand p-4 rounded-2xl border border-gold/30"><h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fas fa-comments text-gold"></i> إدارة تعليقات وآراء الطلاب</h4><p class="text-[11px] text-gray-500 mt-1">يمكنك حذف التعليقات المضافة من الزوار.</p></div><div class="overflow-x-auto border rounded-xl"><table class="w-full text-right text-xs border-collapse"><thead><tr class="bg-primary text-white"><th class="p-2.5 border text-center w-10">م</th><th class="p-2.5 border">صاحب التعليق</th><th class="p-2.5 border">التقييم</th><th class="p-2.5 border">التعليق</th><th class="p-2.5 border text-center w-24">التحكم</th></tr></thead><tbody id="adminReviewsTable"></tbody></table></div></div>
+
+        <div id="commentImagesAdminSection" class="space-y-6 hidden">
+          <div class="bg-sand p-4 rounded-2xl border border-gold/30"><h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fas fa-images text-gold"></i> إدارة صور التعليقات (سكرين شوت)</h4><p class="text-[11px] text-gray-500 mt-1">ارفع صور تعليقات الواتساب والآراء وستظهر تلقائياً تحت قسم آراء الطلاب في الصفحة الرئيسية.</p></div>
+          <form onsubmit="handleAddCommentImage(event)" class="space-y-4 bg-white p-4 rounded-2xl border-2 border-gold/20 shadow-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة التعليق (من الجهاز)</label><input type="file" id="commentImgFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-white"></div>
+              <div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="commentImgUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+            </div>
+            <div><label class="block text-xs font-bold text-gray-700 mb-1">وصف / اسم صاحب التعليق (اختياري)</label><input type="text" id="commentImgCaption" placeholder="مثال: رأي أم محمد" class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div>
+            <button type="submit" id="commentImgSaveBtn" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md"><i class="fas fa-plus ml-1"></i> إضافة الصورة</button>
+          </form>
+          <div class="space-y-3"><h5 class="font-bold text-xs text-primary">الصور الحالية المعروضة بالموقع</h5><div id="adminCommentImagesGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div><div id="adminCommentImagesEmpty" class="text-center text-gray-400 text-xs py-8 border border-dashed rounded-2xl">لا توجد صور حتى الآن - ابدأ بإضافة أول صورة</div></div>
+        </div>
 
         <form id="addPaypalForm" onsubmit="handleUpdatePaypal(event)" class="space-y-4 hidden"><div class="bg-sand p-4 rounded-2xl border border-gold/30"><h4 class="font-bold text-primary text-sm flex items-center gap-2"><i class="fab fa-paypal text-gold"></i> تحديث صورة رمز الدفع لـ PayPal</h4><p class="text-[11px] text-gray-500 mt-1">قم برفع صورة جديدة للـ QR Code الخاص بحساب بايبال لتظهر للطلاب بقسم الدفع.</p></div><div><label class="block text-xs font-bold text-gray-700 mb-1">رفع صورة بايبال جديدة (QR Code)</label><input type="file" id="paypalFileInput" accept="image/*" class="w-full border rounded-xl px-3 py-2 text-xs focus:border-gold outline-none bg-white"></div><div><label class="block text-xs font-bold text-gray-700 mb-1">أو رابط الصورة المباشر</label><input type="url" id="paypalUrlInput" placeholder="https://..." class="w-full border rounded-xl px-3.5 py-2.5 text-xs focus:border-gold outline-none"></div><button type="submit" id="paypalSaveBtn" class="w-full bg-gold hover:bg-gold-dark text-primary font-black py-3 rounded-xl transition text-xs shadow-md">حفظ صورة PayPal</button></form>
 
@@ -303,6 +321,7 @@
     let studentsDB = [];
     let teachersDB = [];
     let reviewsDB = [];
+    let commentImagesDB = [];
     let threeImgsDB = { img1: "", name1: "", img2: "", name2: "", img3: "", name3: "" };
 
     // تحويل الملف لـ Base64 - الحل السحري لمشكلة الحفظ
@@ -355,6 +374,12 @@
       reviewsDB = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
       renderTestimonials();
       if (isAdminLoggedIn) renderAdminReviews();
+    });
+
+    onSnapshot(collection(db, "commentImages"), (snapshot) => {
+      commentImagesDB = snapshot.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+      renderCommentImages();
+      if (isAdminLoggedIn) renderAdminCommentImages();
     });
 
     onSnapshot(doc(db, "settings", "threeImages"), (docSnap) => {
@@ -467,6 +492,7 @@
         'teacher': 'addTeacherForm',
         'threeImgs': 'threeImagesForm',
         'reviews': 'adminReviewsSection',
+        'commentImgs': 'commentImagesAdminSection',
         'paypal': 'addPaypalForm',
         'logo': 'addLogoForm',
         'founder': 'addFounderForm',
@@ -474,13 +500,13 @@
         'pass': 'changePassForm'
       };
       Object.values(sections).forEach(id => { const el = document.getElementById(id); if(el) el.classList.add('hidden'); });
-      const btnIds = ['tabRequestsBtn','tabTeacherBtn','tabThreeImgsBtn','tabReviewsBtn','tabPaypalBtn','tabLogoBtn','tabFounderBtn','tabVidBtn','tabPassBtn'];
+      const btnIds = ['tabRequestsBtn','tabTeacherBtn','tabThreeImgsBtn','tabReviewsBtn','tabCommentImgsBtn','tabPaypalBtn','tabLogoBtn','tabFounderBtn','tabVidBtn','tabPassBtn'];
       btnIds.forEach(b => { const btn = document.getElementById(b); if(btn){ btn.classList.remove('border-gold','text-primary'); btn.classList.add('text-gray-400','border-transparent'); }});
       if (sections[tab]) {
         document.getElementById(sections[tab]).classList.remove('hidden');
         const activeBtn = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1) + 'Btn'.replace('requests','Requests').replace('threeImgs','ThreeImgs').replace('Reviews','Reviews').replace('Paypal','Paypal').replace('Logo','Logo').replace('Founder','Founder').replace('Vid','Vid').replace('Pass','Pass'));
         // تصحيح بسيط للـ mapping
-        const map = { requests:'tabRequestsBtn', teacher:'tabTeacherBtn', threeImgs:'tabThreeImgsBtn', reviews:'tabReviewsBtn', paypal:'tabPaypalBtn', logo:'tabLogoBtn', founder:'tabFounderBtn', vid:'tabVidBtn', pass:'tabPassBtn' };
+        const map = { requests:'tabRequestsBtn', teacher:'tabTeacherBtn', threeImgs:'tabThreeImgsBtn', reviews:'tabReviewsBtn', commentImgs:'tabCommentImgsBtn', paypal:'tabPaypalBtn', logo:'tabLogoBtn', founder:'tabFounderBtn', vid:'tabVidBtn', pass:'tabPassBtn' };
         const btn = document.getElementById(map[tab]);
         if(btn){ btn.classList.add('border-gold','text-primary'); btn.classList.remove('text-gray-400','border-transparent'); }
         if(tab === 'threeImgs') loadThreeImagesInputs();
@@ -811,6 +837,63 @@
         else alert("بيانات دخول طالب غير صحيحة!");
       }
     };
+
+
+    // ====== صور التعليقات الجديدة ======
+    window.handleAddCommentImage = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('commentImgSaveBtn');
+      btn.innerText = "جاري الحفظ..."; btn.disabled = true;
+      try {
+        const url = await getFileUrl('commentImgFileInput','commentImgUrlInput','');
+        if(!url) { alert("الرجاء اختيار صورة أو وضع رابط"); btn.innerText = "إضافة الصورة"; btn.disabled = false; return; }
+        await addDoc(collection(db, "commentImages"), {
+          img: url,
+          caption: document.getElementById('commentImgCaption').value.trim(),
+          createdAt: new Date().toISOString()
+        });
+        alert("تم إضافة صورة التعليق بنجاح وستظهر فوراً في الموقع!");
+        e.target.reset();
+      } catch (err) { alert("خطأ: " + err.message); }
+      btn.innerHTML = '<i class="fas fa-plus ml-1"></i> إضافة الصورة'; btn.disabled = false;
+    };
+
+    window.deleteCommentImage = async function(id) {
+      if(confirm("هل أنت متأكد من حذف هذه الصورة؟")) {
+        try { await deleteDoc(doc(db, "commentImages", id)); alert("تم الحذف."); } catch(err){ alert(err.message); }
+      }
+    };
+
+    function renderCommentImages() {
+      const grid = document.getElementById('commentImagesGrid');
+      const wrapper = document.getElementById('commentImagesGalleryWrapper');
+      if(!grid || !wrapper) return;
+      grid.innerHTML = '';
+      if(commentImagesDB.length === 0) { wrapper.classList.add('hidden'); return; }
+      wrapper.classList.remove('hidden');
+      commentImagesDB.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "bg-white rounded-3xl border border-gold/20 overflow-hidden shadow-sm card-hover group";
+        div.innerHTML = `<div class="relative overflow-hidden"><img src="${item.img}" alt="${item.caption || 'تعليق'}" class="w-full h-72 object-cover group-hover:scale-105 transition duration-500" loading="lazy"><div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-100 transition"></div></div>${item.caption ? `<div class="p-3 text-center"><p class="text-xs font-bold text-primary decorated-title">${item.caption}</p></div>` : ''}`;
+        grid.appendChild(div);
+      });
+    }
+
+    function renderAdminCommentImages() {
+      const grid = document.getElementById('adminCommentImagesGrid');
+      const empty = document.getElementById('adminCommentImagesEmpty');
+      if(!grid) return;
+      grid.innerHTML = '';
+      if(commentImagesDB.length === 0) { if(empty) empty.classList.remove('hidden'); return; }
+      if(empty) empty.classList.add('hidden');
+      commentImagesDB.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm relative group";
+        div.innerHTML = `<img src="${item.img}" class="w-full h-48 object-cover"><div class="p-2"><p class="text-[11px] font-bold text-primary truncate">${item.caption || 'بدون وصف'}</p><p class="text-[10px] text-gray-400">${idx+1}</p></div><button onclick="deleteCommentImage('${item.id}')" class="absolute top-2 left-2 bg-red-600 hover:bg-red-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-lg"><i class="fas fa-trash"></i></button>`;
+        grid.appendChild(div);
+      });
+    }
+    // ====== نهاية صور التعليقات ======
 
     function renderTeacherDashboard() {
       const tbody = document.getElementById('teacherStudentsTable');
